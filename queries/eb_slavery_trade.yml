@@ -1,2 +1,2 @@
-preprocess: lemmatize
+preprocess: normalize
 data: slavery_trade.txt
