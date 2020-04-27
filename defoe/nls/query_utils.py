@@ -244,7 +244,6 @@ def clean_page_as_string(page):
             page_string_final = separated_str
         else:
             page_string_final += (' ' + separated_str)
- 
     return page_string_final
 
 def preprocess_clean_page(clean_page,

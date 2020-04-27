@@ -242,12 +242,15 @@ def preprocess_word(word, preprocess_type=PreprocessWordType.NONE):
     return preprocessed_word
 
 def longsfix_sentence(sentence):
+    #wd = os.getcwd()
+    #print("IMPORTANT - PWD %s" %wd)
     if "'" in sentence:
         sentence=sentence.replace("'", "\'\\\'\'")
-    cmd = 'printf \'%s\' \''+ sentence + '\' | ./long_s_fix/lxtransduce -l spelling=./long_s_fix/f-to-s.lex ./long_s_fix/fix-spelling.gr'
+
+    cmd = 'printf \'%s\' \''+ sentence + '\' | $HOME/defoe/defoe/lxtransduce -l spelling=$HOME/defoe/defoe/f-to-s.lex $HOME/defoe/defoe/fix-spelling.gr'
     #cmd = 'echo " + sentence + " | ./long_s_fix/lxtransduce -l spelling=./long_s_fix/f-to-s.lex ./long_s_fix/fix-spelling.gr'
     proc=subprocess.Popen(cmd.encode('utf-8'), shell=True,
-                        stdin=subprocess.PIPE,
+                       stdin=subprocess.PIPE,
                         stdout=subprocess.PIPE,
                         stderr=subprocess.PIPE)
     stdout, stderr = proc.communicate()
@@ -256,13 +259,15 @@ def longsfix_sentence(sentence):
         stdout_value = sentence
     else:
         stdout_value = stdout
-
+    
     proc.terminate()
+    
     fix_s= stdout_value.decode('utf-8').split('\n')[0]
     if re.search('[aeiou]fs', fix_s):
         fix_final=re.sub('fs', 'ss', fix_s)
     else:
         fix_final = fix_s
+    
     return fix_final
 
 def spacy_nlp(text, lang_model):

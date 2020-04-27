@@ -64,6 +64,7 @@ def do_query(archives, config_file=None, logger=None, context=None):
         lambda archive: [(document.year, document) for document in list(archive)])
     # [(year, page_string)
     
+    
     clean_pages = documents.flatMap(
         lambda year_document: [(year_document[0], 
                                     clean_page_as_string(page)) 
@@ -77,12 +78,14 @@ def do_query(archives, config_file=None, logger=None, context=None):
         lambda year_page: any(
             keysentence in year_page[1] for keysentence in keysentences))
     
+    
     # [(year, [keysentence, keysentence]), ...]
     matching_pages = filter_pages.map(
         lambda year_page: (year_page[0],
                               get_sentences_list_matches(
                                   year_page[1],
                                   keysentences)))
+    
 
     # [[(year, keysentence), 1) ((year, keysentence), 1) ] ...]
     matching_sentences = matching_pages.flatMap(
