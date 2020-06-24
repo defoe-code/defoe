@@ -242,13 +242,13 @@ def preprocess_word(word, preprocess_type=PreprocessWordType.NONE):
     return preprocessed_word
 
 def longsfix_sentence(sentence):
-    #wd = os.getcwd()
-    #print("IMPORTANT - PWD %s" %wd)
     if "'" in sentence:
         sentence=sentence.replace("'", "\'\\\'\'")
 
-    cmd = 'printf \'%s\' \''+ sentence + '\' | $HOME/defoe/defoe/lxtransduce -l spelling=$HOME/defoe/defoe/f-to-s.lex $HOME/defoe/defoe/fix-spelling.gr'
+    cmd = 'printf \'%s\' \''+ sentence + '\' | /Users/rosafilgueira/EPCC/TDM/CDS/defoe-code/defoe/defoe/lxtransduce -l spelling=/Users/rosafilgueira/EPCC/TDM/CDS/defoe-code/defoe/defoe/f-to-s.lex /Users/rosafilgueira/EPCC/TDM/CDS/defoe-code/defoe/defoe/fix-spelling.gr'
+    
     #cmd = 'echo " + sentence + " | ./long_s_fix/lxtransduce -l spelling=./long_s_fix/f-to-s.lex ./long_s_fix/fix-spelling.gr'
+
     proc=subprocess.Popen(cmd.encode('utf-8'), shell=True,
                        stdin=subprocess.PIPE,
                         stdout=subprocess.PIPE,
@@ -259,15 +259,15 @@ def longsfix_sentence(sentence):
         stdout_value = sentence
     else:
         stdout_value = stdout
-    
     proc.terminate()
     
     fix_s= stdout_value.decode('utf-8').split('\n')[0]
+
     if re.search('[aeiou]fs', fix_s):
         fix_final=re.sub('fs', 'ss', fix_s)
     else:
         fix_final = fix_s
-    
+       
     return fix_final
 
 def spacy_nlp(text, lang_model):
@@ -312,9 +312,8 @@ def xml_geo_entities(doc):
     xml_doc='<placenames> '
     flag=0
     for ent in doc.ents:
-       #print("ROSA-ENTITY: Spacy entities %s" %ent)
        if ent.label_ == "LOC" or ent.label_ == "GPE":
-            #print("ROSA-LOCATION: Found as place the entity: %s" %ent.text)
+            print("LOCATION: Found as place the entity: %s" %ent.text)
             id=id+1
             toponym = ent.text
             child ='<placename id="' + str(id) + '" name="' + toponym + '"/> '
@@ -323,15 +322,58 @@ def xml_geo_entities(doc):
     xml_doc=xml_doc+ '</placenames>'
     return flag, xml_doc
 
+
+def xml_geo_entities_snippet(doc):
+    snippet= {}
+    id=0
+    xml_doc='<placenames> '
+    flag=0
+    index=0
+    for token in doc:
+        if token.ent_type_ == "LOC" or token.ent_type_ == "GPE":
+            print("LOCATION: Found as place the entity: %s" % token.ent_type_)
+            id=id+1
+            toponym = token.text
+            child ='<placename id="' + str(id) + '" name="' + toponym + '"/> '
+            xml_doc= xml_doc+child
+            flag=1
+            left_index = index - 5
+            if left_index <=0:
+                left_index = 0
+         
+            right_index = index + 6
+            if right_index >= len(doc):
+                right_index = len(doc)
+            
+            left=doc[left_index:index]
+            right=doc[index+1:right_index]
+            snippet_er=""
+            for i in left:
+                snippet_er+= i.text + " "
+            snippet_er+= token.text + " "
+            for i in right:         
+                snippet_er+= i.text + " "
+
+            snippet_id=toponym+"-"+str(id)
+            print("snippet for {} is {}" .format(snippet_id, snippet_er))
+            snippet[snippet_id]=snippet_er
+        index+=1
+    xml_doc=xml_doc+ '</placenames>'
+    return flag, xml_doc, snippet
+
+        
+
 def georesolve_cmd(in_xml):
     georesolve_xml =''
     atempt=0
     flag = 1
     if "'" in in_xml:
         in_xml=in_xml.replace("'", "\'\\\'\'")
-    cmd = 'printf \'%s\' \''+ in_xml + ' \' | ./georesolve/scripts/geoground -g unlockgeonames -lb -7.54296875, 54.689453125, -0.774267578125, 60.8318847656 2 -top '
-    #cmd = 'printf \'%s\' \''+ in_xml + '\' | ./georesolve/scripts/geoground -g unlockgeonames -top'
-    while (len(georesolve_xml) < 5) and (atempt < 100) and (flag == 1): 
+    cmd = 'printf \'%s\' \''+ in_xml + ' \' | /Users/rosafilgueira/EPCC/TDM/CDS/defoe-code/defoe/georesolve/scripts/geoground -g geonames -top '
+    #cmd = 'printf \'%s\' \''+ in_xml + ' \' | /Users/rosafilgueira/EPCC/TDM/CDS/defoe-code/defoe/georesolve/scripts/geoground -g os -lb -7.54296875, 54.689453125, -0.774267578125, 60.8318847656 2 -top '
+   
+     #cmd = 'printf \'%s\' \''+ in_xml + '\' | ./georesolve/scripts/geoground -g os -top'
+    while (len(georesolve_xml) < 5) and (atempt < 8000) and (flag == 1): 
         proc=subprocess.Popen(cmd.encode('utf-8'), shell=True,
                                stdin=subprocess.PIPE,
                                stdout=subprocess.PIPE,
@@ -339,34 +381,86 @@ def georesolve_cmd(in_xml):
         proc.terminate()
         atempt= atempt + 1
         stdout, stderr = proc.communicate()
+        #print("EOOO %s - atempt %s" %(stdout, atempt))
         if "Error" in str(stderr):
             flag = 0
             print("err: '{}'".format(stderr))
             georesolve_xml =  ''
         else:
             georesolve_xml = stdout
-    #print("ROSA -1- georesolve_xml: %s!!!" %georesolve_xml)
+    
+
+    print("ROSA -2 - in_xml: %s!!!" %in_xml)
+    print("ROSA -2b - georesolve_xml: %s - len %s !!!" %(georesolve_xml, len(georesolve_xml)))
     return georesolve_xml
 
-
 def coord_xml(geo_xml):
+    print("3: Georesolve_xml: %s!!!" %geo_xml)
     dResolvedLocs = {}
-    try:
+    if len(geo_xml)>5:
         root = etree.fromstring(geo_xml)
         for child in root:
             toponymName = child.attrib["name"]
             toponymId = child.attrib["id"]
             latitude = ''
-            longitude = '' 
+            longitude = ''
+            pop = ''
+            in_cc = ''
+            type = ''
             if len(child) >= 1 :
                 for subchild in child:
-                    latitude = subchild.attrib["lat"]
-                    longitude = subchild.attrib["long"]
-                    dResolvedLocs[toponymName+"-"+toponymId] = (latitude, longitude)
-            dResolvedLocs[toponymName+"-"+toponymId] = (latitude, longitude)
-    except:
-        dResolvedLocs["cmd"]=geo_xml
-    #print("ROSA -2- ResolvedLocs: %s!!!" % dResolvedLocs)
+                    if "lat" in subchild.attrib:
+                        latitude = subchild.attrib["lat"]
+                    if "ling" in subchild.attrib:
+                        longitude = subchild.attrib["long"]
+                    if "pop" in subchild.attrib:
+                        pop = subchild.attrib["pop"]
+                    if "in-cc" in subchild.attrib:
+                        in_cc = subchild.attrib["in-cc"]
+                    if "type" in subchild.attrib:
+                        type = subchild.attrib["type"]
+                    dResolvedLocs[toponymName+"-"+toponymId] = (latitude, longitude, pop, in_cc, type)
+        dResolvedLocs[toponymName+"-"+toponymId] = (latitude, longitude, pop, in_cc, type)
+    else:
+        dResolvedLocs["cmd"]="Problems!"
+    print("4: ResolvedLocs: %s!!!" % dResolvedLocs)
+    return dResolvedLocs
+
+def coord_xml_snippet(geo_xml, snippet):
+    print("3: Georesolve_xml: %s!!!" %geo_xml)
+    dResolvedLocs = {}
+    if len(geo_xml)>5:
+        root = etree.fromstring(geo_xml)
+        for child in root:
+            toponymName = child.attrib["name"]
+            toponymId = child.attrib["id"]
+            latitude = ''
+            longitude = ''
+            pop = ''
+            in_cc = ''
+            type = ''
+            snippet_id=toponymName+"-"+toponymId
+            snippet_er=snippet[snippet_id]
+            
+            if len(child) >= 1 :
+                for subchild in child:
+                    if "lat" in subchild.attrib:
+                        latitude = subchild.attrib["lat"]
+                    if "long" in subchild.attrib:
+                        longitude = subchild.attrib["long"]
+                    if "pop" in subchild.attrib:
+                        pop = subchild.attrib["pop"]
+                    if "in-cc" in subchild.attrib:
+                        in_cc = subchild.attrib["in-cc"]
+                    if "type" in subchild.attrib:
+                        type = subchild.attrib["type"]
+                    snippet_id=toponymName+"-"+toponymId
+                    snippet_er=snippet[snippet_id]
+                    dResolvedLocs[snippet_id] = {"lat": latitude, "long": longitude, "pop": pop, "in-cc":in_cc, "type": type, "snippet": snippet_er}
+        dResolvedLocs[snippet_id] = {"lat": latitude, "long": longitude, "pop": pop, "in-cc":in_cc, "type": type, "snippet": snippet_er}
+    else:
+        dResolvedLocs["cmd"]="Georesolver_Empty"
+    print("4: ResolvedLocs: %s!!!" % dResolvedLocs)
     return dResolvedLocs
 
 def geomap_cmd(in_xml):
@@ -392,9 +486,11 @@ def geoparser_cmd(text):
     geoparser_xml = ''
     if "'" in text:
         text=text.replace("'", "\'\\\'\'")
-    cmd = 'echo \'%s\' \''+ text + ' \' | ./geoparser-v1.1/scripts/run -t plain -g unlockgeonames -lb -7.54296875, 54.689453125, -0.774267578125, 60.8318847656 2 -top' 
-    #cmd = 'echo \'%s\' \''+ text + ' \' | ./geoparser-v1.1/scripts/run -t plain -g unlockgeonames -top' 
-    while (len(geoparser_xml) < 5) and (atempt < 100) and (flag == 1): 
+    #cmd = 'echo \'%s\' \''+ text + ' \' | ./geoparser-v1.1/scripts/run -t plain -g geonames | ./georesolve/bin/sys-i386-snow-leopard/lxreplace -q s | ./geoparser-v1.1/bin/sys-i386-snow-leopard/lxt -s ./geoparser-v1.1/lib/georesolve/addfivewsnippet.xsl' 
+    cmd = 'echo \'%s\' \''+ text + ' \' | ./geoparser-v1.1/scripts/run -t plain -g os -lb -7.54296875, 54.689453125, -0.774267578125, 60.8318847656 2 -top | ./georesolve/bin/sys-i386-snow-leopard/lxreplace -q s | ./geoparser-v1.1/bin/sys-i386-snow-leopard/lxt -s ./geoparser-v1.1/lib/georesolve/addfivewsnippet.xsl' 
+
+
+    while (len(geoparser_xml) < 5) and (atempt < 8000) and (flag == 1): 
         proc=subprocess.Popen(cmd.encode('utf-8'), shell=True,
                                stdin=subprocess.PIPE,
                                stdout=subprocess.PIPE,
@@ -413,17 +509,34 @@ def geoparser_coord_xml(geo_xml):
     try:
         root = etree.fromstring(geo_xml)
         for element in root.iter():
+              
             if element.tag == "ent":
                 if element.attrib["type"] == "location":
                     latitude = element.attrib["lat"]
                     longitude = element.attrib["long"]
                     toponymId = element.attrib["id"]
+                    if "in-country" in element.attrib:
+                        in_cc = element.attrib["in-country"]
+                    else:
+                        in_cc = ''
+                    if "pop-size" in element.attrib:
+                        pop =  element.attrib["pop-size"]
+                    else:
+                        pop = ''
+                    if "feat-type" in element.attrib:
+                        type = element.attrib["feat-type"]
+                    else:
+                        type=''
+                    if "snippet" in element.attrib:
+                        snippet_er = element.attrib["snippet"]
+                    else:
+                        snippet_er = ''
                     for subchild in element:
                         if subchild.tag == "parts":
                             for subsubchild in subchild:
                                 toponymName = subsubchild.text
                                 #print(toponymName, latitude, longitude)
-                                dResolvedLocs[toponymName+"-"+toponymId] = (latitude, longitude)
+                                dResolvedLocs[toponymName+"-"+toponymId] = {"lat": latitude, "long": longitude, "pop": pop, "in-cc":in_cc, "type": type, "snippet": snippet_er}
     except:
         pass
     return dResolvedLocs
