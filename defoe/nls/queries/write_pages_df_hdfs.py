@@ -60,5 +60,6 @@ def do_query(archives, config_file=None, logger=None, context=None):
    
     sqlContext = SQLContext(context)
     df = sqlContext.createDataFrame(pages,nlsRow)
-    df.write.mode('overwrite').option("header","true").csv("hdfs:///user/at003/rosa/nls_demo.csv")
+    #df.write.mode('overwrite').option("header","true").csv("hdfs://r1i2n0:9000/nls_page2.csv")
+    df.write.mode('overwrite').option("header","true").csv("hdfs:///sg_pages.csv")
     return "0"
