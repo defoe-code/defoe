@@ -40,6 +40,7 @@ class Page(object):
         self.page_words = None
         self.page_header_left_words = None
         self.page_header_right_words = None
+        self.page_hpos_vpos_font_words= None
 
         self.page_strings = None
         self.page_images = None
@@ -118,6 +119,42 @@ class Page(object):
             else:
                 self.page_words = []
         return self.page_words
+
+    @property
+    def hpos_vpos_font_words(self):
+        if not self.page_hpos_vpos_font_words:
+            page_hpos_vpos_font_words= []
+            lines= list(self.tree.iterfind('.//{%s}TextLine' % self.namespaces))
+            num_lines = len(lines)
+            f_line = self.tree.find('.//{%s}TextLine' % self.namespaces)
+            if f_line is not None:
+                vpos = int(f_line.attrib.get('VPOS'))
+                ln = 1
+                flag = 1
+                while (flag == 1) and (ln < num_lines):
+                    current_vpos = int (lines[ln].attrib.get('VPOS'))
+                    if current_vpos == vpos:
+                        ln += 1
+                    else:
+                        flag = 0
+                if flag == 0:
+                    while (ln < num_lines):
+                        line_data=[]
+                        for ln_word in lines[ln].findall('{%s}String' % self.namespaces):
+                            vpos = ln_word.attrib.get('VPOS')
+                            hpos = ln_word.attrib.get('HPOS')
+                            font = ln_word.attrib.get('STYLEREFS')
+                            text = ln_word.attrib.get('CONTENT')
+                            word_data=[hpos,vpos,font,text]
+                            line_data.append(word_data)
+                        page_hpos_vpos_font_words.append(line_data)
+                        ln+= 1
+                    self.page_hpos_vpos_font_words=page_hpos_vpos_font_words 
+                else:
+                    self.page_hpos_vpos_font_words= []
+            else:
+                self.page_hpos_vpos_font_words = []
+        return self.page_hpos_vpos_font_words
 
     @property
     def header_left_words(self):

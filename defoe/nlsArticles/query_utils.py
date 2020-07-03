@@ -211,24 +211,29 @@ def clean_text_as_string(text, flag):
     Handling hyphenated words: combine and split and also fixing the long-s
 
     """
-    text_string = ''
-    for word in text:
-        if text_string == '':
-            text_string = word 
-        else:
-            text_string += (' ' + word)
+    if flag == 2:
+        text_combined=text
+    else:
+        text_string = ''
+        for word in text:
+            if text_string == '':
+                text_string = word 
+            else:
+                text_string += (' ' + word)
 
    
-    text_separeted = text_string.split('- ')
-    text_combined = ''.join(text_separeted)
+        text_separeted = text_string.split('- ')
+        text_combined = ''.join(text_separeted)
    
     if (len(text_combined) > 1) and ('f' in text_combined): 
        
        text_clean = longsfix_sentence(text_combined) 
     else:
         text_clean= text_combined
-
-    text_final=text_clean.split()
+    if flag!=2:
+        text_final=text_clean.split()
+    else:
+        text_final=text_clean
     text_string_final = ''
     for word in text_final:
         if flag == 0 :
@@ -266,7 +271,137 @@ def clean_headers_page_as_string(page):
     header_left_string_final=clean_text_as_string(header_left_words, 1)
     header_right_words=page.header_right_words
     header_right_string_final=clean_text_as_string(header_right_words, 1)
+    #in case the right header is part of the text E.G. (LELAND,John,aneminentEnglishantiquarian,was)
+    if len(header_right_string_final)>12:
+         header_right_string_final=''
+   
+    #print("Header_left_string_final %s - header_right_string_final %s" %(header_left_string_final, header_right_string_final))
     return header_left_string_final, header_right_string_final, page_string_final
+
+def filter_terms_page(page):
+    """
+    Discovering the TERMS in the leftmost side of each colum.
+    :param page: Page
+    :type page: defoe.nls.Page
+    :return: clean page words as a string
+    :rtype: string or unicode
+    """
+    page_words=page.words
+    header_left_words=page.header_left_words
+    header_left=clean_text_as_string(header_left_words, 1)
+    header_right_words=page.header_right_words
+    header_right=clean_text_as_string(header_right_words, 1)
+    #in case the right header is part of the text E.G. (LELAND,John,aneminentEnglishantiquarian,was)
+    if len(header_right)>12:
+         header_right=''
+
+    type_page, header = get_header_eb(header_left, header_right)
+    page_hpos_vpos_font=page.hpos_vpos_font_words
+    page_term_dict={}
+    page_clean_term_dict={}
+
+    if len(page_hpos_vpos_font) > 1:
+        if type_page == "FullPage" or type_page == "Topic":
+            page_term_dict[header]=page_words
+        else:
+            ln = 0
+            flag = 0
+            while ln < len(page_hpos_vpos_font) and flag == 0:
+                if len(page_hpos_vpos_font[ln]) >= 4 or ((len(page_hpos_vpos_font[ln]) == 3) and ("See" in page_hpos_vpos_font[ln][1][3])):
+                    flag = 1
+                elif len(page_hpos_vpos_font[ln]) == 1 and page_hpos_vpos_font[ln][0][3].isupper() and "." in page_hpos_vpos_font[ln][0][3] and len(page_hpos_vpos_font[ln][0][3])>2:
+                    flag = 2  
+                else:
+                    ln+=1
+
+            if flag == 2:
+                header=page_hpos_vpos_font[ln][0][3].split(".")[0]
+                type_page="Topic"
+                page_term_dict[header]=page_words
+     
+            elif flag == 1:
+                page_terms=[]
+                num_terms = 0
+                definition = []
+                first_line = 1
+    
+                for i in range(ln, len(page_hpos_vpos_font)):
+                    flag_A=0
+                    if len(page_hpos_vpos_font[i]) >= 4 or ((len(page_hpos_vpos_font[i]) == 3) and ("See" in page_hpos_vpos_font[i][1][3])):
+
+                        if (len(page_hpos_vpos_font[i]) <= 5) and (first_line == 0) and not ("See" in page_hpos_vpos_font[i][1][3]):
+                                for j in range(0,len(page_hpos_vpos_font[i])):
+                                    definition.append(page_hpos_vpos_font[i][j][3])
+
+                        elif (page_hpos_vpos_font[i][0][3].isupper()) or (page_hpos_vpos_font[i][0][2]=="font7" and page_hpos_vpos_font[i][1][3].isupper()) or (first_line == 1):
+                            if (first_line == 1) and not (page_hpos_vpos_font[i][0][3].isupper()) and not (page_hpos_vpos_font[i][0][2]=="font7"):
+                                term="previous_page"
+
+                            elif len(page_hpos_vpos_font[i][0][3]) <=2:
+                                
+                                if ("." in page_hpos_vpos_font[i][0][3]) or ("," in page_hpos_vpos_font[i][0][3] ) or ("'" in page_hpos_vpos_font[i][0][3]) or (";" in page_hpos_vpos_font[i][0][3] or (":" in page_hpos_vpos_font[i][0][3])) or ("-" in page_hpos_vpos_font[i][0][3]) or (romanNumeral(page_hpos_vpos_font[i][0][3])) or len(page_hpos_vpos_font[i][0][3])==1:
+                                    if first_line == 1:
+                                        term="first_article"
+                                    else:
+                                        flag_A=1
+                                else:
+                                    term=page_hpos_vpos_font[i][0][3]
+                                    flag_A=0
+                            else:
+                                term=page_hpos_vpos_font[i][0][3]
+                                if romanNumeral(term) or ("VOL." in term):
+                                    flag_A = 1
+
+                            if flag_A == 0:
+                                if "," in term:
+                                    new_term= term.split(",")[0]
+                                elif "." in term:
+                                   new_term= term.split(".")[0]
+                                else:
+                                    new_term = term
+                                if new_term in page_term_dict:
+                                    new_term= new_term+"_def"
+                                if num_terms!=0:
+                                    previous_term=page_terms[-1]
+                                    page_term_dict[previous_term]=definition
+                                definition=[]
+                                page_terms.append(new_term)
+                                page_term_dict[new_term]=""
+                                num_terms+= 1
+                                for j in range(1,len(page_hpos_vpos_font[i])):
+                                    definition.append(page_hpos_vpos_font[i][j][3])
+                            else:
+                                for j in range(0,len(page_hpos_vpos_font[i])):
+                                    definition.append(page_hpos_vpos_font[i][j][3])
+                            
+                        else:
+                            for j in range(0,len(page_hpos_vpos_font[i])):
+                                definition.append(page_hpos_vpos_font[i][j][3])
+
+                    first_line = 0
+    
+                if len(definition)>=1:
+                    if len(page_terms)>=1:    
+                        previous_term=page_terms[-1]
+                    else:
+                        previous_term="previous_page"
+                    page_term_dict[previous_term]=definition 
+                   
+                if not page_term_dict:
+                    page_term_dict[header]=page_words
+    
+    if page_term_dict:
+        for term in page_term_dict:
+            clean_term=clean_text_as_string(term,2)
+            clean_def=clean_text_as_string(page_term_dict[term],0)
+            page_clean_term_dict[clean_term]=clean_def
+
+    if len(page_clean_term_dict)>5 and (type_page == "Topic"):
+        type_page="Mix"
+
+    return type_page, header, page_clean_term_dict, len(page_clean_term_dict)
+        
+
 
 def preprocess_clean_page(clean_page,
                           preprocess_type=PreprocessWordType.LEMMATIZE):
@@ -442,6 +577,13 @@ def get_concordance(text,
 def hasNumbers(inputString):
     return any(char.isdigit() for char in inputString)
 
+def removeNumbers(inputString):
+    result=''.join(i for i in inputString if not i.isdigit())
+    return result
+
+def removeSpecialcharacters(inputString):
+    return re.sub('[^A-Za-z0-9]+', '', inputString)
+
 def splitGroups(inputString):
     match=re.match(r"([0-9]+)([A-Z]+)", inputString, re.I)
     if match:
@@ -461,26 +603,53 @@ def specialCharacters(inputString):
         if re.match(r'^[_\W]+$', i):
             spc_cont+=1
     return spc_cont 
-       
+      
+
+def hasDot(inputString):
+    if "." in inputString:
+        return True
+    else:
+        return False
+
+def romanNumeral(inputString):
+    if "." in inputString:
+        word= inputString.split(".")[0]
+    else:
+        word = inputString
+    return not set(word).difference('MDCLXVI()')
 
 def get_header_eb(header_left, header_right):
     header = ''
-    type = ''
+    page_type = ''
     if (header_left == '') and (header_right == ""):
-        type="Empty"
+        header="Empty"
+        page_type="Empty"
     elif (len(header_left) <= 4) and(len(header_right) <=4):
         header= header_left+ " " + header_right
-        type="Articles"
+        page_type="Articles"
+    elif("ENCYCLOPAEDIA" in header_left) and (len(header_right)<=4):
+        header = header_right
+        page_type="Articles"
     elif ('(' in header_left) and (')' in header_right):
         header= header_left+ " " + header_right
-        type="Articles"
+        page_type="Articles"
+    elif hasNumbers(header_left) and (len(header_right)<=4) and not hasDot(header_left) and not hasDot(header_right):
+        header=header_left+" " +header_right  
+        page_type="Articles"
+    elif hasNumbers(header_right) and (len(header_left)<=4) and not hasDot(header_left) and not hasDot(header_right):
+        header=header_left+" " +header_right
+        page_type="Articles"
     elif (('('in header_left) and (')' in header_left)) or (('C' in header_left) and (')' in header_left)):
         header=header_left
-        type="Mix"
+        page_type="Mix"
+    elif hasDot(header_left) or hasDot(header_right):
+        header_tmp= header_left + header_right
+        header=header_tmp.split(".")[0]
+        page_type="Topic"
     elif hasNumbers(header_right) and specialCharacters(header_right)< 3:
         header_tmp= header_left + header_right
         header=header_tmp.split(".")[0]
-        type="Topic"
+        page_type="Topic"
     elif hasNumbers(header_left) and specialCharacters(header_left) <3:
         header_tmp= header_left + header_right
         items=splitGroups(header_tmp)
@@ -488,34 +657,39 @@ def get_header_eb(header_left, header_right):
            header = items[1].split(".")[0]
         else:
             header = header_tmp.split(".")[0]
-        type="Topic"
+        page_type="Topic"
     else:
         header = header_left + header_right
         if ("Plate" in header) or ("Plafr" in header) or ("Elate" in header) or ("Tlafe" in header):
             header = "Plate"
-            type = "FullPage"
+            page_type = "FullPage"
         elif "PREFACE" in header:
             header = "Preface"
-            type="FullPage"
-        elif "ENCYCLOPEDIA" in header:
+            page_type="FullPage"
+        elif ("ENCYCLOPEDIA" in header) or ("THE" in header):
             header = "FrontPage" 
-            type="FullPage"
+            page_type="FullPage"
         elif "ARTSandSCI" in header:
             header = "FrontPage" 
-            type="FullPage"
+            page_type="FullPage"
         elif "ERRATA" in header:
             header = "Errata" 
-            type="FullPage"
+            page_type="FullPage"
         elif ("LISTofAUTHORS" in header) or ("ListofAUTHORS" in header) or ("listofAuthors" in header) or ("ListOfAuthors" in header) or ("listofauthors" in header):
             header = "AuthorList"
-            type="FullPage"
+            page_type="FullPage"
         elif specialCharacters(header) > 5:
-            type="Exception"
-        elif len(header) >=25:
-            type="Exception"
+            page_type="FullPage"
+        elif len(header) >=40:
+            page_type="FullPage"
         else:
-            type="Exception"
-    return type, header
+            page_type="FullPage"
+
+    tmp_header=removeSpecialcharacters(header)
+    f_header=removeNumbers(tmp_header)
+    if f_header == "" :
+        f_header=header
+    return page_type, f_header
 
 def get_articles_page(text, text_list, terms_view, num_words):
         articles_page={}
@@ -538,7 +712,8 @@ def get_articles_page(text, text_list, terms_view, num_words):
                 if ',' not in text_list[i]:
                     #ACQUIENTANDIS plegiis, - managing ACQUIETANDIS - normally uppercase in latin too.
                     # EXCLUDING N. W. of Genova  
-                    if (not latin_view[i]) and ('.' not in text_list[i]):
+                    #excluding II hold,
+                    if (not latin_view[i]) and ('.' not in text_list[i]) and ('II' not in text_list[i]):
                         if (i< num_words -1):
                             #checking that the next one is lowe case - e.g. pleggis
                             #print("Importante: Palabra: %s, Capital de la siguiente %s, Latin de la siguiente %s" %(text_list[i], terms_view[i+1], latin_view[i+1]))
@@ -560,9 +735,12 @@ def get_articles_page(text, text_list, terms_view, num_words):
                     # ABACISCUS. See ABACUS. - Managing ABACISCUS.
                     elif ("." in text_list[i]): 
                         if (i< num_words -1):
+                           #ignoring Charles VIII.  
+                           if (romanNumeral(text_list[i])):
+                                articles_page[key][list_key[key]]= articles_page[key][list_key[key]] + ' ' + text_list[i]
                            #checking that the next one is See
-                           if ("See" == text_list[i+1]):
-                               word= text_list[i].split(".")[0]
+                           elif ("See" == text_list[i+1]):
+                               word = text_list[i].split(".")[0]
                                key = word
                                # Managing key repitions
                                if key in articles_page.keys():
@@ -573,10 +751,10 @@ def get_articles_page(text, text_list, terms_view, num_words):
                                articles_page[key].append('')
                            elif (("N." == text_list[i]) or ("S." == text_list[i]) or ("E." == text_list[i]) or ("O." == text_list[i])) and (("lat" in text_list[i+1]) or ("long" in text_list[i+1])):
                                articles_page[key][list_key[key]]= articles_page[key][list_key[key]] + ' ' + text_list[i]
-
                            #ignoring the header of the first page - second half
                            elif(half_key == "DCOMPLETEONARYFCIENCE"): 
                                half_key=''
+                    
                            else:
                                half_key=half_key+text_list[i]
 
@@ -588,17 +766,66 @@ def get_articles_page(text, text_list, terms_view, num_words):
            
                 #UPPERCASE WITH COMMA     
                 else:
+                    if i==0:
+                        key=word
+                        if key in articles_page.keys():
+                            list_key[key] += 1
+                        else:
+                            list_key[key] = 0
+                            articles_page[key]= []
+                        articles_page[key].append('')
                     # AATTER, or AT TER - managing TER,   
-                    if ('or' == text_list[i-1]) or ('or' == text_list[i-2] and terms_view[i-1]):
+                    elif ('or' == text_list[i-1]) :
                         if half_key!='':
                             articles_page[key][list_key[key]]= articles_page[key][list_key[key]] + ' ' + half_key + ' ' + text_list[i]
                             half_key = ''
                         else:
                             articles_page[key][list_key[key]]= articles_page[key][list_key[key]] + ' ' + text_list[i]
-                        #print("!Entro en - or UPPERCASE,- : key %s - text %s:" %(key, articles_page[key]))
-                    #See ASTRONOMY, - managing ASTRONOMY,
-                    elif ('See' == text_list[i-1]):
+                             #print("!Entro en - or UPPERCASE,- : key %s - text %s:" %(key, articles_page[key]))
+                        #See ASTRONOMY, - managing ASTRONOMY,
+                    elif ('See' == text_list[i-1]) or (romanNumeral(text_list[i])):
                         articles_page[key][list_key[key]]= articles_page[key][list_key[key]] + ' ' + text_list[i]
+                    elif(i>=2): 
+                        if ('or' == text_list[i-2] and terms_view[i-1]):
+                            if half_key!='':
+                                articles_page[key][list_key[key]]= articles_page[key][list_key[key]] + ' ' + half_key + ' ' + text_list[i]
+                                half_key = ''
+                            else:
+                                articles_page[key][list_key[key]]= articles_page[key][list_key[key]] + ' ' + text_list[i]
+                        else:
+                            # AB ACO, - recording ACO, (of AB ACO,)
+                            # key= ABACO,
+                            if half_key!='':
+                                key=half_key + word
+                                half_key=''
+                                flag = 1
+                            else:
+                                # double A, but - Avoiding to create a new key when UPPERCASE, after a but 
+                                if (i < num_words -1):
+                                    if text_list[i+1] == "but":
+                                        articles_page[key][list_key[key]]= articles_page[key][list_key[key]] + ' ' + text_list[i] 
+                                    # RECORDING THE KEY, in the normal case
+                                    else:
+                                        key=word
+                                        flag = 1
+                                # RECORDING THE KEY, in the normal case
+                                else:
+                                    key = word
+                                    flag = 1
+                            #DEALING WITH THE FIRST PAGE
+                            if key == "SABAA":
+                                 key=word[-2:]
+                                 flag = 1
+                            if flag == 1 :
+                                #print(" Entro cuando encuentra nueva key: %s" % key)
+                                # Managing key repitions
+                                if key in articles_page.keys():
+                                    list_key[key] += 1
+                                else:
+                                    list_key[key] = 0
+                                    articles_page[key]= []
+                                #Updating the articles dictionary with the new key
+                                articles_page[key].append('')
                     else:
                         # AB ACO, - recording ACO, (of AB ACO,)
                         # key= ABACO,
@@ -610,7 +837,7 @@ def get_articles_page(text, text_list, terms_view, num_words):
                             # double A, but - Avoiding to create a new key when UPPERCASE, after a but 
                             if (i < num_words -1):
                                 if text_list[i+1] == "but":
-                                    articles_page[key][list_key[key]]= articles_page[key][list_key[key]] + ' ' + text_list[i] 
+                                    articles_page[key][list_key[key]]= articles_page[key][list_key[key]] + ' ' + text_list[i]
                                 # RECORDING THE KEY, in the normal case
                                 else:
                                     key=word
@@ -619,10 +846,10 @@ def get_articles_page(text, text_list, terms_view, num_words):
                             else:
                                 key = word
                                 flag = 1
-                        #DEALING WITH THE FIRST PAGE
-                        if key == "SABAA":
-                            key=word[-2:]
-                            flag = 1 
+                            #DEALING WITH THE FIRST PAGE
+                            if key == "SABAA":
+                                key=word[-2:]
+                                flag = 1
                         if flag == 1 :
                             #print(" Entro cuando encuentra nueva key: %s" % key)
                             # Managing key repitions
@@ -631,7 +858,7 @@ def get_articles_page(text, text_list, terms_view, num_words):
                             else:
                                 list_key[key] = 0
                                 articles_page[key]= []
-                            #Updating the articles dictionary with the new key
+                                #Updating the articles dictionary with the new key
                             articles_page[key].append('')
 
             #term in lowercase
@@ -678,7 +905,7 @@ def get_articles_page(text, text_list, terms_view, num_words):
         return articles_page
            
 
-def get_articles_eb(header_left, header_right, text):
+def get_articles_eb(header_left, header_right, text, leftmost_terms):
     type, header = get_header_eb(header_left, header_right)
     text_list= text.split()
     terms_view=[s.isupper() for s in text_list]
@@ -689,27 +916,27 @@ def get_articles_eb(header_left, header_right, text):
        return type, header, articles_page, len(articles_page)
  
     elif type == "FullPage":
-       articles_page[header]= text
+       articles_page[header]= [text]
        return type, header, articles_page, len(articles_page)
 
     elif type == "Topic":
         # We check that the page hasnt been erroneous classfied as a topic.
         if len(text_list)>=1: 
-            if (not terms_view[0]) and (',' not in text_list[0]):
-                articles_page[header] = text
-            else:
+            if (terms_view[0]) and (',' in text_list[0]):
                 type="Mix"
                 articles_page= get_articles_page(text, text_list, terms_view, num_words)
+            else:
+                articles_page[header] = [text]
         return type, header, articles_page, len(articles_page)
 
     elif (type == "Exception"): 
         if num_words < 40 :
             type="Exception_FullPage"
-            articles_page[header] = text
+            articles_page[header] = [text]
 
         elif ("." in header):
             type="Exception_Topic"
-            articles_page[header] = text
+            articles_page[header] = [text]
 
         else:
             type="Exception_Articles"
@@ -717,15 +944,23 @@ def get_articles_eb(header_left, header_right, text):
         return type, header, articles_page, len(articles_page)
 
     elif (type == "Articles") or (type == "Mix"):
-        if num_words >= 20:
+        if header == "" and len(text_list)>=1:
+            if ("." in text_list[0]) and (terms_view[0]):
+                header=text_list[0].split(".")[0]
+                type="Topic"
+                articles_page[header] = [text]
+            else:
+                articles_page= get_articles_page(text, text_list, terms_view, num_words)
+
+        elif num_words >= 20:
             articles_page= get_articles_page(text, text_list, terms_view, num_words)
         else:
             type="Exception_FullPage"
-            articles_page["FullPage"] = text
+            articles_page["FullPage"] = [text]
  
         return type, header, articles_page, len(articles_page)
     else:
         type="Exception"
-        articles_page["FullPage"] = text
+        articles_page["FullPage"] = [text]
         return type, header, articles_page, len(articles_page)
 	

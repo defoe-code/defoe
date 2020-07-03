@@ -230,6 +230,17 @@ class Document(object):
         for page in self:
             for header_right_word in page.header_right_words:
                 yield page, header_right_word
+
+    def scan_hpos_vpos_font_words(self):
+        """
+        Iterate over hpos and vpos in pages.
+
+        :return: page, [hpos, vpos]
+        :rtype: tuple(defoe.alto.page.Page, str or unicode)
+        """
+        for page in self:
+            for hpos_vpos_font_word in page.hpos_vpos_font_words:
+                yield page, hpos_vpos_font_word
     
     def scan_wc(self):
         """
@@ -303,6 +314,16 @@ class Document(object):
         """
         for _, header_right_word in self.scan_header_right_words():
             yield header_right_word
+    
+    def hpos_vpos_font_words(self):
+        """
+        Iterate over strings.
+
+        :return: hpos and vpos of each word
+        :rtype: str or unicode
+        """
+        for _, hpos_vpos_font_word in self.scan_hpos_vpos_font_words():
+            yield hpos_vpos_font_word
 
     def images(self):
         """
