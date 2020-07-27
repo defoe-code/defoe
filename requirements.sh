@@ -13,7 +13,7 @@ conda install --yes pathlib
 
 conda install -c conda-forge spacy
 python -m spacy download en
-python -m spacy download en_core_web_md
+python -m spacy download en_core_web_lg
 
 #conda install --yes pip git
 #pip install git+https://github.com/alan-turing-institute/defoe.git
