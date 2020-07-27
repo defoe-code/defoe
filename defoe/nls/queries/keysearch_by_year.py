@@ -43,6 +43,12 @@ def do_query(archives, config_file=None, logger=None, context=None):
     """
     with open(config_file, "r") as f:
         config = yaml.load(f)
+    defoe_path = config["defoe_path"]
+    os = config["os"]
+    if os == "linux":
+        os = "sys-i386-64"
+    else:
+        os= "sys-i386-snow-leopard"
     preprocess_type = query_utils.extract_preprocess_word_type(config)
     data_file = query_utils.extract_data_file(config,
                                               os.path.dirname(config_file))
@@ -67,7 +73,7 @@ def do_query(archives, config_file=None, logger=None, context=None):
     
     clean_pages = documents.flatMap(
         lambda year_document: [(year_document[0], 
-                                    clean_page_as_string(page)) 
+                                    clean_page_as_string(page, defoe_path, os)) 
                                        for page in year_document[1]])
     pages = clean_pages.flatMap(
         lambda cl_page: [(cl_page[0], 
