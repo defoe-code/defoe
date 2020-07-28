@@ -3,6 +3,7 @@ Query-related utility functions and types.
 """
 
 import os
+import time
 import subprocess
 import re
 import enum
@@ -260,11 +261,12 @@ def preprocess_word(word, preprocess_type=PreprocessWordType.NONE):
     return preprocessed_word
 
 def longsfix_sentence(sentence, defoe_path, os):
+
     if "'" in sentence:
         sentence=sentence.replace("'", "\'\\\'\'")
-
-    cmd = 'printf \'%s\' \''+ sentence + '\' | '+ defoe_path + 'defoe/long_s_fix/' + os + '/lxtransduce -l spelling='+ defoe_path+ 'defoe/long_s_fix/f-to-s.lex '+ defoe_path+ 'defoe/long_s_fix/fix-spelling.gr'
     
+    cmd = 'printf \'%s\' \''+ sentence + '\' | '+ defoe_path + 'defoe/long_s_fix/' + os + '/lxtransduce -l spelling='+ defoe_path+ 'defoe/long_s_fix/f-to-s.lex '+ defoe_path+ 'defoe/long_s_fix/fix-spelling.gr'
+
     try:
         proc=subprocess.Popen(cmd.encode('utf-8'), shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         stdout, stderr = proc.communicate()
@@ -283,7 +285,6 @@ def longsfix_sentence(sentence, defoe_path, os):
         fix_final=re.sub('fs', 'ss', fix_s)
     else:
         fix_final = fix_s
-
     return fix_final
 
 def spacy_nlp(text, lang_model):
@@ -384,8 +385,7 @@ def georesolve_cmd(in_xml, defoe_path, gazetter, bounding_box):
         in_xml=in_xml.replace("'", "\'\\\'\'")
     
     cmd = 'printf \'%s\' \''+ in_xml + '\' | '+ defoe_path + 'georesolve/scripts/geoground -g ' + gazetter + ' ' +bounding_box + ' -top'
-   
-    while (len(georesolve_xml) < 5) and (atempt < 10000) and (flag == 1): 
+    while (len(georesolve_xml) < 5) and (atempt < 100000) and (flag == 1):
         proc=subprocess.Popen(cmd.encode('utf-8'), shell=True,
                                stdin=subprocess.PIPE,
                                stdout=subprocess.PIPE,
@@ -495,8 +495,8 @@ def geoparser_cmd(text, defoe_path, os, gazetter, bounding_box):
    
     cmd = 'echo \'%s\' \''+ text + '\' | '+ defoe_path + 'geoparser-v1.1/scripts/run -t plain -g ' + gazetter + ' ' + bounding_box + ' -top | ' + defoe_path+ 'georesolve/bin/'+ os + '/lxreplace -q s | '+ defoe_path + 'geoparser-v1.1/bin/'+ os +'/lxt -s '+ defoe_path+'geoparser-v1.1/lib/georesolve/addfivewsnippet.xsl'
 
-
-    while (len(geoparser_xml) < 5) and (atempt < 10000) and (flag == 1): 
+    
+    while (len(geoparser_xml) < 5) and (atempt < 100000) and (flag == 1):
         proc=subprocess.Popen(cmd.encode('utf-8'), shell=True,
                                stdin=subprocess.PIPE,
                                stdout=subprocess.PIPE,
