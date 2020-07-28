@@ -385,7 +385,7 @@ def georesolve_cmd(in_xml, defoe_path, gazetter, bounding_box):
         in_xml=in_xml.replace("'", "\'\\\'\'")
     
     cmd = 'printf \'%s\' \''+ in_xml + '\' | '+ defoe_path + 'georesolve/scripts/geoground -g ' + gazetter + ' ' +bounding_box + ' -top'
-    while (len(georesolve_xml) < 5) and (atempt < 100000) and (flag == 1):
+    while (len(georesolve_xml) < 5) and (atempt < 5000) and (flag == 1):
         proc=subprocess.Popen(cmd.encode('utf-8'), shell=True,
                                stdin=subprocess.PIPE,
                                stdout=subprocess.PIPE,
@@ -398,7 +398,6 @@ def georesolve_cmd(in_xml, defoe_path, gazetter, bounding_box):
             georesolve_xml =  ''
         else:
             georesolve_xml = stdout
-        atempt= atempt + 1
        
     
     return georesolve_xml
@@ -482,7 +481,6 @@ def geomap_cmd(in_xml, defoe_path, os, gazetter, bounding_box):
                                stderr=subprocess.PIPE)
         proc.terminate()
         geomap_html = proc.communicate(timeout=100)[0]
-        atempt= atempt + 1
     return geomap_html.decode("utf-8")
 
 
@@ -496,7 +494,7 @@ def geoparser_cmd(text, defoe_path, os, gazetter, bounding_box):
     cmd = 'echo \'%s\' \''+ text + '\' | '+ defoe_path + 'geoparser-v1.1/scripts/run -t plain -g ' + gazetter + ' ' + bounding_box + ' -top | ' + defoe_path+ 'georesolve/bin/'+ os + '/lxreplace -q s | '+ defoe_path + 'geoparser-v1.1/bin/'+ os +'/lxt -s '+ defoe_path+'geoparser-v1.1/lib/georesolve/addfivewsnippet.xsl'
 
     
-    while (len(geoparser_xml) < 5) and (atempt < 100000) and (flag == 1):
+    while (len(geoparser_xml) < 5) and (atempt < 5000) and (flag == 1):
         proc=subprocess.Popen(cmd.encode('utf-8'), shell=True,
                                stdin=subprocess.PIPE,
                                stdout=subprocess.PIPE,
@@ -508,7 +506,6 @@ def geoparser_cmd(text, defoe_path, os, gazetter, bounding_box):
             print("err: '{}'".format(stderr))
         else:
             geoparser_xml = stdout
-        atempt+=1
     return geoparser_xml
 
 def geoparser_coord_xml(geo_xml):
