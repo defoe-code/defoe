@@ -44,15 +44,13 @@
 # Installing the Geoparser + Georesolve tools inside defoe 
 - wget http://homepages.inf.ed.ac.uk/grover/rosa/georesolve.tgz
 - cp georesolve.tgz defoe/.
-- gsutil cp gs://text_data_mining_defoe/geoparser-march2016.tar.gz defoe/.
+- Follow the necesary steps to download the [Edinburgh Geoparser](https://www.inf.ed.ac.uk/research/isdd/admin/package?view=1&id=187) 
 - cd $HOME/defoe
 - tar -zxvf geoparser-march2016.tar.gz
 - tar -zxvf georesolve.tgz
 - **zip -r defoe.zip defoe**
 
-**Note**: defoe assumes that **geoparser-v1.1** and **georesolve** directories are in:
-      - XXX/defoe/geoparser-v1.1
-      - XXX/defoe/georesolve
+**Note**: defoe assumes that **geoparser-v1.1** and **georesolve** directories are in: *XXX/defoe/geoparser-v1.1* and *XXX/defoe/georesolve*
    - *XXX* is the path were you clone the defoe repository (e.g. $HOME)
  
 # Datasets and sg_sample.txt 
@@ -62,7 +60,7 @@
 - wget https://nlsfoundry.s3.amazonaws.com/data/nls-data-gazetteersOfScotland.zip
 - unzip nls-data-gazetteersOfScotland.zip "*.xml"
 - cd $HOME/defoe
-- cat home/rosa_filgueira_vicente/datasets/nls-data-gazetteersOfScotland/97437554 > sg_sample.txt
+- **echo home/rosa_filgueira_vicente/datasets/nls-data-gazetteersOfScotland/97437554 > sg_sample.txt**
 
 # Testing Spark with an example
 - $SPARK_HOME/bin/spark-submit --class org.apache.spark.examples.SparkPi  --master spark://$hostmaster:7077 --executor-memory 20G --total-executor-cores 34  $SPARK_HOME/examples/jars/spark-examples_2.11-2.4.6.jar 1000
@@ -82,9 +80,9 @@
       - defoe_path: /home/rosa_filgueira_vicente/defoe/
       - os : linux
       
-- NOTE: The file **addfivewsnippet.xsl** stylesheet it is necesary. It should be placed in:
-      - defoe_path+ geoparser-v1.1/lib/georesolve/addfivewsnippet.xsl
-      - a copy of this stylesheet can be found in defoe/others --> make sure that you take this copy and put it in defoe_path+ geoparser-v1.1/lib/georesolve/
+- **IMPORTANT**: The file **addfivewsnippet.xsl** stylesheet it is necesary (not included in the original geoparser source code):
+   - A copy of this stylesheet (and others sytlesheets) can be found in [defoe/others](https://github.com/defoe-code/defoe/blob/master/others/addfivewsnippet.xsl)
+      -  Make sure that you take a copy of this *addfivewsnippet.xsl* and put it inside your *defoe_path+ geoparser-v1.1/lib/georesolve/.* . Otherwise you will get an error while running this query. 
 
 - **zip -r defoe.zip defoe**
 - spark-submit --py-files defoe.zip defoe/run_query.py sg_sample.txt nls defoe.nls.queries.geoparser_pages queries/geoparser.yml -r geoparser_sample_results -n 34
