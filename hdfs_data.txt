@@ -1,1 +1,0 @@
-hdfs:///user/at003/rosa/nls_demo.csv
