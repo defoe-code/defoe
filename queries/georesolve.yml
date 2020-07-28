@@ -1,5 +1,5 @@
 lang_model: en_core_web_lg
 gazetter: os
 bounding_box: -lb -7.54296875, 54.689453125, -0.774267578125, 60.8318847656 2
-defoe_path: /Users/rosafilgueira/EPCC/TDM/CDS/defoe-code/defoe/
-os : mac
+defoe_path: /home/rosa_filgueira_vicente/defoe/
+os : linux
