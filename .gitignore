@@ -81,5 +81,9 @@ defoe.zip
 error.yml
 
 #Geoparser
-geoparser-v1.1/* 
-georesolve/* 
+geoparser-v1.1/
+georesolve/
+defoe/long_s_fix/*
+defoe/test_geoparser/*
+queries/geoparser.yml
+queries/georesolve.yml
