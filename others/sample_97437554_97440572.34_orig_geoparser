@@ -1,0 +1,330 @@
+1842:
+- archive: /home/rosa_filgueira_vicente/datasets/sg_simple_sample/97437554/
+  edition: 1842, Volume 1
+  georesolution_page:
+    Annan-rb17:
+      in-cc: ''
+      lat: '54.98656134974328'
+      long: '-3.259540348679'
+      pop: ''
+      snippet: is 8 miles north-west of Annan , and commands a fine
+      type: ppl
+    Annan-rb18:
+      in-cc: ''
+      lat: '54.98656134974328'
+      long: '-3.259540348679'
+      pop: ''
+      snippet: valley is washed by the Annan , and lies open from
+      type: ppl
+    BRUIACH-rb12:
+      in-cc: ''
+      lat: '57.41188384042584'
+      long: '-4.507104894374127'
+      pop: ''
+      snippet: the village of Limekilns , BRUIACH ( Loch ) , a
+      type: water
+    BUCHAN-rb39:
+      in-cc: ''
+      lat: '57.53342861784898'
+      long: '-2.287879686311643'
+      pop: ''
+      snippet: created Duchess of Buccleuch . BUCHAN , a district of Aberdeenshire
+      type: civil
+    BUCHANAN-rb50:
+      in-cc: ''
+      lat: '56.07361200974974'
+      long: '-4.467690969646826'
+      pop: ''
+      snippet: of the Highland Society . BUCHANAN , * a parish in
+      type: ppl
+    Birrenswark-rb15:
+      in-cc: ''
+      lat: ''
+      long: ''
+      pop: ''
+      snippet: ', Brj RNSWARK , or Birrenswark , a hill in Dumfries-shire'
+      type: ''
+    Blair-rb4:
+      in-cc: ''
+      lat: '56.16705397720696'
+      long: '-4.043510720400392'
+      pop: ''
+      snippet: the country , coming to Blair , should omit seeing the
+      type: ppl
+    Bruar-rb5:
+      in-cc: ''
+      lat: '56.76622667643958'
+      long: '-3.923890851472196'
+      pop: ''
+      snippet: omit seeing the falls of Bruar . It must be confessed
+      type: ppl
+    Bruar-rb9:
+      in-cc: ''
+      lat: '56.76622667643958'
+      long: '-3.923890851472196'
+      pop: ''
+      snippet: the abrupt banks of the Bruar . Fed by a constant
+      type: ppl
+    Buchan-rb46:
+      in-cc: ''
+      lat: '57.53342861784898'
+      long: '-2.287879686311643'
+      pop: ''
+      snippet: towns within the district . Buchan once formed a county of
+      type: civil
+    Buchanan-rb58:
+      in-cc: ''
+      lat: '56.08083356231877'
+      long: '-4.502050497056265'
+      pop: ''
+      snippet: glen — which be * Buchanan was formerly called Iiiclicailloch ,
+      type: ppl
+    Buchanan-rb63:
+      in-cc: ''
+      lat: '56.08083356231877'
+      long: '-4.502050497056265'
+      pop: ''
+      snippet: church near the house of Buchanan , which was originally a
+      type: ppl
+    Criffel-rb24:
+      in-cc: ''
+      lat: '54.94617001334219'
+      long: '-3.632989458607651'
+      pop: ''
+      snippet: your attention . The lowering Criffel , on the Scottish side
+      type: mtn
+    Cumberland-rb22:
+      in-cc: ''
+      lat: '51.4342921249674'
+      long: '-0.6131610294930387'
+      pop: ''
+      snippet: all the low country of Cumberland lies full before you ,
+      type: fac
+    Cummins-rb47:
+      in-cc: ''
+      lat: '50.82622541736623'
+      long: '-3.059116355793388'
+      pop: ''
+      snippet: in the chief of the Cummins , until their forfeiture in
+      type: fac
+    Deveron-rb41:
+      in-cc: ''
+      lat: '57.51627528548713'
+      long: '-2.594254508799711'
+      pop: ''
+      snippet: the Ythan nearly to the Deveron , a distance of above
+      type: water
+    Dumfries-rb25:
+      in-cc: ''
+      lat: '55.05154385860163'
+      long: '-4.038136834278468'
+      pop: ''
+      snippet: the less level country about Dumfries . The frith of Solway
+      type: civila
+    Ellon district-rb43:
+      in-cc: ''
+      lat: '57.36674298919107'
+      long: '-2.083139588433166'
+      pop: ''
+      snippet: what is frequently called the Ellon district . The principal elevation
+        is
+      type: ppl
+    Fifeshire-rb11:
+      in-cc: ''
+      lat: ''
+      long: ''
+      pop: ''
+      snippet: the parish of Dunfermline , Fifeshire , adjoining the village of
+      type: ''
+    Hawick-rb32:
+      in-cc: ''
+      lat: '55.42777153541493'
+      long: '-2.78299728975397'
+      pop: ''
+      snippet: miles west by south of Hawick . Buccleuch gives the title
+      type: ppl
+    Inverness-shire-rb13:
+      in-cc: ''
+      lat: ''
+      long: ''
+      pop: ''
+      snippet: ) , a lake in Inverness-shire , in the parish of
+      type: ''
+    Langholm-rb27:
+      in-cc: ''
+      lat: '55.1506172160711'
+      long: '-3.013630994658838'
+      pop: ''
+      snippet: the prospect ; appearing near Langholm as a moderate river ,
+      type: ppl
+    Loch Katrine-rb53:
+      in-cc: ''
+      lat: '56.2518236740025'
+      long: '-4.543729173281268'
+      pop: ''
+      snippet: the north by Perthshire and Loch Katrine ; on the west by
+      type: water
+    Loch Lomond-rb56:
+      in-cc: ''
+      lat: '56.15787745800059'
+      long: '-4.617164231628447'
+      pop: ''
+      snippet: of its western side by Loch Lomond . The parish of Buchanan
+      type: water
+    Moffat-rb19:
+      in-cc: ''
+      lat: '55.33500037938524'
+      long: '-3.443992621819291'
+      pop: ''
+      snippet: ', and lies open from Moffat to the Sol way frith'
+      type: ppl
+    Northumberland-rb20:
+      in-cc: ''
+      lat: '55.29554114759258'
+      long: '-2.075455100461532'
+      pop: ''
+      snippet: far into the wilds of Northumberland , about the heads of
+      type: civila
+    Perthshire-rb52:
+      in-cc: ''
+      lat: '56.30762720825898'
+      long: '-3.748935456206618'
+      pop: ''
+      snippet: bounded on the north by Perthshire and Loch Katrine ; on
+      type: civil
+    Perthshire-rb54:
+      in-cc: ''
+      lat: '56.30762720825898'
+      long: '-3.748935456206618'
+      pop: ''
+      snippet: ; on the west by Perthshire and the parish of Drymen
+      type: civil
+    Selkirk-rb29:
+      in-cc: ''
+      lat: '55.54736419488751'
+      long: '-2.833625258695115'
+      pop: ''
+      snippet: ', in the shire of Selkirk , an ancient parish now'
+      type: ppl
+    Skiddaw-rb23:
+      in-cc: ''
+      lat: '54.65521386285261'
+      long: '-3.140762891631924'
+      pop: ''
+      snippet: ', among which the lofty Skiddaw , towering pre-eminent , forces'
+      type: mtn
+    Solway-rb26:
+      in-cc: ''
+      lat: '54.9524600977224'
+      long: '-3.210910462113083'
+      pop: ''
+      snippet: Dumfries . The frith of Solway adorns the middle of the
+      type: ppl
+    Stirlingshire-rb51:
+      in-cc: ''
+      lat: ''
+      long: ''
+      pop: ''
+      snippet: in the western extremity of Stirlingshire ; bounded on the north
+      type: ''
+    Tyne-rb21:
+      in-cc: ''
+      lat: ''
+      long: ''
+      pop: ''
+      snippet: about the heads of south Tyne ; all the low country
+      type: ''
+    district of Aberdeenshire-rb40:
+      in-cc: ''
+      lat: '57.21923117162595'
+      long: '-2.801013003249016'
+      pop: ''
+      snippet: Buccleuch . BUCHAN , a district of Aberdeenshire , extending along
+        the coast
+      type: civila
+    district of Buchan Proper-rb42:
+      in-cc: ''
+      lat: ''
+      long: ''
+      pop: ''
+      snippet: which 13 are in the district of Buchan Proper , sometimes called Deer
+        ;
+      type: ''
+    parish of Buchanan-rb57:
+      in-cc: ''
+      lat: '56.07361200974974'
+      long: '-4.467690969646826'
+      pop: ''
+      snippet: by Loch Lomond . The parish of Buchanan has been reckoned 20 miles
+      type: ppl
+    parish of Buchanan-rb65:
+      in-cc: ''
+      lat: '56.07361200974974'
+      long: '-4.467690969646826'
+      pop: ''
+      snippet: degrees to be called the parish of Buchanan . Inckcaillocft signifies
+        ' the
+      type: ppl
+    parish of Drymen-rb55:
+      in-cc: ''
+      lat: '56.06606239854231'
+      long: '-4.450548267873467'
+      pop: ''
+      snippet: west by Perthshire and the parish of Drymen ; on the south by
+      type: ppl
+    parish of Dunfermline-rb10:
+      in-cc: ''
+      lat: '56.0671301590831'
+      long: '-3.45338425189465'
+      pop: ''
+      snippet: a small village in the parish of Dunfermline , Fifeshire , adjoining
+        the
+      type: ppl
+    parish of Etterick-rb31:
+      in-cc: ''
+      lat: ''
+      long: ''
+      pop: ''
+      snippet: parish now comprehended in the parish of Etterick . It is 13 miles
+      type: ''
+    parish of Hoddam-rb16:
+      in-cc: ''
+      lat: ''
+      long: ''
+      pop: ''
+      snippet: the north-east corner of the parish of Hoddam , rising to 740 feet
+      type: ''
+    parish of Iiiclicailloch-rb61:
+      in-cc: ''
+      lat: ''
+      long: ''
+      pop: ''
+      snippet: — was annexed to the parish of Iiiclicailloch . S " ine years
+      type: ''
+    parish of Kiltarlity-rb14:
+      in-cc: ''
+      lat: '57.43913617990061'
+      long: '-4.492305442839108'
+      pop: ''
+      snippet: in Inverness-shire , in the parish of Kiltarlity ; about 2 miles long
+      type: ppl
+    parish of Luss-rb64:
+      in-cc: ''
+      lat: '56.0968796243135'
+      long: '-4.646056768598556'
+      pop: ''
+      snippet: originally a rliapel-uf-ease to tile parish of Luss . From this chapel
+        —
+      type: ppl
+    parish of Luss—at-rb60:
+      in-cc: ''
+      lat: ''
+      long: ''
+      pop: ''
+      snippet: 'a considerable part of the parish of Luss—at that time extending :
+        on'
+      type: ''
+  lang_model: geoparser_original
+  page_filename: alto/97440572.34.xml
+  text_unit id: Page252
+  title: topographical, statistical, and historical gazetteer of Scotland

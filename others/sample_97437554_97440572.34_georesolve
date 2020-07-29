@@ -1,0 +1,197 @@
+1842:
+- archive: /home/rosa_filgueira_vicente/datasets/sg_simple_sample/97437554/
+  edition: 1842, Volume 1
+  georesolution_page:
+    Aberdeenshire-19:
+      in-cc: ''
+      lat: '57.21923117162595'
+      long: '-2.801013003249016'
+      pop: ''
+      snippet: 'BUCHAN , a district of Aberdeenshire , extending along the coast '
+      type: civila
+    Cumberland-12:
+      in-cc: ''
+      lat: '51.4342921249674'
+      long: '-0.6131610294930387'
+      pop: ''
+      snippet: 'all the low country of Cumberland lies full before you , '
+      type: fac
+    Dumfries-15:
+      in-cc: ''
+      lat: '55.05154385860163'
+      long: '-4.038136834278468'
+      pop: ''
+      snippet: 'the less level country about Dumfries . The frith of Solway '
+      type: civila
+    Dumfries-6:
+      in-cc: ''
+      lat: '55.05154385860163'
+      long: '-4.038136834278468'
+      pop: ''
+      snippet: 'Birrenswark , a hill in Dumfries - shire , in the '
+      type: civila
+    Dunfermline-1:
+      in-cc: GB
+      lat: '56.07191979883905'
+      long: '-3.439302694198069'
+      pop: '38960'
+      snippet: 'village in the parish of Dunfermline , Fifeshire , adjoining the '
+      type: ppl
+    Endrick-26:
+      in-cc: ''
+      lat: '56.06803963823026'
+      long: '-4.290599013067594'
+      pop: ''
+      snippet: 'it is separated by the Endrick river ; and along the '
+      type: water
+    Glendow-30:
+      in-cc: ''
+      lat: '55.2591800588164'
+      long: '-2.921986034913747'
+      pop: ''
+      snippet: 'which runs down Glenguoi into Glendow , and by the addition '
+      type: water
+    Hawick-17:
+      in-cc: ''
+      lat: '55.43087886526603'
+      long: '-2.783760603318087'
+      pop: ''
+      snippet: 'miles west by south of Hawick . Buccleuch gives the title '
+      type: ppl
+    Iiiclicailloch-33:
+      in-cc: ''
+      lat: ''
+      long: ''
+      pop: ''
+      snippet: 'walls of the church in Iiiclicailloch sailing , and the people '
+      type: ''
+    Inverness-3:
+      in-cc: GB
+      lat: '57.48002610869703'
+      long: '-4.228174771173068'
+      pop: '40755'
+      snippet: ') , a lake in Inverness - shire , in the '
+      type: ppl
+    Katrine-23:
+      in-cc: ''
+      lat: '56.2518236740025'
+      long: '-4.543729173281268'
+      pop: ''
+      snippet: 'north by Perthshire and Loch Katrine ; on the west by '
+      type: water
+    Limekilns-2:
+      in-cc: ''
+      lat: '56.035422264704'
+      long: '-3.486093872770489'
+      pop: ''
+      snippet: ', adjoining the village of Limekilns , BRUIACH ( Loch ) '
+      type: ppl
+    Loch-22:
+      in-cc: ''
+      lat: '56.91810468600922'
+      long: '-3.319697840939822'
+      pop: ''
+      snippet: 'the north by Perthshire and Loch Katrine ; on the west '
+      type: water
+    Loch-28:
+      in-cc: ''
+      lat: '56.91810468600922'
+      long: '-3.319697840939822'
+      pop: ''
+      snippet: 'of its western side by Loch Lomond . The parish of '
+      type: water
+    Lomond-29:
+      in-cc: ''
+      lat: '56.14486225325957'
+      long: '-3.345455391015449'
+      pop: ''
+      snippet: 'its western side by Loch Lomond . The parish of Buchanan '
+      type: mtn
+    Monmouth-18:
+      in-cc: ''
+      lat: '51.81580700853871'
+      long: '-2.712383157940526'
+      pop: ''
+      snippet: '1663 , the Duke of Monmouth , marrying Anne , Countess '
+      type: ppl
+    Northumberland-9:
+      in-cc: ''
+      lat: '55.29554114759258'
+      long: '-2.075455100461532'
+      pop: ''
+      snippet: 'far into the wilds of Northumberland , about the heads of '
+      type: civila
+    Perthshire-21:
+      in-cc: ''
+      lat: '56.30454225727337'
+      long: '-3.733830145157124'
+      pop: ''
+      snippet: 'bounded on the north by Perthshire and Loch Katrine ; on '
+      type: civil
+    Perthshire-24:
+      in-cc: ''
+      lat: '56.30454225727337'
+      long: '-3.733830145157124'
+      pop: ''
+      snippet: '; on the west by Perthshire and the parish of Drymen '
+      type: civil
+    Selkirk-16:
+      in-cc: ''
+      lat: '55.54736419488751'
+      long: '-2.833625258695115'
+      pop: ''
+      snippet: ', in the shire of Selkirk , an ancient parish now '
+      type: ppl
+    Skiddaw-14:
+      in-cc: ''
+      lat: '54.65535884210514'
+      long: '-3.125266301690573'
+      pop: ''
+      snippet: ', among which the lofty Skiddaw , towering pre - eminent '
+      type: rgn
+    Ythan-20:
+      in-cc: ''
+      lat: '57.44484971358336'
+      long: '-2.493131783801023'
+      pop: ''
+      snippet: 'the coast , from the Ythan nearly to the Deveron , '
+      type: water
+    river-27:
+      in-cc: ''
+      lat: '52.80767928121318'
+      long: '0.4831052654914764'
+      pop: ''
+      snippet: 'is separated by the Endrick river ; and along the whole '
+      type: water
+    shire-5:
+      in-cc: ''
+      lat: '52.6382195905499'
+      long: '-1.920160269602933'
+      pop: ''
+      snippet: 'a lake in Inverness - shire , in the parish of '
+      type: ppl
+    south-10:
+      in-cc: ''
+      lat: '54.99175552394924'
+      long: '-1.431070203716847'
+      pop: ''
+      snippet: ', about the heads of south Tyne ; all the low '
+      type: ppl
+    the-25:
+      in-cc: ''
+      lat: '55.18085771425'
+      long: '-1.522599615937569'
+      pop: ''
+      snippet: 'which it is separated by the Endrick river ; and along '
+      type: ppl
+    valley-8:
+      in-cc: ''
+      lat: '53.34706993280712'
+      long: '-1.438168225448533'
+      pop: ''
+      snippet: 'the west , all the valley is washed by the Annan '
+      type: ppl
+  lang_model: en_core_web_lg
+  page_filename: alto/97440572.34.xml
+  text_unit id: Page252
+  title: topographical, statistical, and historical gazetteer of Scotland
