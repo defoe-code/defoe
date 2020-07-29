@@ -85,7 +85,7 @@ cd $HOME
 mkdir datasets
 cd datasets/
 ```
-### Scottish Gazetteer (SG) - Size: 2.7GB
+### Scottish Gazetteers (SG) - Size: 2.7GB
 
 ```
 wget https://nlsfoundry.s3.amazonaws.com/data/nls-data-gazetteersOfScotland.zip
@@ -148,7 +148,7 @@ cd $HOME/defoe
 spark-submit --py-files defoe.zip defoe/run_query.py sg_sample.txt nls defoe.nls.queries.normalize -r results_norm_gaz -n 34
 ```
 
-The result of the query will a file called *results_norm_gaz* with this:
+The result of the query will be a new file called *results_norm_gaz* inside your *defoe_path* with this information:
 ```
 1842:
 - 1
@@ -230,7 +230,7 @@ Change queries/georesolve.yml according to your needs:
 
 Furthermore, any future changes about *how to call to the georesolve tool* have to be made in [georesolve_cmd function - Line 380](https://github.com/defoe-code/defoe/blob/master/defoe/query_utils.py). 
 
-### Using the SG sample dataset (one gazetter):
+### Using the SG sample dataset (one gazetteer):
 
 We are going to use the *sg_sample.txt* file created before. Remember that *sg_sample.txt* needs to be placed in your *defoe_path*. 
 
