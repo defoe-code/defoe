@@ -276,7 +276,6 @@ def longsfix_sentence(sentence, defoe_path, os):
             stdout_value = sentence
         else:
              stdout_value = stdout
-        proc.terminate()
     
         fix_s= stdout_value.decode('utf-8').split('\n')[0]
     except:
@@ -385,12 +384,11 @@ def georesolve_cmd(in_xml, defoe_path, gazetteer, bounding_box):
         in_xml=in_xml.replace("'", "\'\\\'\'")
     
     cmd = 'printf \'%s\' \''+ in_xml + '\' | '+ defoe_path + 'georesolve/scripts/geoground -g ' + gazetteer + ' ' +bounding_box + ' -top'
-    while (len(georesolve_xml) < 5) and (atempt < 5000) and (flag == 1):
+    while (len(georesolve_xml) < 5) and (atempt < 10) and (flag == 1):
         proc=subprocess.Popen(cmd.encode('utf-8'), shell=True,
                                stdin=subprocess.PIPE,
                                stdout=subprocess.PIPE,
                                stderr=subprocess.PIPE)
-        proc.terminate()
         stdout, stderr = proc.communicate()
         if "Error" in str(stderr):
             flag = 0
@@ -398,8 +396,7 @@ def georesolve_cmd(in_xml, defoe_path, gazetteer, bounding_box):
             georesolve_xml =  ''
         else:
             georesolve_xml = stdout
-       
-    
+        atempt += 1
     return georesolve_xml
 
 def coord_xml(geo_xml):
@@ -474,13 +471,13 @@ def geomap_cmd(in_xml, defoe_path, os, gazetteer, bounding_box):
         in_xml=in_xml.replace("'", "\'\\\'\'")
     cmd = 'printf \'%s\' \''+ in_xml + ' \' | ' + defoe_path+ 'georesolve/scripts/geoground -g ' + gazetteer + ' ' +bounding_box + ' -top | ' + defoe_path + 'georesolve/bin/' + os + '/lxt -s ' + defoe_path + 'georesolve/lib/georesolve/gazmap-leaflet.xsl'
 
-    while (len(geomap_html) < 5) and (atempt < 100): 
+    while (len(geomap_html) < 5) and (atempt < 10): 
         proc=subprocess.Popen(cmd.encode('utf-8'), shell=True,
                                stdin=subprocess.PIPE,
                                stdout=subprocess.PIPE,
                                stderr=subprocess.PIPE)
-        proc.terminate()
         geomap_html = proc.communicate(timeout=100)[0]
+        atempt+= 1
     return geomap_html.decode("utf-8")
 
 
@@ -494,18 +491,18 @@ def geoparser_cmd(text, defoe_path, os, gazetteer, bounding_box):
     cmd = 'echo \'%s\' \''+ text + '\' | '+ defoe_path + 'geoparser-v1.1/scripts/run -t plain -g ' + gazetteer + ' ' + bounding_box + ' -top | ' + defoe_path+ 'georesolve/bin/'+ os + '/lxreplace -q s | '+ defoe_path + 'geoparser-v1.1/bin/'+ os +'/lxt -s '+ defoe_path+'geoparser-v1.1/lib/georesolve/addfivewsnippet.xsl'
 
     
-    while (len(geoparser_xml) < 5) and (atempt < 5000) and (flag == 1):
+    while (len(geoparser_xml) < 5) and (atempt < 10) and (flag == 1):
         proc=subprocess.Popen(cmd.encode('utf-8'), shell=True,
                                stdin=subprocess.PIPE,
                                stdout=subprocess.PIPE,
                                stderr=subprocess.PIPE)
-        proc.terminate()
         stdout, stderr = proc.communicate()
         if "Error" in str(stderr):
             flag = 0
             print("err: '{}'".format(stderr))
         else:
             geoparser_xml = stdout
+        atempt+= 1
     return geoparser_xml
 
 def geoparser_coord_xml(geo_xml):
