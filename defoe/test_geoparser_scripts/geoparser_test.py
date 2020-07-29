@@ -11,6 +11,7 @@ gazetteer = "os"
 bounding_box = " -lb -7.54296875, 54.689453125, -0.774267578125, 60.8318847656 2 "
 
 def geoparser_cmd(text):
+    atempt= 0
     flag = 1
     geoparser_xml = ''
     if "'" in text:
