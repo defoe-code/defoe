@@ -32,7 +32,7 @@ def do_query(archives, config_file=None, logger=None, context=None):
         config = yaml.load(f)
     
     lang_model = config["lang_model"]
-    gazetter = config["gazetter"]
+    gazetteer = config["gazetteer"]
     bounding_box = config["bounding_box"]
     defoe_path = config["defoe_path"]
     os = config["os"]
@@ -57,7 +57,7 @@ def do_query(archives, config_file=None, logger=None, context=None):
           "page_filename": geo_page[4],
           "text_unit id": geo_page[5],
           "lang_model": lang_model, 
-          "georesolution_page": georesolve_page_2(geo_page[6],lang_model, defoe_path, gazetter, bounding_box)}))
+          "georesolution_page": georesolve_page_2(geo_page[6],lang_model, defoe_path, gazetteer, bounding_box)}))
     
     result = matching_pages \
         .groupByKey() \

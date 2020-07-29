@@ -315,13 +315,13 @@ def preprocess_clean_page_spacy(clean_page):
     return page_nlp_spacy
 
 
-def georesolve_page_2(text, lang_model, defoe_path, gazetter, bounding_box):
+def georesolve_page_2(text, lang_model, defoe_path, gazetteer, bounding_box):
     nlp = spacy.load(lang_model)
     doc = nlp(text)
     if doc.ents:
         flag,in_xml, snippet = xml_geo_entities_snippet(doc)
         if flag == 1:
-            geo_xml=georesolve_cmd(in_xml, defoe_path, gazetter, bounding_box)
+            geo_xml=georesolve_cmd(in_xml, defoe_path, gazetteer, bounding_box)
             dResolved_loc= coord_xml_snippet(geo_xml, snippet)
             return dResolved_loc
         else:
@@ -341,8 +341,8 @@ def georesolve_page(doc):
     else:
         return {}
 
-def geoparser_page(text, defoe_path, os, gazetter, bounding_box ):
-    geo_xml=geoparser_cmd(text, defoe_path, os, gazetter, bounding_box)
+def geoparser_page(text, defoe_path, os, gazetteer, bounding_box ):
+    geo_xml=geoparser_cmd(text, defoe_path, os, gazetteer, bounding_box)
     dResolved_loc= geoparser_coord_xml(geo_xml)
     return dResolved_loc
 

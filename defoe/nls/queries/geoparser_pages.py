@@ -30,7 +30,7 @@ def do_query(archives, config_file=None, logger=None, context=None):
     """
     with open(config_file, "r") as f:
         config = yaml.load(f)
-    gazetter = config["gazetter"]
+    gazetteer = config["gazetteer"]
     bounding_box = config["bounding_box"]
     defoe_path = config["defoe_path"]
     os = config["os"]
@@ -52,7 +52,7 @@ def do_query(archives, config_file=None, logger=None, context=None):
 
     geo_xml_pages = pages_clean.flatMap(
         lambda clean_page: [(clean_page[0], clean_page[1], clean_page[2],\
-                               clean_page[3], clean_page[4], clean_page[5], query_utils.geoparser_cmd(clean_page[6], defoe_path, os, gazetter, bounding_box))])
+                               clean_page[3], clean_page[4], clean_page[5], query_utils.geoparser_cmd(clean_page[6], defoe_path, os, gazetteer, bounding_box))])
     
      
     matching_pages = geo_xml_pages.map(
