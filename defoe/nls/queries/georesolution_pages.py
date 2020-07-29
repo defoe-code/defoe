@@ -34,12 +34,17 @@ def do_query(archives, config_file=None, logger=None, context=None):
     lang_model = config["lang_model"]
     gazetteer = config["gazetteer"]
     bounding_box = config["bounding_box"]
-    defoe_path = config["defoe_path"]
-    os = config["os"]
-    if os == "linux":
-        os = "sys-i386-64"
+    if config["os"]:
+        if config["os"] == "linux":
+            os = "sys-i386-64"
+        else:
+            os= "sys-i386-snow-leopard"
     else:
-        os= "sys-i386-snow-leopard"
+            os = "sys-i386-64"
+    if config["defoe_path"] :
+        defoe_path = config["defoe_path"]
+    else:
+        defoe_path = "./"
     documents = archives.flatMap(
         lambda archive: [(document.year, document.title, document.edition, \
                           document.archive.filename, document) for document in list(archive)])
