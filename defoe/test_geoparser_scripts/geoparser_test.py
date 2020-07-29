@@ -2,8 +2,11 @@ import os
 import subprocess
 import re
 
+#change this according to your path
 defoe_path ="/home/rosa_filgueira_vicente/defoe/"
 os = "sys-i386-64"
+# Use the following value for os variable in case you are running this in a MAC
+#os= "sys-i386-snow-leopard"
 gazetteer = "os"
 bounding_box = " -lb -7.54296875, 54.689453125, -0.774267578125, 60.8318847656 2 "
 
