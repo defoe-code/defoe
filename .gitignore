@@ -73,7 +73,7 @@ log.txt
 lwm.zip
 results.yml
 results*
-log*
+log_*
 nls*
 tda*
 data.*
@@ -83,6 +83,3 @@ error.yml
 #Geoparser
 geoparser-v1.1/
 georesolve/
-defoe/test_geoparser/*
-queries/geoparser.yml
-queries/georesolve.yml
