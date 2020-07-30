@@ -33,7 +33,7 @@ def do_query(archives, config_file=None, logger=None, context=None):
     
     lang_model = config["lang_model"]
     gazetteer = config["gazetteer"]
-    if config["bounding_box"]:
+    if "bouding_box" in config:
         bounding_box = config["bounding_box"]
     else:
         bounding_box = ""
