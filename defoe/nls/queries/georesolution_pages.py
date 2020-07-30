@@ -33,7 +33,10 @@ def do_query(archives, config_file=None, logger=None, context=None):
     
     lang_model = config["lang_model"]
     gazetteer = config["gazetteer"]
-    bounding_box = config["bounding_box"]
+    if config["bounding_box"]:
+        bounding_box = config["bounding_box"]
+    else:
+        bounding_box = ""
     if config["os"]:
         if config["os"] == "linux":
             os = "sys-i386-64"
