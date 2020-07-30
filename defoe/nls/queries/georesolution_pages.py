@@ -37,14 +37,14 @@ def do_query(archives, config_file=None, logger=None, context=None):
         bounding_box = config["bounding_box"]
     else:
         bounding_box = ""
-    if config["os"]:
+    if "os" in config:
         if config["os"] == "linux":
             os = "sys-i386-64"
         else:
             os= "sys-i386-snow-leopard"
     else:
             os = "sys-i386-64"
-    if config["defoe_path"] :
+    if "defoe_path" in config :
         defoe_path = config["defoe_path"]
     else:
         defoe_path = "./"
