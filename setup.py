@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="defoe",
-    version="0.0.5",
+    version="0.0.6",
     author="ATI-SE",
     description="Analysis of historical books and newspapers data",
     keywords="text mining, historical, defoe, workflows",
@@ -15,7 +15,7 @@ setuptools.setup(
     packages=setuptools.find_packages(),
     entry_points={
         'console_scripts': [
-            'defoe_submit=defoe:defoe_submit:main',
+            'defoe_submit=defoe.defoe_submit:main',
         ]
     },
     classifiers=[

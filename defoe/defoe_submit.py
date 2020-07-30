@@ -61,10 +61,10 @@ def load_inputs(args):
         inputs["num_proc"] = args.num
         inputs["log_file"] = args.log_file
         if args.type == "simple":
-            inputs["process_type"]= "run_query.py"
+            inputs["process_type"]= "defoe/run_query.py"
         else:
-            inputs["process_type" ] ="run_queries.py"
-        inputs["query_name"]=inputs["collection"]+".queries."+inputs["query"]
+            inputs["process_type" ] ="defoe/run_queries.py"
+        inputs["query_name"]= "defoe." + inputs["collection"]+".queries."+inputs["query"]
     return inputs, err
         
 
@@ -76,10 +76,10 @@ def main():
     if err:
         print("Input file is needed: -f file containing input data")
     else:
-        cmd_zip="zip -r ../defoe.zip ../defoe"
+        cmd_zip="zip -r defoe.zip defoe"
         print(cmd_zip)
         os.system(cmd_zip)
-        cmd_spark="spark-submit --py-files ../defoe.zip "+ inputs["process_type"] + " " + inputs["data_file"]+ " " + inputs["collection"]+ " " + inputs["query_name"] + " " + inputs["config_file"] + " -r " + inputs["result_file"]  + " -n " + inputs["num_proc"] + " > "+ inputs["log_file"] 
+        cmd_spark="nohup spark-submit --py-files defoe.zip "+ inputs["process_type"] + " " + inputs["data_file"]+ " " + inputs["collection"]+ " " + inputs["query_name"] + " " + inputs["config_file"] + " -r " + inputs["result_file"]  + " -n " + inputs["num_proc"] + " > "+ inputs["log_file"] + " &"
 
         print(cmd_spark)
         os.system(cmd_spark)
