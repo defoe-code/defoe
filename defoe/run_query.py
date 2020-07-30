@@ -166,7 +166,8 @@ def main():
     results = do_query(ok_data, query_config_file, log, context)
     if results!="0":
         with open(results_file, "w") as f:
-            f.write(yaml.dump(dict(results), allow_unicode=True))
+             #f.write(yaml.dump(dict(results), allow_unicode=True))
+             f.write(yaml.safe_dump(dict(results)))
 
       
 
