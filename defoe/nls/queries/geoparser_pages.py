@@ -31,7 +31,7 @@ def do_query(archives, config_file=None, logger=None, context=None):
     with open(config_file, "r") as f:
         config = yaml.load(f)
     gazetteer = config["gazetteer"]
-    if "bouding_box" in config:
+    if "bounding_box" in config:
         bounding_box = config["bounding_box"]
     else:
         bounding_box = ""
