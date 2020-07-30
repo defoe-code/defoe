@@ -37,13 +37,13 @@ def do_query(archives, config_file=None, logger=None, context=None):
         bounding_box = config["bounding_box"]
     else:
         bounding_box = ""
-    if "os" in config:
-        if config["os"] == "linux":
-            os = "sys-i386-64"
+    if "os_type" in config:
+        if config["os_type"] == "linux":
+            os_type = "sys-i386-64"
         else:
-            os= "sys-i386-snow-leopard"
+            os_type= "sys-i386-snow-leopard"
     else:
-            os = "sys-i386-64"
+            os_type = "sys-i386-64"
     if "defoe_path" in config :
         defoe_path = config["defoe_path"]
     else:
@@ -54,7 +54,7 @@ def do_query(archives, config_file=None, logger=None, context=None):
     
     pages_clean = documents.flatMap(
         lambda year_document: [(year_document[0], year_document[1], year_document[2],\
-                                year_document[3], page.code, page.page_id, clean_page_as_string(page,defoe_path, os)) for page in year_document[4]])
+                                year_document[3], page.code, page.page_id, clean_page_as_string(page,defoe_path, os_type)) for page in year_document[4]])
 
     matching_pages = pages_clean.map(
         lambda geo_page:

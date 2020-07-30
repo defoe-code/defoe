@@ -1,5 +1,4 @@
 lang_model: en_core_web_lg
-gazetteer: os
-bounding_box: -lb -7.54296875, 54.689453125, -0.774267578125, 60.8318847656 2
+gazetteer: geonames
 defoe_path: /home/rosa_filgueira_vicente/defoe/
-os: linux
+os_type: linux
