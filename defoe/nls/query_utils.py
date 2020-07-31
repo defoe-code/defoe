@@ -205,7 +205,7 @@ def get_page_as_string(page,
     return page_string
 
 
-def clean_page_as_string(page, defoe_path, os):
+def clean_page_as_string(page, defoe_path, os_type):
         
     """
     Clean a page as a single string,
@@ -228,7 +228,7 @@ def clean_page_as_string(page, defoe_path, os):
     
     if (len(page_combined) > 1) and ('f' in page_combined): 
        
-       page_clean = longsfix_sentence(page_combined, defoe_path, os) 
+       page_clean = longsfix_sentence(page_combined, defoe_path, os_type) 
     else:
         page_clean= page_combined
 
@@ -341,8 +341,8 @@ def georesolve_page(doc):
     else:
         return {}
 
-def geoparser_page(text, defoe_path, os, gazetteer, bounding_box ):
-    geo_xml=geoparser_cmd(text, defoe_path, os, gazetteer, bounding_box)
+def geoparser_page(text, defoe_path, os_type, gazetteer, bounding_box ):
+    geo_xml=geoparser_cmd(text, defoe_path, os_type, gazetteer, bounding_box)
     dResolved_loc= geoparser_coord_xml(geo_xml)
     return dResolved_loc
 
