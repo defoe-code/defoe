@@ -4,11 +4,11 @@ import re
 
 #change this according to your path
 defoe_path ="/home/rosa_filgueira_vicente/defoe/"
-os = "sys-i386-64"
+os_type = "sys-i386-64"
 # Use the following value for os variable in case you are running this in a MAC
-#os= "sys-i386-snow-leopard"
-gazetteer = "os"
-bounding_box = " -lb -7.54296875, 54.689453125, -0.774267578125, 60.8318847656 2 "
+#os_type= "sys-i386-snow-leopard"
+gazetteer = "geonames"
+bounding_box = ""
 
 def geoparser_cmd(text):
     atempt= 0
@@ -17,7 +17,7 @@ def geoparser_cmd(text):
     if "'" in text:
         text=text.replace("'", "\'\\\'\'")
 
-    cmd = 'echo \'%s\' \''+ text + '\' | '+ defoe_path + 'geoparser-v1.1/scripts/run -t plain -g ' + gazetteer + ' '+ bounding_box + ' -top | ' + defoe_path+ 'georesolve/bin/'+ os + '/lxreplace -q s | '+ defoe_path + 'geoparser-v1.1/bin/'+ os +'/lxt -s '+ defoe_path+'geoparser-v1.1/lib/georesolve/addfivewsnippet.xsl'
+    cmd = 'echo \'%s\' \''+ text + '\' | '+ defoe_path + 'geoparser-v1.1/scripts/run -t plain -g ' + gazetteer + ' '+ bounding_box + ' -top | ' + defoe_path+ 'georesolve/bin/'+ os + '/lxreplace -q s | '+ defoe_path + 'geoparser-v1.1/bin/'+ os_type +'/lxt -s '+ defoe_path+'geoparser-v1.1/lib/georesolve/addfivewsnippet.xsl'
 
     print("CMD is %s" %cmd)
 
