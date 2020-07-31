@@ -77,7 +77,7 @@ def do_query(archives, config_file=None, logger=None, context=None):
     
     
     clean_pages = documents.flatMap(
-        lambda year_document: [(year_document[0], 
+        lambda year_document: [(year_document[0],  
                                     clean_page_as_string(page, defoe_path, os_type)) 
                                        for page in year_document[1]])
     pages = clean_pages.flatMap(

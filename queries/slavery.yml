@@ -1,3 +1,4 @@
+preprocess: lemmatize
+data: slavery_trade.txt 
 defoe_path: /home/rosa_filgueira_vicente/defoe/
-os: linux
-data: slavery_trade.txt
+os_type: linux
