@@ -310,3 +310,24 @@ spark-submit --py-files defoe.zip defoe/run_query.py sg_one_page.txt nls defoe.n
 Check your sample_97437554_97440572.34_orig_geoparser result file with [this one](https://github.com/defoe-code/defoe/blob/master/others/sample_97437554_97440572.34_orig_geoparser)
 
 
+# Installing HADDOP (Optional)
+
+You need to have JAVA already installed
+```
+wget http://mirror.vorboss.net/apache/hadoop/common/hadoop-3.3.0/hadoop-3.3.0.tar.gz
+tar -xvzf hadoop-3.3.0.tar.gz 
+sudo mv hadoop-3.3.0 /usr/local/hadoop
+```
+
+Checking your installation
+```
+mkdir ~/input
+cp /usr/local/hadoop/etc/hadoop/*.xml ~/input
+/usr/local/hadoop/bin/hadoop jar /usr/local/hadoop/share/hadoop/mapreduce/hadoop-mapreduce-examples-3.3.0.jar grep ~/input ~/gre
+p_example 'allowed[.]*'
+cat ~/grep_example/*. --> Result:
+22      allowed.
+1       allowed
+```
+
+
