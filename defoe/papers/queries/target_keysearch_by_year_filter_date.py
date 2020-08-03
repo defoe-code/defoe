@@ -46,8 +46,12 @@ def do_query(issues, config_file=None, logger=None, context=None):
     preprocess_type = query_utils.extract_preprocess_word_type(config)
     data_file = query_utils.extract_data_file(config,
                                               os.path.dirname(config_file))
+    
+    start_year = int(config["start_year"])
+    end_year = int(config["end_year"])
     num_target=int(config["num_target"])
     lexicon_start= int(config["lexicon_start"])
+
     keysentences = []
     with open(data_file, 'r') as f:
         for keysentence in list(f):
@@ -67,7 +71,7 @@ def do_query(issues, config_file=None, logger=None, context=None):
     keysentences = keysentences[lexicon_start:]
     clean_articles = issues.flatMap(
         lambda issue: [(issue.date.year, clean_article_as_string(
-            article)) for article in issue.articles])
+            article)) for article in issue.articles if int(issue.date.year)>= start_year and int(issue.date.year)<= end_year])
 
 
     # [(year, preprocess_article_string), ...]
