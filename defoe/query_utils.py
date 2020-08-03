@@ -15,6 +15,7 @@ from spacy.tokens import Doc
 from spacy.vocab import Vocab
 
 NON_AZ_REGEXP = re.compile('[^a-z]')
+NON_AZ_19_REGEXP = re.compile('[^a-z0-9]')
 
 
 class PreprocessWordType(enum.Enum):
@@ -29,7 +30,8 @@ class PreprocessWordType(enum.Enum):
     """ Normalize and lemmatize word """
     NONE = 4
     """ Apply no preprocessing """
-
+    NORMALIZE_NUM = 5
+    """ Normalize word including numbers"""
 
 def parse_preprocess_word_type(type_str):
     """
@@ -171,6 +173,19 @@ def normalize(word):
     """
     return re.sub(NON_AZ_REGEXP, '', word.lower())
 
+def normalize_including_numbers(word):
+    """
+    Normalize a word by converting it to lower-case and removing all
+    characters that are not 'a',...,'z' or '1' to '9'.
+
+    :param word: Word to normalize
+    :type word: str or unicode
+    :return: normalized word
+    :rtype word: str or unicode
+    """
+    
+    return re.sub(NON_AZ_19_REGEXP, '', word.lower())
+
 
 def stem(word):
     """
@@ -237,6 +252,10 @@ def preprocess_word(word, preprocess_type=PreprocessWordType.NONE):
     elif preprocess_type == PreprocessWordType.LEMMATIZE:
         normalized_word = normalize(word)
         preprocessed_word = lemmatize(normalized_word)
+    elif preprocess_type == PreprocessWordType.NORMALIZE_NUM:
+        normalized_word = normalize_including_numbers(word)
+        preprocessed_word = normalized_word
+    
     else:  # PreprocessWordType.NONE or unknown
         preprocessed_word = word
     return preprocessed_word
@@ -245,29 +264,27 @@ def longsfix_sentence(sentence):
     if "'" in sentence:
         sentence=sentence.replace("'", "\'\\\'\'")
 
-    cmd = 'printf \'%s\' \''+ sentence + '\' | /Users/rosafilgueira/EPCC/TDM/CDS/defoe-code/defoe/defoe/lxtransduce -l spelling=/Users/rosafilgueira/EPCC/TDM/CDS/defoe-code/defoe/defoe/f-to-s.lex /Users/rosafilgueira/EPCC/TDM/CDS/defoe-code/defoe/defoe/fix-spelling.gr'
+    cmd = 'printf \'%s\' \''+ sentence + '\' | /lustre/home/sc048/rosaf4/defoe/defoe/long_s_fix/lxtransduce -l spelling=/lustre/home/sc048/rosaf4/defoe/defoe/f-to-s.lex /lustre/home/sc048/rosaf4/defoe/defoe/fix-spelling.gr'
     
-    #cmd = 'echo " + sentence + " | ./long_s_fix/lxtransduce -l spelling=./long_s_fix/f-to-s.lex ./long_s_fix/fix-spelling.gr'
-
-    proc=subprocess.Popen(cmd.encode('utf-8'), shell=True,
-                       stdin=subprocess.PIPE,
-                        stdout=subprocess.PIPE,
-                        stderr=subprocess.PIPE)
-    stdout, stderr = proc.communicate()
-    if "Error" in str(stderr):
-        print("---Err: '{}'".format(stderr))
-        stdout_value = sentence
-    else:
-        stdout_value = stdout
-    proc.terminate()
+    try:
+        proc=subprocess.Popen(cmd.encode('utf-8'), shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        stdout, stderr = proc.communicate()
     
-    fix_s= stdout_value.decode('utf-8').split('\n')[0]
-
+        if "Error" in str(stderr):
+            print("---Err: '{}'".format(stderr))
+            stdout_value = sentence
+        else:
+             stdout_value = stdout
+        proc.terminate()
+    
+        fix_s= stdout_value.decode('utf-8').split('\n')[0]
+    except:
+        fix_s=sentence
     if re.search('[aeiou]fs', fix_s):
         fix_final=re.sub('fs', 'ss', fix_s)
     else:
         fix_final = fix_s
-       
+      
     return fix_final
 
 def spacy_nlp(text, lang_model):
@@ -313,7 +330,6 @@ def xml_geo_entities(doc):
     flag=0
     for ent in doc.ents:
        if ent.label_ == "LOC" or ent.label_ == "GPE":
-            print("LOCATION: Found as place the entity: %s" %ent.text)
             id=id+1
             toponym = ent.text
             child ='<placename id="' + str(id) + '" name="' + toponym + '"/> '
@@ -331,7 +347,6 @@ def xml_geo_entities_snippet(doc):
     index=0
     for token in doc:
         if token.ent_type_ == "LOC" or token.ent_type_ == "GPE":
-            print("LOCATION: Found as place the entity: %s" % token.ent_type_)
             id=id+1
             toponym = token.text
             child ='<placename id="' + str(id) + '" name="' + toponym + '"/> '
@@ -355,7 +370,6 @@ def xml_geo_entities_snippet(doc):
                 snippet_er+= i.text + " "
 
             snippet_id=toponym+"-"+str(id)
-            print("snippet for {} is {}" .format(snippet_id, snippet_er))
             snippet[snippet_id]=snippet_er
         index+=1
     xml_doc=xml_doc+ '</placenames>'
@@ -369,10 +383,9 @@ def georesolve_cmd(in_xml):
     flag = 1
     if "'" in in_xml:
         in_xml=in_xml.replace("'", "\'\\\'\'")
-    cmd = 'printf \'%s\' \''+ in_xml + ' \' | /Users/rosafilgueira/EPCC/TDM/CDS/defoe-code/defoe/georesolve/scripts/geoground -g geonames -top '
-    #cmd = 'printf \'%s\' \''+ in_xml + ' \' | /Users/rosafilgueira/EPCC/TDM/CDS/defoe-code/defoe/georesolve/scripts/geoground -g os -lb -7.54296875, 54.689453125, -0.774267578125, 60.8318847656 2 -top '
+    #cmd = 'printf \'%s\' \''+ in_xml + ' \' | ./georesolve/scripts/geoground -g geonames -top '
+    cmd = 'printf \'%s\' \''+ in_xml + ' \' | ./georesolve/scripts/geoground -g os -lb -7.54296875, 54.689453125, -0.774267578125, 60.8318847656 2 -top '
    
-     #cmd = 'printf \'%s\' \''+ in_xml + '\' | ./georesolve/scripts/geoground -g os -top'
     while (len(georesolve_xml) < 5) and (atempt < 8000) and (flag == 1): 
         proc=subprocess.Popen(cmd.encode('utf-8'), shell=True,
                                stdin=subprocess.PIPE,
@@ -381,7 +394,6 @@ def georesolve_cmd(in_xml):
         proc.terminate()
         atempt= atempt + 1
         stdout, stderr = proc.communicate()
-        #print("EOOO %s - atempt %s" %(stdout, atempt))
         if "Error" in str(stderr):
             flag = 0
             print("err: '{}'".format(stderr))
@@ -390,12 +402,9 @@ def georesolve_cmd(in_xml):
             georesolve_xml = stdout
     
 
-    print("ROSA -2 - in_xml: %s!!!" %in_xml)
-    print("ROSA -2b - georesolve_xml: %s - len %s !!!" %(georesolve_xml, len(georesolve_xml)))
     return georesolve_xml
 
 def coord_xml(geo_xml):
-    print("3: Georesolve_xml: %s!!!" %geo_xml)
     dResolvedLocs = {}
     if len(geo_xml)>5:
         root = etree.fromstring(geo_xml)
@@ -423,11 +432,9 @@ def coord_xml(geo_xml):
         dResolvedLocs[toponymName+"-"+toponymId] = (latitude, longitude, pop, in_cc, type)
     else:
         dResolvedLocs["cmd"]="Problems!"
-    print("4: ResolvedLocs: %s!!!" % dResolvedLocs)
     return dResolvedLocs
 
 def coord_xml_snippet(geo_xml, snippet):
-    print("3: Georesolve_xml: %s!!!" %geo_xml)
     dResolvedLocs = {}
     if len(geo_xml)>5:
         root = etree.fromstring(geo_xml)
@@ -460,7 +467,6 @@ def coord_xml_snippet(geo_xml, snippet):
         dResolvedLocs[snippet_id] = {"lat": latitude, "long": longitude, "pop": pop, "in-cc":in_cc, "type": type, "snippet": snippet_er}
     else:
         dResolvedLocs["cmd"]="Georesolver_Empty"
-    print("4: ResolvedLocs: %s!!!" % dResolvedLocs)
     return dResolvedLocs
 
 def geomap_cmd(in_xml):
@@ -486,8 +492,8 @@ def geoparser_cmd(text):
     geoparser_xml = ''
     if "'" in text:
         text=text.replace("'", "\'\\\'\'")
-    #cmd = 'echo \'%s\' \''+ text + ' \' | ./geoparser-v1.1/scripts/run -t plain -g geonames | ./georesolve/bin/sys-i386-snow-leopard/lxreplace -q s | ./geoparser-v1.1/bin/sys-i386-snow-leopard/lxt -s ./geoparser-v1.1/lib/georesolve/addfivewsnippet.xsl' 
-    cmd = 'echo \'%s\' \''+ text + ' \' | ./geoparser-v1.1/scripts/run -t plain -g os -lb -7.54296875, 54.689453125, -0.774267578125, 60.8318847656 2 -top | ./georesolve/bin/sys-i386-snow-leopard/lxreplace -q s | ./geoparser-v1.1/bin/sys-i386-snow-leopard/lxt -s ./geoparser-v1.1/lib/georesolve/addfivewsnippet.xsl' 
+    #cmd = 'echo \'%s\' \''+ text + ' \' | ./geoparser-v1.1/scripts/run -t plain -g geonames | ./georesolve/bin/sys-i386-64/lxreplace -q s | ./geoparser-v1.1/bin/sys-i386-64/lxt -s ./geoparser-v1.1/lib/georesolve/addfivewsnippet.xsl' 
+    cmd = 'echo \'%s\' \''+ text + ' \' | ./geoparser-v1.1/scripts/run -t plain -g os -lb -7.54296875, 54.689453125, -0.774267578125, 60.8318847656 2 -top | ./georesolve/bin/sys-i386-64/lxreplace -q s | ./geoparser-v1.1/bin/sys-i386-64/lxt -s ./geoparser-v1.1/lib/georesolve/addfivewsnippet.xsl' 
 
 
     while (len(geoparser_xml) < 5) and (atempt < 8000) and (flag == 1): 
