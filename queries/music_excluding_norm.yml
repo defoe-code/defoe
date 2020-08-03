@@ -1,0 +1,4 @@
+preprocess: normalize
+data: music_genres.txt
+num_target: 1
+lexicon_start: 1

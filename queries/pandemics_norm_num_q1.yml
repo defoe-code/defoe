@@ -1,0 +1,6 @@
+preprocess: normalize_num
+data: pandemics_q1.txt 
+num_target: 7
+lexicon_start: 0
+start_year: 1918
+end_year: 2010

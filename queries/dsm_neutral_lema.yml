@@ -1,0 +1,6 @@
+preprocess: lemmatize
+data: neutral_mental_disorder.txt
+num_target: 2
+lexicon_start: 0
+start_year: 1950
+end_year: 2010

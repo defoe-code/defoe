@@ -1,0 +1,6 @@
+preprocess: normalize_num
+data: pandemics_q8.txt 
+num_target: 6
+lexicon_start: 0
+start_year: 2008
+end_year: 2010

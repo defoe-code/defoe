@@ -1,0 +1,4 @@
+preprocess: lemmatize
+data: science.txt
+num_target: 4
+lexicon_start: 4
