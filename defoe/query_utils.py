@@ -383,7 +383,6 @@ def georesolve_cmd(in_xml):
     flag = 1
     if "'" in in_xml:
         in_xml=in_xml.replace("'", "\'\\\'\'")
-    #cmd = 'printf \'%s\' \''+ in_xml + ' \' | ./georesolve/scripts/geoground -g geonames -top '
     cmd = 'printf \'%s\' \''+ in_xml + ' \' | ./georesolve/scripts/geoground -g os -lb -7.54296875, 54.689453125, -0.774267578125, 60.8318847656 2 -top '
    
     while (len(georesolve_xml) < 5) and (atempt < 8000) and (flag == 1): 
@@ -492,9 +491,8 @@ def geoparser_cmd(text):
     geoparser_xml = ''
     if "'" in text:
         text=text.replace("'", "\'\\\'\'")
-    #cmd = 'echo \'%s\' \''+ text + ' \' | ./geoparser-v1.1/scripts/run -t plain -g geonames | ./georesolve/bin/sys-i386-64/lxreplace -q s | ./geoparser-v1.1/bin/sys-i386-64/lxt -s ./geoparser-v1.1/lib/georesolve/addfivewsnippet.xsl' 
-    cmd = 'echo \'%s\' \''+ text + ' \' | ./geoparser-v1.1/scripts/run -t plain -g os -lb -7.54296875, 54.689453125, -0.774267578125, 60.8318847656 2 -top | ./georesolve/bin/sys-i386-64/lxreplace -q s | ./geoparser-v1.1/bin/sys-i386-64/lxt -s ./geoparser-v1.1/lib/georesolve/addfivewsnippet.xsl' 
-
+    
+    cmd = 'echo \'%s\' \''+ text + ' \' | ./geoparser-v1.1/scripts/run -t plain -g os -lb -7.54296875, 54.689453125, -0.774267578125, 60.8318847656 2 -top | ./georesolve/bin/sys-i386-64/lxreplace -q s | ./geoparser-v1.1/bin/sys-i386-64/lxt -s ./geoparser-v1.1/lib/georesolve/addfivewsnippet.xsl'
 
     while (len(geoparser_xml) < 5) and (atempt < 8000) and (flag == 1): 
         proc=subprocess.Popen(cmd.encode('utf-8'), shell=True,
