@@ -76,6 +76,8 @@ results*
 log*
 nls*
 tda*
+data.*
+defoe.zip
 
 #Geoparser
 geoparser-v1.1/* 
