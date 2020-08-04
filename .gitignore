@@ -72,3 +72,11 @@ metastore_db/
 log.txt
 lwm.zip
 results.yml
+results*
+log*
+nls*
+tda*
+
+#Geoparser
+geoparser-v1.1/* 
+georesolve/* 
