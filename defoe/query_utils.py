@@ -17,6 +17,15 @@ from spacy.vocab import Vocab
 NON_AZ_REGEXP = re.compile('[^a-z]')
 NON_AZ_19_REGEXP = re.compile('[^a-z0-9]')
 
+##### VERY IMPORTATANT FOR LONG-S - GEOPARSER/GEORESOLVER####### 
+
+#INDICATE YOUR PATH 
+DEFOE_PATH="/lustre/home/sc048/rosaf4/defoe/"
+### IF you are in a LINUX enviroment use this
+OS="sys-i386-64"
+### IF you are in a MAC os enviroment use this
+#OS="sys-i386-snow-leopard"
+
 
 class PreprocessWordType(enum.Enum):
     """
@@ -264,7 +273,7 @@ def longsfix_sentence(sentence):
     if "'" in sentence:
         sentence=sentence.replace("'", "\'\\\'\'")
 
-    cmd = 'printf \'%s\' \''+ sentence + '\' | /lustre/home/sc048/rosaf4/defoe/defoe/long_s_fix/lxtransduce -l spelling=/lustre/home/sc048/rosaf4/defoe/defoe/f-to-s.lex /lustre/home/sc048/rosaf4/defoe/defoe/fix-spelling.gr'
+    cmd = 'printf \'%s\' \''+ sentence + '\' | '+ DEFOE_PATH + 'defoe/long_s_fix/' + OS + '/lxtransduce -l spelling='+ DEFOE_PATH+ 'defoe/long_s_fix/f-to-s.lex '+ DEFOE_PATH+ 'defoe/long_s_fix/fix-spelling.gr'
     
     try:
         proc=subprocess.Popen(cmd.encode('utf-8'), shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -383,7 +392,8 @@ def georesolve_cmd(in_xml):
     flag = 1
     if "'" in in_xml:
         in_xml=in_xml.replace("'", "\'\\\'\'")
-    cmd = 'printf \'%s\' \''+ in_xml + ' \' | ./georesolve/scripts/geoground -g os -lb -7.54296875, 54.689453125, -0.774267578125, 60.8318847656 2 -top '
+    
+    cmd = 'printf \'%s\' \''+ in_xml + '\' | '+ DEFOE_PATH + 'georesolve/scripts/geoground -g os -lb -7.54296875, 54.689453125, -0.774267578125, 60.8318847656 2 -top'
    
     while (len(georesolve_xml) < 5) and (atempt < 8000) and (flag == 1): 
         proc=subprocess.Popen(cmd.encode('utf-8'), shell=True,
@@ -473,7 +483,8 @@ def geomap_cmd(in_xml):
     atempt=0
     if "'" in in_xml:
         in_xml=in_xml.replace("'", "\'\\\'\'")
-    cmd = 'printf \'%s\' \''+ in_xml + ' \' | ./georesolve/scripts/geoground -g unlockgeonames -lb -7.54296875, 54.689453125, -0.774267578125, 60.8318847656 2 -top | ./georesolve/bin/sys-i386-64/lxt -s ./georesolve/lib/georesolve/gazmap-leaflet.xsl'
+    cmd = 'printf \'%s\' \''+ in_xml + ' \' | ' + DEOFE_PATH+ 'georesolve/scripts/geoground -g unlockgeonames -lb -7.54296875, 54.689453125, -0.774267578125, 60.8318847656 2 -top | ' + DEFOE_PATH + 'georesolve/bin/' + OS + '/lxt -s ' + DEFOE_PATH + 'georesolve/lib/georesolve/gazmap-leaflet.xsl'
+
     while (len(geomap_html) < 5) and (atempt < 100): 
         proc=subprocess.Popen(cmd.encode('utf-8'), shell=True,
                                stdin=subprocess.PIPE,
@@ -492,7 +503,7 @@ def geoparser_cmd(text):
     if "'" in text:
         text=text.replace("'", "\'\\\'\'")
     
-    cmd = 'echo \'%s\' \''+ text + ' \' | ./geoparser-v1.1/scripts/run -t plain -g os -lb -7.54296875, 54.689453125, -0.774267578125, 60.8318847656 2 -top | ./georesolve/bin/sys-i386-64/lxreplace -q s | ./geoparser-v1.1/bin/sys-i386-64/lxt -s ./geoparser-v1.1/lib/georesolve/addfivewsnippet.xsl'
+    cmd = 'echo \'%s\' \''+ text + ' \' | ' + DEFOE_PATH+ 'geoparser-v1.1/scripts/run -t plain -g os -lb -7.54296875, 54.689453125, -0.774267578125, 60.8318847656 2 -top | ' + DEFOE_PATH+ 'georesolve/bin/'+ OS + '/lxreplace -q s | '+ DEFOE_PATH + 'geoparser-v1.1/bin/'+ OS +'/lxt -s '+ DEFOE_PATH+'geoparser-v1.1/lib/georesolve/addfivewsnippet.xsl'
 
     while (len(geoparser_xml) < 5) and (atempt < 8000) and (flag == 1): 
         proc=subprocess.Popen(cmd.encode('utf-8'), shell=True,
