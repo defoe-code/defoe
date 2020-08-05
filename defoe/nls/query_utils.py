@@ -3,7 +3,7 @@ Query-related utility functions.
 """
 
 from defoe import query_utils
-from defoe.query_utils import PreprocessWordType, longsfix_sentence, xml_geo_entities, georesolve_cmd,  coord_xml, geomap_cmd, geoparser_cmd, geoparser_coord_xml
+from defoe.query_utils import PreprocessWordType, longsfix_sentence, xml_geo_entities_snippet, georesolve_cmd,  coord_xml_snippet, geomap_cmd, geoparser_cmd, geoparser_coord_xml
 from nltk.corpus import words
 import re
 import spacy
@@ -205,7 +205,7 @@ def get_page_as_string(page,
     return page_string
 
 
-def clean_page_as_string(page):
+def clean_page_as_string(page, defoe_path, os):
         
     """
     Clean a page as a single string,
@@ -228,7 +228,7 @@ def clean_page_as_string(page):
     
     if (len(page_combined) > 1) and ('f' in page_combined): 
        
-       page_clean = longsfix_sentence(page_combined) 
+       page_clean = longsfix_sentence(page_combined, defoe_path, os) 
     else:
         page_clean= page_combined
 
@@ -315,17 +315,14 @@ def preprocess_clean_page_spacy(clean_page):
     return page_nlp_spacy
 
 
-def georesolve_page_2(text, lang_model):
-    #print("---> Clean_Text to analyse %s" %text)
+def georesolve_page_2(text, lang_model, defoe_path, gazetter, bounding_box):
     nlp = spacy.load(lang_model)
     doc = nlp(text)
-    #print("---> DOC -NLP to analyse %s" %doc)
     if doc.ents:
-        flag,in_xml = xml_geo_entities(doc)
+        flag,in_xml, snippet = xml_geo_entities_snippet(doc)
         if flag == 1:
-            geo_xml=georesolve_cmd(in_xml)
-            dResolved_loc= coord_xml(geo_xml)
-            #print("ROSA-3- My final result %s" % dResolved_loc)
+            geo_xml=georesolve_cmd(in_xml, defoe_path, gazetter, bounding_box)
+            dResolved_loc= coord_xml_snippet(geo_xml, snippet)
             return dResolved_loc
         else:
            return {}
@@ -344,8 +341,8 @@ def georesolve_page(doc):
     else:
         return {}
 
-def geoparser_page(text):
-    geo_xml=geoparser_cmd(text)
+def geoparser_page(text, defoe_path, os, gazetter, bounding_box ):
+    geo_xml=geoparser_cmd(text, defoe_path, os, gazetter, bounding_box)
     dResolved_loc= geoparser_coord_xml(geo_xml)
     return dResolved_loc
 

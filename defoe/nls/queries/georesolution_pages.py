@@ -32,13 +32,21 @@ def do_query(archives, config_file=None, logger=None, context=None):
         config = yaml.load(f)
     
     lang_model = config["lang_model"]
+    gazetter = config["gazetter"]
+    bounding_box = config["bounding_box"]
+    defoe_path = config["defoe_path"]
+    os = config["os"]
+    if os == "linux":
+        os = "sys-i386-64"
+    else:
+        os= "sys-i386-snow-leopard"
     documents = archives.flatMap(
         lambda archive: [(document.year, document.title, document.edition, \
                           document.archive.filename, document) for document in list(archive)])
     
     pages_clean = documents.flatMap(
         lambda year_document: [(year_document[0], year_document[1], year_document[2],\
-                                year_document[3], page.code, page.page_id, clean_page_as_string(page)) for page in year_document[4]])
+                                year_document[3], page.code, page.page_id, clean_page_as_string(page,defoe_path, os)) for page in year_document[4]])
 
     matching_pages = pages_clean.map(
         lambda geo_page:
@@ -49,7 +57,7 @@ def do_query(archives, config_file=None, logger=None, context=None):
           "page_filename": geo_page[4],
           "text_unit id": geo_page[5],
           "lang_model": lang_model, 
-          "georesolution_page": georesolve_page_2(geo_page[6],lang_model)}))
+          "georesolution_page": georesolve_page_2(geo_page[6],lang_model, defoe_path, gazetter, bounding_box)}))
     
     result = matching_pages \
         .groupByKey() \
