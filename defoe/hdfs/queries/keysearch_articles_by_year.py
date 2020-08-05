@@ -1,5 +1,5 @@
 """
-Read from HDFS file, and counts number of occurrences of keywords or keysentences and groups by year.
+Gets concordance of window for keysentence and groups by date.
 """
 
 from operator import add
@@ -7,64 +7,56 @@ from defoe import query_utils
 from defoe.hdfs.query_utils import get_sentences_list_matches, blank_as_null
 from pyspark.sql import SQLContext
 from pyspark.sql.functions import col, when
-
+from defoe.nls.query_utils import preprocess_clean_page
+from defoe.papers.query_utils import get_sentences_list_matches, get_articles_list_matches
 
 import yaml, os
 
 def do_query(df, config_file=None, logger=None, context=None):
     """
-    Read from HDFS, and counts number of occurrences of keywords or keysentences and groups by year.
-    We have an entry in the HFDS file with the following information: 
-    
-    "title",  "edition", "year", "place", "archive_filename",  "source_text_filename", 
-    "text_unit", "text_unit_id", "num_text_unit", "type_archive", "model", "source_text_raw", 
-    "source_text_clean", "source_text_norm", "source_text_lemmatize", "source_text_stem", "num_words"
+    Gets concordance using a window of words, for keywords and groups by date.
 
-    config_filep 
+    Data in ES have the following colums:
+
+    "title",  "edition", "year", "place", "archive_filename", 
+    "source_text_filename", "text_unit", "text_unit_id", 
+    "num_text_unit", "type_archive", "model", "source_text_raw", 
+    "source_text_clean", "source_text_norm", "source_text_lemmatize", "source_text_stem",
+    "num_words"
 
     config_file must be the path to a configuration file with a list
     of the keywords to search for, one per line.
 
-    Both keywords/keysentences and words in documents are normalized, by removing
+    Both keywords and words in documents are normalized, by removing
     all non-'a-z|A-Z' characters.
 
     Returns result of form:
+          [(year, [(title, edition, archive_filename, filename, word,corcondance),
+              (title, edition, archive_filename, filename, word, concordance ), ...]), ...]
 
-        {
-          <YEAR>:
-          [
-            [<SENTENCE|WORD>, <NUM_SENTENCES|WORDS>],
-            ...
-          ],
-          <YEAR>:
-          ...
-        }
 
-    :param archives: RDD of defoe.nls.archive.Archive
-    :type archives: pyspark.rdd.PipelinedRDD
+    :param issues: RDD of defoe.alto.issue.Issue
+    :type issues: pyspark.rdd.PipelinedRDD
     :param config_file: query configuration file
     :type config_file: str or unicode
     :param logger: logger (unused)
     :type logger: py4j.java_gateway.JavaObject
-    :return: number of occurrences of keywords grouped by year
+    :return: information on documents in which keywords occur grouped
+    by date
     :rtype: dict
     """
-    
     with open(config_file, "r") as f:
         config = yaml.load(f)
-    preprocess_config = config["preprocess"]
     preprocess_type = query_utils.extract_preprocess_word_type(config)
     data_file = query_utils.extract_data_file(config,
                                               os.path.dirname(config_file))
-
-
-    #nlsRow=Row("title",  "edition", "year", "place", "archive_filename",  "source_text_filename", "text_unit", "text_unit_id", "num_text_unit", "type_archive", "model", "type_page", "header", "term", "definition", "num_articles", "num_page_words", "num_article_words")
-
     # Filter out the pages that are null, which model is nls, and select only 2 columns: year and the page as string (either raw or preprocessed).
     fdf = df.withColumn("definition", blank_as_null("definition"))
-    newdf=fdf.filter(fdf.source_text_norm.isNotNull()).filter(fdf["model"]=="nlsArticles").select(fdf.year, fdf.definition)
-   
+    #(year, title, edition, archive_filename, page_filename, page_number, type of page, header, term, article_text)
+    newdf=fdf.filter(fdf.source_text_norm.isNotNull()).filter(fdf["model"]=="nlsArticles").select(fdf.year, fdf.title, dfd.edition, fdf.archive_filename, fdf.source_text, fdf.text_unit_id, fdf.type_page, fdf.header, fdf.term, fdf.definition)
     articles=newdf.rdd.map(tuple)
+    
+
     keysentences = []
     with open(data_file, 'r') as f:
         for keysentence in list(f):
@@ -78,41 +70,55 @@ def do_query(df, config_file=None, logger=None, context=None):
                 else:
                     sentence_norm += " " + word
             keysentences.append(sentence_norm)
-    
+
+    #(year, title, edition, archive_filename, page_filename, page_number, type of page, header, term,  clean_article)
+   
     preprocess_articles = articles.flatMap(
-        lambda cl_page: [(cl_page[0],
-                                    preprocess_clean_page(cl_page[1], preprocess_type))]) 
+        lambda t_articles: [(t_articles[0],t_articles[2],t_articles[3], t_articles[4], t_articles[5],
+                                    t_articles[6], t_articles[7], t_articles[8],
+                                        preprocess_clean_page(t_articles[9], preprocess_type))]) 
 
+    
     filter_articles = preprocess_articles.filter(
-        lambda year_page: any( keysentence in year_page[1] for keysentence in keysentences))
-    
-    # [(year, [keysentence, keysentence]), ...]
-    # We also need to convert the string as an integer spliting first the '.
+        lambda year_page: any( keysentence in year_page[9] for keysentence in keysentences))
+
+
+
+    #(year, title, edition, archive_filename, page_filename, page_number, type of page, header, term, article_text, list_sentences)
     matching_articles = filter_articles.map(
-        lambda year_page: (year_page[0],
-                              get_sentences_list_matches(
-                                  year_page[1],
-                                  keysentences)))
+        lambda year_article: (year_article[0], year_article[1], year_article[2], year_article[3], 
+                                year_article[4], year_article[5], year_article[6], year_article[7],
+                                    year_article[8], year_article[9], get_articles_list_matches(year_article[9], keysentences)))
     
-
-    # [[(year, keysentence), 1) ((year, keysentence), 1) ] ...]
+    #(year, title, edition, archive_filename, page_filename, page_number, type of page, header, term, article_text, sentence)
     matching_sentences = matching_articles.flatMap(
-        lambda year_sentence: [((year_sentence[0], sentence), 1)
-                               for sentence in year_sentence[1]])
+        lambda year_sentence: [(year_sentence[0], year_sentence[1], year_sentence[2], year_sentence[3],
+                                year_sentence[4], year_sentence[5], year_sentence[6], year_sentence[7],
+                                year_sentence[8], year_sentence[9], sentence)\
+                                for sentence in year_sentence[10]])
 
+    matching_data = matching_sentences.map(
+        lambda sentence_data:
+        (sentence_data[0],
+        {"title": sentence_data[1],
+         "edition": sentence_data[2]
+         "archive_filename:": sentence_data[3],
+         "ffilename:": sentence_data[4],
+         "page number": sentence_data[5],
+          "type_page": sentence_data[6]
+          "header": sentence_data[7],
+          "term": sentence_data[10],
+          "article": sentence_data[8],
+          "article-definition": setence_data[9]}))
 
-    # [((year, keysentence), num_keysentences), ...]
+    # [(date, {"title": title, ...}), ...]
     # =>
-    # [(year, (keysentence, num_keysentences)), ...]
-    # =>
-    # [(year, [keysentence, num_keysentences]), ...]
-    result = matching_sentences\
-        .reduceByKey(add)\
-        .map(lambda yearsentence_count:
-             (yearsentence_count[0][0],
-              (yearsentence_count[0][1], yearsentence_count[1]))) \
+    
+    result = matching_data \
         .groupByKey() \
-        .map(lambda year_sentencecount:
-             (year_sentencecount[0], list(year_sentencecount[1]))) \
+        .map(lambda date_context:
+             (date_context[0], list(date_context[1]))) \
         .collect()
     return result
+
+     
