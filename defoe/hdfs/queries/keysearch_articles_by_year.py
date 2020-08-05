@@ -69,12 +69,12 @@ def do_query(df, config_file=None, logger=None, context=None):
                     sentence_norm += " " + word
             keysentences.append(sentence_norm)
 
-    #(year, title, edition, archive_filename, page_filename, page_number, type of page, header, term,  clean_article)
+    #(year, title, edition, archive_filename, page_filename, page_number, type of page, header, article, preprocess_article, clean_article)
    
     preprocess_articles = articles.flatMap(
         lambda t_articles: [(t_articles[0], t_articles[1], t_articles[2], t_articles[3], t_articles[4], t_articles[5],
                                     t_articles[6], t_articles[7], t_articles[8],
-                                        preprocess_clean_page(t_articles[9], preprocess_type))]) 
+                                        preprocess_clean_page(t_articles[9], preprocess_type), t_articles[9])]) 
 
      
     filter_articles = preprocess_articles.filter(
@@ -86,7 +86,7 @@ def do_query(df, config_file=None, logger=None, context=None):
     matching_articles = filter_articles.map(
         lambda year_article: (year_article[0], year_article[1], year_article[2], year_article[3], 
                                 year_article[4], year_article[5], year_article[6], year_article[7],
-                                    year_article[8], year_article[9], get_articles_list_matches(year_article[9], keysentences)))
+                                    year_article[8], year_article[10], get_articles_list_matches(year_article[9], keysentences)))
     
     #(year, title, edition, archive_filename, page_filename, page_number, type of page, header, term, article_text, sentence)
     matching_sentences = matching_articles.flatMap(
@@ -100,8 +100,8 @@ def do_query(df, config_file=None, logger=None, context=None):
         (sentence_data[0],
         {"title": sentence_data[1],
          "edition": sentence_data[2],
-         "archive_filename:": sentence_data[3],
-         "filename:": sentence_data[4],
+         "archive_filename": sentence_data[3],
+         "filename": sentence_data[4],
          "page number": sentence_data[5],
           "type_page": sentence_data[6],
           "header": sentence_data[7],
