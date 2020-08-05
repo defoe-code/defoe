@@ -51,7 +51,7 @@ def do_query(df, config_file=None, logger=None, context=None):
     # Filter out the pages that are null, which model is nls, and select only 2 columns: year and the page as string (either raw or preprocessed).
     fdf = df.withColumn("definition", blank_as_null("definition"))
     #(year, title, edition, archive_filename, page_filename, page_number, type of page, header, term, article_text)
-    newdf=fdf.filter(fdf.source_text_norm.isNotNull()).filter(fdf["model"]=="nlsArticles").select(fdf.year, fdf.title, dfd.edition, fdf.archive_filename, fdf.source_text, fdf.text_unit_id, fdf.type_page, fdf.header, fdf.term, fdf.definition)
+    newdf=fdf.filter(fdf.definition.isNotNull()).filter(fdf["model"]=="nlsArticles").select(fdf.year, fdf.title, fdf.edition, fdf.archive_filename, fdf.source_text_filename, fdf.text_unit_id, fdf.type_page, fdf.header, fdf.term, fdf.definition)
     articles=newdf.rdd.map(tuple)
     
 
@@ -72,11 +72,11 @@ def do_query(df, config_file=None, logger=None, context=None):
     #(year, title, edition, archive_filename, page_filename, page_number, type of page, header, term,  clean_article)
    
     preprocess_articles = articles.flatMap(
-        lambda t_articles: [(t_articles[0],t_articles[2],t_articles[3], t_articles[4], t_articles[5],
+        lambda t_articles: [(t_articles[0], t_articles[1], t_articles[2], t_articles[3], t_articles[4], t_articles[5],
                                     t_articles[6], t_articles[7], t_articles[8],
                                         preprocess_clean_page(t_articles[9], preprocess_type))]) 
 
-    
+     
     filter_articles = preprocess_articles.filter(
         lambda year_page: any( keysentence in year_page[9] for keysentence in keysentences))
 
@@ -99,15 +99,15 @@ def do_query(df, config_file=None, logger=None, context=None):
         lambda sentence_data:
         (sentence_data[0],
         {"title": sentence_data[1],
-         "edition": sentence_data[2]
+         "edition": sentence_data[2],
          "archive_filename:": sentence_data[3],
-         "ffilename:": sentence_data[4],
+         "filename:": sentence_data[4],
          "page number": sentence_data[5],
-          "type_page": sentence_data[6]
+          "type_page": sentence_data[6],
           "header": sentence_data[7],
           "term": sentence_data[10],
           "article": sentence_data[8],
-          "article-definition": setence_data[9]}))
+          "article-definition": sentence_data[9]}))
 
     # [(date, {"title": title, ...}), ...]
     # =>
