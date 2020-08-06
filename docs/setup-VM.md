@@ -37,7 +37,7 @@
 - cd $HOME/defoe
 - ./requirements.sh
 - **zip -r defoe.zip defoe**
-- We will call *defoe_path* to the location in which the defoe repository has be cloned --> my defoe_path is */home/rosa_filgueira_vicente/defoe/*
+- We will call *defoe_path* to the location in which the defoe repository has be cloned --> e.g */home/rosa_filgueira_vicente/defoe/*
 
 **Note**: Every time you change something inside defoe library, you need to **ZIP** it. 
 
