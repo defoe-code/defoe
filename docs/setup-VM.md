@@ -294,7 +294,7 @@ Check your sample_97437554_97440572.34_georesolve result file with [this one](ht
 
 #### Run the Original Geoparser Query:
 
-Remember to change first the queries/georesolve.yml configuration file according to your needs.
+Remember to change first the queries/geoparser.yml configuration file according to your needs.
 
 ```
 spark-submit --py-files defoe.zip defoe/run_query.py sg_one_page.txt nls defoe.nls.queries.geoparser_pages queries/geoparser.yml -r sample_97437554_97440572.34_orig_geoparser -n 34
