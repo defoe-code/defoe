@@ -53,10 +53,11 @@ git clone https://github.com/defoe-code/defoe.git
 conda create -n g-py36 python=3.6 anaconda
 conda activate g-py36
 cd $HOME/defoe
-./requirements.sh**zip -r defoe.zip defoe**
+./requirements.sh
+zip -r defoe.zip defoe
 ```
 
-**Note**: Every time you change something inside defoe library, you need to **ZIP** it. 
+**Note**: Every time you change something inside defoe library, you need to **ZIP the DEFOE code**. If you dont change nothing, you dont need to zip it again.  
 
 # Installing the Geoparser + Georesolve tools inside defoe 
 
@@ -70,7 +71,7 @@ Follow the necesary steps to download the [Edinburgh Geoparser](https://www.inf.
 cd $HOME/defoe
 tar -zxvf geoparser-march2016.tar.gz
 tar -zxvf georesolve.tgz
-**zip -r defoe.zip defoe**
+zip -r defoe.zip defoe
 ```
 
 **Note**: defoe assumes that **geoparser-v1.1** and **georesolve** directories are inside your *defoe_path*:
