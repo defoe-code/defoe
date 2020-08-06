@@ -89,6 +89,8 @@
       - defoe_path: /home/rosa_filgueira_vicente/defoe/
       - os : linux
       
+   - NOTE: use "linux" or "macosx" for indicating the type of Operating System (os) inside the queries/geoparser.yml 
+       
 - **IMPORTANT**: The file **addfivewsnippet.xsl** stylesheet it is necesary (not included in the original geoparser source code):
    - A copy of this stylesheet (and others sytlesheets) can be found in [defoe/others](https://github.com/defoe-code/defoe/blob/master/others/addfivewsnippet.xsl)
       -  Make sure that you take a copy of this *addfivewsnippet.xsl* and put it inside your *defoe_path+ geoparser-v1.1/lib/georesolve/.* . Otherwise you will get an error while running this query. 
@@ -116,6 +118,8 @@
       - bounding_box: -lb -7.54296875, 54.689453125, -0.774267578125, 60.8318847656 2
       - defoe_path: /home/rosa_filgueira_vicente/defoe/
       - os : linux
+      
+  - **NOTE**: use "linux" or "macosx" for indicating the type of Operating System (os) inside the queries/geoparser.yml 
 - **zip -r defoe.zip defoe**
 
 ### Runing with a SAMPLE dataset:
