@@ -148,7 +148,7 @@ cd $HOME/defoe
 spark-submit --py-files defoe.zip defoe/run_query.py sg_sample.txt nls defoe.nls.queries.normalize -r results_norm_gaz -n 34
 ```
 
-The result of the query will a file called *results_norm_gaz* with this:
+The result of the query will be a new file called *results_norm_gaz* inside your *defoe_path* with this information:
 ```
 1842:
 - 1
