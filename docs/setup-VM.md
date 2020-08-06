@@ -163,7 +163,7 @@ The result of the query will be a new file called *results_norm_gaz* inside your
 - 920
 - 1129054
 ``` 
-**NOTE**: Most of defoe queries require a configuration file (this is not the case for the normalize query), in which users indicate their operating system (either **linux** or **mac**), along with the path of their defoe installation (**defoe_path**). This is necesary for cleaning the collections' text (step included in most defoe queries, **but not in the normalize queries**). The [cleaning step LINE #263](https://github.com/defoe-code/defoe/blob/master/defoe/query_utils.py) calls to a set of different scripts depending on the user's operationg system. 
+**NOTE**: Most of defoe queries require a configuration file (this is not the case for the normalize query), in which users indicate their operating system (either **linux** or **mac**), along with the path of their defoe installation (**defoe_path**). This is necesary for fixing the [long_S OCR](https://www.research.ed.ac.uk/portal/files/13581682/Alex_Glover_et_al_2012_Digitised_Historical_Text.pdf) errors in the collections' text (step included in most defoe queries, **but not in the normalize queries**). The [long_S fix - LINE 263](https://github.com/defoe-code/defoe/blob/master/defoe/query_utils.py) calls to a set of different scripts depending on the user's operationg system. 
 
 The long_S fix can be tested as a single script (called long_s.py). This script is available [here](https://github.com/defoe-code/defoe/blob/master/defoe/long_s_fix/long_s.py). For running it you just need to do the following (after changing the *defoe_path* and *os* variables according to your needs). 
 
