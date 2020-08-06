@@ -250,7 +250,7 @@ spark-submit --py-files defoe.zip defoe/run_query.py sg_total.txt nls defoe.nls.
 ```
 
 
-# QUICK TESTS:
+# QUICK TESTS: Using just one Gazetter's page. 
 
 ###  Creating a directory with a gazetteer with just one page. 
 
@@ -271,8 +271,9 @@ So, now we have a directory in datasets, called sg_simple_sample, which has just
 
 Now, enter in your defoe path and create the datafile necessary for defoe:
 ```
-> cd $HOME/defoe
-> echo /home/rosa_filgueira_vicente/datasets/sg_simple_sample/97437554/ > sg_one_page.txt
+cd $HOME/defoe
+echo /home/rosa_filgueira_vicente/datasets/sg_simple_sample/97437554/ > sg_one_page.txt
+zip -r defoe.zip defoe
 ```
 
 #### Run the Georesolve Query:
