@@ -77,6 +77,14 @@ zip -r defoe.zip defoe
 **Note**: defoe assumes that **geoparser-v1.1** and **georesolve** directories are inside your *defoe_path*:
    - /home/rosa_filgueira_vicente/defoe/geoparser-v1.1
    - /home/rosa_filgueira_vicente/defoe//georesolve
+   
+For testing both tools, we have two tests available [here](https://github.com/defoe-code/defoe/tree/master/defoe/test_geoparser_scripts), that can be run just like this (after changing the *defoe_path* and *os* variables according to your needs):
+
+```
+cd /home/rosa_filgueira_vicente/defoe/test_geoparser_scripts/
+python geoparser_test.py
+python georesolve_test.py 
+```
 
 # Dowloading some NLS Datasets
 
