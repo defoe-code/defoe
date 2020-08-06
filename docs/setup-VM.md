@@ -106,10 +106,10 @@ cd $HOME/defoe
 echo home/rosa_filgueira_vicente/datasets/nls-data-gazetteersOfScotland/97437554 > sg_sample.txt
 ```
 
-# Testing Spark with an example
+# Testing the Spark installation with an Spark application (SparkPi) included in the Spark source code
 
 ```
-$SPARK_HOME/bin/spark-submit --class org.apache.spark.examples.SparkPi  --master spark://$hostmaster:7077 --executor-memory 20G --total-executor-cores 34  $SPARK_HOME/examples/jars/spark-examples_2.11-2.4.6.jar 1000
+spark-submit --class org.apache.spark.examples.SparkPi  --master spark://$hostmaster:7077 --executor-memory 20G --total-executor-cores 34  $SPARK_HOME/examples/jars/spark-examples_2.11-2.4.6.jar 1000
 ```
 
 # Running Defoe queries
