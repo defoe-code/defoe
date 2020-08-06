@@ -39,7 +39,7 @@
 - ./requirements.sh
 - **zip -r defoe.zip defoe**
 
-**Note**: Every time you change something inside defoe library, we need to **ZIP** it. 
+**Note**: Every time you change something inside defoe library, you need to **ZIP** it. 
 
 # Installing the Geoparser + Georesolve tools inside defoe 
 - wget http://homepages.inf.ed.ac.uk/grover/rosa/georesolve.tgz
