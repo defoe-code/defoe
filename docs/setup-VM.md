@@ -250,7 +250,7 @@ spark-submit --py-files defoe.zip defoe/run_query.py sg_total.txt nls defoe.nls.
 ```
 
 
-# QUICK TESTS: Using just one gazetter's page. 
+# !! QUICK TESTS: Using just one gazetter's page !!
 
 ###  Creating a directory with a gazetteer with just one page. 
 
@@ -280,6 +280,7 @@ zip -r defoe.zip defoe
 ```
 spark-submit --py-files defoe.zip defoe/run_query.py sg_one_page.txt nls defoe.nls.queries.georesolution_pages queries/georesolve.yml -r sample_97437554_97440572.34_georesolve -n 34
 ```
+Check your sample_97437554_97440572.34_georesolve result file with [this one](https://github.com/defoe-code/defoe/blob/master/others/sample_97437554_97440572.34_georesolve)
 
 #### Run the Original Geoparser Query:
 
@@ -287,7 +288,6 @@ spark-submit --py-files defoe.zip defoe/run_query.py sg_one_page.txt nls defoe.n
 spark-submit --py-files defoe.zip defoe/run_query.py sg_one_page.txt nls defoe.nls.queries.geoparser_pages queries/geoparser.yml -r sample_97437554_97440572.34_orig_geoparser -n 34
 ```
 
-
-
+Check your sample_97437554_97440572.34_orig_geoparser result file with [this one](https://github.com/defoe-code/defoe/blob/master/others/sample_97437554_97440572.34_orig_geoparser)
 
 
