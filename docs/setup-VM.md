@@ -51,9 +51,9 @@
 - **zip -r defoe.zip defoe**
 
 **Note**: defoe assumes that **geoparser-v1.1** and **georesolve** directories are in:
-   - XXX/defoe/geoparser-v1.1
-   - XXX/defoe/georesolve
-*XXX* is the path were you clone the defoe repository (e.g. $HOME)
+      - XXX/defoe/geoparser-v1.1
+      - XXX/defoe/georesolve
+   - *XXX* is the path were you clone the defoe repository (e.g. $HOME)
  
 # Datasets and sg_sample.txt 
 - cd $HOME
