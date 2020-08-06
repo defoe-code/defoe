@@ -22,7 +22,6 @@
 - sudo update-alternatives --config javac
 
 # Modifying your BASHRC (enviroment variables)
-
 - PATH=/bin:/usr/bin:/sbin:/usr/sbin:/usr/X11/bin:$PATH
 - export PATH="~/miniconda3/bin:$PATH"
 - source /etc/environment
@@ -38,6 +37,7 @@
 - cd $HOME/defoe
 - ./requirements.sh
 - **zip -r defoe.zip defoe**
+- We will call *defoe_path* to the location in which the defoe repository has be cloned --> my defoe_path is */home/rosa_filgueira_vicente/defoe/*
 
 **Note**: Every time you change something inside defoe library, you need to **ZIP** it. 
 
@@ -50,15 +50,19 @@
 - tar -zxvf georesolve.tgz
 - **zip -r defoe.zip defoe**
 
-**Note**: defoe assumes that **geoparser-v1.1** and **georesolve** directories are in: *XXX/defoe/geoparser-v1.1* and *XXX/defoe/georesolve*
-   - *XXX* is the path were you clone the defoe repository (e.g. $HOME)
+**Note**: defoe assumes that **geoparser-v1.1** and **georesolve** directories are inside your *defoe_path*:
+   - /home/rosa_filgueira_vicente/defoe/geoparser-v1.1
+   - /home/rosa_filgueira_vicente/defoe//georesolve
+
  
-# Datasets and sg_sample.txt 
+# Datasets
 - cd $HOME
 - mkdir datasets
 - cd datasets/
 - wget https://nlsfoundry.s3.amazonaws.com/data/nls-data-gazetteersOfScotland.zip
 - unzip nls-data-gazetteersOfScotland.zip "*.xml"
+
+### Creating a SAMPLE dataset: 
 - cd $HOME/defoe
 - **echo home/rosa_filgueira_vicente/datasets/nls-data-gazetteersOfScotland/97437554 > sg_sample.txt**
 
@@ -83,9 +87,16 @@
 - **IMPORTANT**: The file **addfivewsnippet.xsl** stylesheet it is necesary (not included in the original geoparser source code):
    - A copy of this stylesheet (and others sytlesheets) can be found in [defoe/others](https://github.com/defoe-code/defoe/blob/master/others/addfivewsnippet.xsl)
       -  Make sure that you take a copy of this *addfivewsnippet.xsl* and put it inside your *defoe_path+ geoparser-v1.1/lib/georesolve/.* . Otherwise you will get an error while running this query. 
-
 - **zip -r defoe.zip defoe**
+
+### Runing with a SAMPLE dataset: Using the sg_sample.txt created before. 
 - spark-submit --py-files defoe.zip defoe/run_query.py sg_sample.txt nls defoe.nls.queries.geoparser_pages queries/geoparser.yml -r geoparser_sample_results -n 34
+
+### Running with TOTAL dataset:
+- Take a copy of [sg_total.txt](https://github.com/defoe-code/defoe/blob/master/others/sg_total.txt) and modify it accorderly adding the full path to *nls-data-gazetteersOfScotland* directory. 
+- Place your sg_total.txt inside your *defoe_path*
+- **zip -r defoe.zip defoe**
+- spark-submit --py-files defoe.zip defoe/run_query.py sg_sample.txt nls defoe.nls.queries.geoparser_pages queries/geoparser.yml -r geoparser_total_results -n 34
 
 # Running Georesolve query
 - conda activate g-py36
@@ -98,7 +109,17 @@
       - defoe_path: /home/rosa_filgueira_vicente/defoe/
       - os : linux
 - **zip -r defoe.zip defoe**
+
+### Runing with a SAMPLE dataset: Using the sg_sample.txt created before. 
+- Important: sg_sample.txt needs to be placed in your defoe_path. 
 - spark-submit --py-files defoe.zip defoe/run_query.py sg_sample.txt nls defoe.nls.queries.georesolution_pages queries/georesolve.yml -r georesolve_sample_results -n 34
+
+### Running with TOTAL dataset:
+- Take a copy of [sg_total.txt](https://github.com/defoe-code/defoe/blob/master/others/sg_total.txt) and modify it accorderly adding the full path to *nls-data-gazetteersOfScotland* directory. 
+- Place your sg_total.txt inside your *defoe_path*
+- **zip -r defoe.zip defoe**
+- spark-submit --py-files defoe.zip defoe/run_query.py sg_total.txt nls defoe.nls.queries.georesolution_pages queries/georesolve.yml -r georesolve_total_results -n 34
+
 
 
 
