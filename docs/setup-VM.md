@@ -30,7 +30,7 @@ sudo update-alternatives --config java
 sudo update-alternatives --config javac
 ```
 
-# Modifying your BASHRC profile file
+# Modifying your BASHRC profile file (Optional)
 
 Add at the end of your ~/.bashrc file the following enviroment variables
 
@@ -39,7 +39,7 @@ PATH=/bin:/usr/bin:/sbin:/usr/sbin:/usr/X11/bin:$PATH
 export PATH="~/miniconda3/bin:$PATH"
 source /etc/environment
 export SPARK_HOME=~/spark-2.4.6-bin-hadoop2.7
-export $JAVA_HOME="/usr/lib/jdk/jdk-10.0.2/"
+export JAVA_HOME="/usr/lib/jdk/jdk-10.0.2/"
 export PATH=$PATH:$SPARK_HOME/bin
 export PATH=$PATH:$JAVA_HOME/jre/bin
 ```
@@ -175,7 +175,7 @@ cd $HOME/defoe
 ```
 Change queries/geoparser.yml with according to your needs:
 ```
-     gazetter: os
+     gazetteer: os
      bounding_box: -lb -7.54296875, 54.689453125, -0.774267578125, 60.8318847656 2
      defoe_path: /home/rosa_filgueira_vicente/defoe/
      os: linux
@@ -188,7 +188,7 @@ Change queries/geoparser.yml with according to your needs:
 
 Furthermore, any future changes about *how to call to the original geoparser tool* have to be made in [geoparser_cmd function - Line 487](https://github.com/defoe-code/defoe/blob/master/defoe/query_utils.py). 
 
-### Using the SG sample dataset
+### Using the SG sample dataset (one gazetteer)
 
 We are going to use the *sg_sample.txt* file created before. Remember that  *sg_sample.txt* needs to be placed in your *defoe_path*. 
 
@@ -219,7 +219,7 @@ cd $HOME/defoe
 Change queries/georesolve.yml according to your needs:
 ```
      lang_model: en_core_web_lg
-     gazetter: os
+     gazetteer: os
      bounding_box: -lb -7.54296875, 54.689453125, -0.774267578125, 60.8318847656 2
      defoe_path: /home/rosa_filgueira_vicente/defoe/
      os: linux
@@ -230,7 +230,7 @@ Change queries/georesolve.yml according to your needs:
 
 Furthermore, any future changes about *how to call to the georesolve tool* have to be made in [georesolve_cmd function - Line 380](https://github.com/defoe-code/defoe/blob/master/defoe/query_utils.py). 
 
-### Using the SG sample dataset:
+### Using the SG sample dataset (one gazetter):
 
 We are going to use the *sg_sample.txt* file created before. Remember that *sg_sample.txt* needs to be placed in your *defoe_path*. 
 
@@ -250,7 +250,7 @@ spark-submit --py-files defoe.zip defoe/run_query.py sg_total.txt nls defoe.nls.
 ```
 
 
-# QUICK TESTS: Using just one Gazetter's page. 
+# QUICK TESTS: Using just one gazetter's page. 
 
 ###  Creating a directory with a gazetteer with just one page. 
 
