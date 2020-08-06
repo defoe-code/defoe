@@ -83,7 +83,7 @@
       - os : linux
       
 - **IMPORTANT**: The file **addfivewsnippet.xsl** stylesheet it is necesary (not included in the original geoparser source code).
-      - A copy of this stylesheet (and others sytlesheets) can be found in [defoe/others](https://github.com/defoe-code/defoe/blob/master/others/addfivewsnippet.xsl)
+      -  A copy of this stylesheet (and others sytlesheets) can be found in [defoe/others](https://github.com/defoe-code/defoe/blob/master/others/addfivewsnippet.xsl)
       - Make sure that you take a copy of this *addfivewsnippet.xsl* and put it inside your *defoe_path+ geoparser-v1.1/lib/georesolve/.*
 
 - **zip -r defoe.zip defoe**
