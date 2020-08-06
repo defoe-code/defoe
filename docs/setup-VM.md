@@ -152,7 +152,7 @@ Change queries/geoparser.yml with according to your needs:
 
 ### Using a sample dataset
 
-We are going to use the *sg_sample.txt* file created before. Remember that the *sg_sample.txt* needs to be placed in your *defoe_path*. 
+We are going to use the *sg_sample.txt* file created before. Remember that  *sg_sample.txt* needs to be placed in your *defoe_path*. 
 
 ```
 zip -r defoe.zip defoe
@@ -190,8 +190,8 @@ Change queries/georesolve.yml according to your needs:
 
 
 ### Using a SAMPLE dataset:
-- We are going to use the *sg_sample.txt* file created before. 
-- Remember that the *sg_sample.txt* needs to be placed in your *defoe_path*. 
+
+We are going to use the *sg_sample.txt* file created before. Remember that *sg_sample.txt* needs to be placed in your *defoe_path*. 
 
 ```
 zip -r defoe.zip defoe
