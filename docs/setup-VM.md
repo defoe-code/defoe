@@ -141,7 +141,7 @@ Change queries/geoparser.yml with according to your needs:
      gazetter: os
      bounding_box: -lb -7.54296875, 54.689453125, -0.774267578125, 60.8318847656 2
      defoe_path: /home/rosa_filgueira_vicente/defoe/
-     os : linux
+     os: linux
 ```
 - **NOTE**: use *linux* or *macos* for indicating the type of Operating System (os) inside the configuration queries/geoparser.yml 
        
@@ -181,7 +181,7 @@ Change queries/georesolve.yml according to your needs:
      gazetter: os
      bounding_box: -lb -7.54296875, 54.689453125, -0.774267578125, 60.8318847656 2
      defoe_path: /home/rosa_filgueira_vicente/defoe/
-     os : linux
+     os: linux
      
 ```
       
