@@ -114,7 +114,7 @@ spark-submit --py-files defoe.zip defoe/run_query.py <DATA_FILE> <MODEL_NAME> <Q
 - Place your *sg_total.txt* inside your *defoe_path*.
 - More information about how to specify data to a query can be found at [here](https://github.com/defoe-code/defoe/blob/master/docs/specify-data-to-query.md)
 - **zip -r defoe.zip defoe**
-- spark-submit --py-files defoe.zip defoe/run_query.py sg_sample.txt nls defoe.nls.queries.geoparser_pages queries/geoparser.yml -r geoparser_total_results -n 34
+- spark-submit --py-files defoe.zip defoe/run_query.py sg_total.txt nls defoe.nls.queries.geoparser_pages queries/geoparser.yml -r geoparser_total_results -n 34
 
 # Running Georesolve query
 - conda activate g-py36
