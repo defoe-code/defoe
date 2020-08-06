@@ -91,11 +91,10 @@ spark-submit --py-files defoe.zip defoe/run_query.py <DATA_FILE> <MODEL_NAME> <Q
 - conda activate g-py36
 - cd $HOME/defoe
 - change queries/geoparser.yml with according to your needs:
-   - more queries/geoparser.yml 
-      - gazetter: os
-      - bounding_box: -lb -7.54296875, 54.689453125, -0.774267578125, 60.8318847656 2
-      - defoe_path: /home/rosa_filgueira_vicente/defoe/
-      - os : linux
+     - gazetter: os
+     - bounding_box: -lb -7.54296875, 54.689453125, -0.774267578125, 60.8318847656 2
+     - defoe_path: /home/rosa_filgueira_vicente/defoe/
+     - os : linux
       
    - NOTE: use *linux* or *macos* for indicating the type of Operating System (os) inside the configuration queries/geoparser.yml 
        
@@ -120,12 +119,11 @@ spark-submit --py-files defoe.zip defoe/run_query.py <DATA_FILE> <MODEL_NAME> <Q
 - conda activate g-py36
 - cd $HOME/defoe
 - change queries/georesolve.yml according to your needs:
-   - more queries/georesolve.yml 
-      - lang_model: en_core_web_lg
-      - gazetter: os
-      - bounding_box: -lb -7.54296875, 54.689453125, -0.774267578125, 60.8318847656 2
-      - defoe_path: /home/rosa_filgueira_vicente/defoe/
-      - os : linux
+     - lang_model: en_core_web_lg
+     - gazetter: os
+     - bounding_box: -lb -7.54296875, 54.689453125, -0.774267578125, 60.8318847656 2
+     - defoe_path: /home/rosa_filgueira_vicente/defoe/
+     - os : linux
       
   - **NOTE**: use *linux* or *macos* for indicating the type of Operating System (os) inside the queries/georesolve.yml configuration file. 
 - **zip -r defoe.zip defoe**
