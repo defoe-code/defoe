@@ -99,7 +99,7 @@ wget https://nlsfoundry.s3.amazonaws.com/data/nls-data-encyclopaediaBritannica.z
 unizp nls-data-encyclopaediaBritannica.zip "*.xml"
 ```
 
-### Creating a SG sample dataset file: 
+### Creating a SG sample dataset file with one gazetteer: 
 
 ```
 cd $HOME/defoe
@@ -249,6 +249,42 @@ zip -r defoe.zip defoe
 spark-submit --py-files defoe.zip defoe/run_query.py sg_total.txt nls defoe.nls.queries.georesolution_pages queries/georesolve.yml -r georesolve_total_results -n 34
 ```
 
+
+# QUICK TESTS:
+
+###  Creating a directory with a gazetteer with just one page. 
+
+```
+cd datasets
+mkdir sg_simple_sample
+cd sg_simple_sample/
+mkdir 97437554
+cd 97437554
+cp ../../dataset/nls-data-gazetteersOfScotland/97437554/97437554-mets.xml 
+mkdir alto
+cd alto
+cp ../../dataset/nls-data-gazetteersOfScotland/97437554/alto/97440572.34.xml
+```
+So, now we have a directory in datasets, called sg_simple_sample, which has justa gazetteer folder (97437554) with one ALTO page (97440572.34.xml).
+
+### Running defoe queries with this dataset
+
+Now, enter in your defoe path and create the datafile necessary for defoe:
+```
+> cd $HOME/defoe
+> echo /home/rosa_filgueira_vicente/datasets/sg_simple_sample/97437554/ > sg_one_page.txt
+```
+
+#### Run the Georesolve Query:
+```
+spark-submit --py-files defoe.zip defoe/run_query.py sg_one_page.txt nls defoe.nls.queries.georesolution_pages queries/georesolve.yml -r sample_97437554_97440572.34_georesolve -n 34
+```
+
+#### Run the Original Geoparser Query:
+
+```
+spark-submit --py-files defoe.zip defoe/run_query.py sg_one_page.txt nls defoe.nls.queries.geoparser_pages queries/geoparser.yml -r sample_97437554_97440572.34_orig_geoparser -n 34
+```
 
 
 
