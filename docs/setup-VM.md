@@ -7,13 +7,12 @@
 - sudo apt-get install pip
 - wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
 - ./Miniconda3-latest-Linux-x86_64.sh
-- export PATH=~/miniconda3/bin/:PATH
 
-# Spark
+# Installing Spark
 - wget http://mirror.vorboss.net/apache/spark/spark-2.4.6/spark-2.4.6-bin-hadoop2.7.tgz
 - tar -xvf spark-2.4.6-bin-hadoop2.7.tgz 
 
-# JAVA 10
+# Installing JAVA 10
 - wget https://download.java.net/java/GA/jdk10/10.0.2/19aef61b38124481863b1413dce1855f/13/openjdk-10.0.2_linux-x64_bin.tar.gz
 - tar -xvf openjdk-10.0.2_linux-x64_bin.tar.gz
 - mkdir -p /usr/lib/jdk
@@ -22,7 +21,7 @@
 - sudo update-alternatives --config java
 - sudo update-alternatives --config javac
 
-# BASHRC (enviroment variables)
+# Modifying your BASHRC (enviroment variables)
 
 - PATH=/bin:/usr/bin:/sbin:/usr/sbin:/usr/X11/bin:$PATH
 - export PATH="~/miniconda3/bin:$PATH"
@@ -32,8 +31,7 @@
 - export PATH=$PATH:$SPARK_HOME/bin
 - export PATH=$PATH:$JAVA_HOME/jre/bin
 
-
-# Cloning Defoe and installing the requirements for defoe
+# Cloning defoe and installing its requirements 
 - git clone https://github.com/defoe-code/defoe.git
 - conda create -n g-py36 python=3.6 anaconda
 - conda activate g-py36
@@ -43,7 +41,7 @@
 
 **Note**: Every time you change something inside defoe library, we need to **ZIP** it. 
 
-# Installing the Geoparser + Georesolve tools inside DEFOE
+# Installing the Geoparser + Georesolve tools inside defoe 
 - wget http://homepages.inf.ed.ac.uk/grover/rosa/georesolve.tgz
 - cp georesolve.tgz defoe/.
 - gsutil cp gs://text_data_mining_defoe/geoparser-march2016.tar.gz defoe/.
@@ -52,7 +50,11 @@
 - tar -zxvf georesolve.tgz
 - **zip -r defoe.zip defoe**
 
-
+**Note**: defoe assumes that **geoparser-v1.1** and **georesolve** directories are in:
+   - XXX/defoe/geoparser-v1.1
+   - XXX/defoe/georesolve
+ *XXX* is the path were you clone the defoe repository (e.g. $HOME)
+ 
 # Datasets and sg_sample.txt 
 - cd $HOME
 - mkdir datasets
@@ -70,7 +72,7 @@
 - cd $HOME/defoe
 - spark-submit --py-files defoe.zip defoe/run_query.py sg_sample.txt nls defoe.nls.queries.normalize -r results_norm_gaz -n 34
 
-# Running Original geoparser query
+# Running Original Geoparser query
 - conda activate g-py36
 - cd $HOME/defoe
 - change queries/geoparser.yml with according to your needs:
