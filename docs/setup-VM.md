@@ -103,7 +103,7 @@ unizp nls-data-encyclopaediaBritannica.zip "*.xml"
 
 ```
 cd $HOME/defoe
-echo home/rosa_filgueira_vicente/datasets/nls-data-gazetteersOfScotland/97437554 > sg_sample.txt
+echo /home/rosa_filgueira_vicente/datasets/nls-data-gazetteersOfScotland/97437554 > sg_sample.txt
 ```
 
 # Testing Spark  
