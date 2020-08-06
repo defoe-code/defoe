@@ -81,6 +81,11 @@
       - bounding_box: -lb -7.54296875, 54.689453125, -0.774267578125, 60.8318847656 2
       - defoe_path: /home/rosa_filgueira_vicente/defoe/
       - os : linux
+      
+- NOTE: The file **addfivewsnippet.xsl** stylesheet it is necesary. It should be placed in:
+      - defoe_path+ geoparser-v1.1/lib/georesolve/addfivewsnippet.xsl
+      - a copy of this stylesheet can be found in defoe/others --> make sure that you take this copy and put it in defoe_path+ geoparser-v1.1/lib/georesolve/
+
 - **zip -r defoe.zip defoe**
 - spark-submit --py-files defoe.zip defoe/run_query.py sg_sample.txt nls defoe.nls.queries.geoparser_pages queries/geoparser.yml -r geoparser_sample_results -n 34
 
