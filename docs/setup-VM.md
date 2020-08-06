@@ -97,8 +97,8 @@ spark-submit --py-files defoe.zip defoe/run_query.py <DATA_FILE> <MODEL_NAME> <Q
      - os : linux
 - **NOTE**: use *linux* or *macos* for indicating the type of Operating System (os) inside the configuration queries/geoparser.yml 
        
-- **IMPORTANT**: The file **addfivewsnippet.xsl** stylesheet it is necesary (not included in the original geoparser source code):
-   - A copy of **addfivewsnippet.xsl** stylesheet (and others sytlesheets) can be found in [defoe/others](https://github.com/defoe-code/defoe/blob/master/others/addfivewsnippet.xsl)
+- **IMPORTANT**: The **addfivewsnippet.xsl** stylesheet is necesary (not included in the original source code):
+   - A copy of **addfivewsnippet.xsl** (and others sytlesheets) can be found at [defoe/others](https://github.com/defoe-code/defoe/blob/master/others/addfivewsnippet.xsl)
       -  Make sure that you take a copy of this *addfivewsnippet.xsl* and put it inside your *defoe_path+ geoparser-v1.1/lib/georesolve/.* . Otherwise you will get an error while running this query. 
 - **zip -r defoe.zip defoe**
 
