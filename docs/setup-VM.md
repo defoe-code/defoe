@@ -89,12 +89,14 @@
       -  Make sure that you take a copy of this *addfivewsnippet.xsl* and put it inside your *defoe_path+ geoparser-v1.1/lib/georesolve/.* . Otherwise you will get an error while running this query. 
 - **zip -r defoe.zip defoe**
 
-### Runing with a SAMPLE dataset: Using the sg_sample.txt created before. 
+### Runing with a SAMPLE dataset
+- We are going to use the *sg_sample.txt* file created before. 
+- Remember that the *sg_sample.txt* needs to be placed in your *defoe_path*. 
 - spark-submit --py-files defoe.zip defoe/run_query.py sg_sample.txt nls defoe.nls.queries.geoparser_pages queries/geoparser.yml -r geoparser_sample_results -n 34
 
 ### Running with TOTAL dataset:
 - Take a copy of [sg_total.txt](https://github.com/defoe-code/defoe/blob/master/others/sg_total.txt) and modify it accorderly adding the full path to *nls-data-gazetteersOfScotland* directory. 
-- Place your sg_total.txt inside your *defoe_path*
+- Place your *sg_total.txt* inside your *defoe_path*.
 - **zip -r defoe.zip defoe**
 - spark-submit --py-files defoe.zip defoe/run_query.py sg_sample.txt nls defoe.nls.queries.geoparser_pages queries/geoparser.yml -r geoparser_total_results -n 34
 
@@ -110,13 +112,14 @@
       - os : linux
 - **zip -r defoe.zip defoe**
 
-### Runing with a SAMPLE dataset: Using the sg_sample.txt created before. 
-- Important: sg_sample.txt needs to be placed in your defoe_path. 
+### Runing with a SAMPLE dataset:
+- We are going to use the *sg_sample.txt* file created before. 
+- Remember that the *sg_sample.txt* needs to be placed in your *defoe_path*. 
 - spark-submit --py-files defoe.zip defoe/run_query.py sg_sample.txt nls defoe.nls.queries.georesolution_pages queries/georesolve.yml -r georesolve_sample_results -n 34
 
-### Running with TOTAL dataset:
+### Running with the TOTAL dataset:
 - Take a copy of [sg_total.txt](https://github.com/defoe-code/defoe/blob/master/others/sg_total.txt) and modify it accorderly adding the full path to *nls-data-gazetteersOfScotland* directory. 
-- Place your sg_total.txt inside your *defoe_path*
+- Place your *sg_total.txt* inside your *defoe_path*
 - **zip -r defoe.zip defoe**
 - spark-submit --py-files defoe.zip defoe/run_query.py sg_total.txt nls defoe.nls.queries.georesolution_pages queries/georesolve.yml -r georesolve_total_results -n 34
 
