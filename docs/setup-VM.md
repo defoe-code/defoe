@@ -1,5 +1,5 @@
-sudo apt-get install wget
-sudo apt-get install zip
+- sudo apt-get install wget
+- sudo apt-get install zip
 
 mkdir datasets
 cd datasets/
