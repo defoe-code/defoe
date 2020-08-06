@@ -116,7 +116,7 @@ spark-submit --class org.apache.spark.examples.SparkPi  --master spark://$hostma
 
 # Testing Defoe 
 
-We are going to use the [nls normalize](https://github.com/defoe-code/defoe/blob/master/defoe/nls/queries/normalize.py) query, which do not need any configuration file. 
+We are going to use the [nls normalize](https://github.com/defoe-code/defoe/blob/master/defoe/nls/queries/normalize.py) query, which does not need any configuration file. 
 
 ```
 conda activate g-py36
