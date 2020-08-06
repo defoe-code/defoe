@@ -85,7 +85,7 @@ cd $HOME
 mkdir datasets
 cd datasets/
 ```
-### Scottish Gazetteer (SG) - Size: 2.7GB
+### Scottish Gazetteers (SG) - Size: 2.7GB
 
 ```
 wget https://nlsfoundry.s3.amazonaws.com/data/nls-data-gazetteersOfScotland.zip
