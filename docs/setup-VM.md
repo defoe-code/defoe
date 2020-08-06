@@ -121,7 +121,7 @@ conda activate g-py36
 cd $HOME/defoe
 spark-submit --py-files defoe.zip defoe/run_query.py sg_sample.txt nls defoe.nls.queries.normalize -r results_norm_gaz -n 34
 ```
-**NEW**: Most of defoe queries require a configuration file (this is not the case for the normalize query), in which users indicate their operating system (either **linux** or **mac**), along with the path of their defoe installation (**defoe_path**). This is necesary for cleaning the collections' text (step included in most defoe queries, **but not in the normalize queries**). The cleaning step calls to a set of different scripts depending on the user's operationg system.  
+**NEW**: Most of defoe queries require a configuration file (this is not the case for the normalize query), in which users indicate their operating system (either **linux** or **mac**), along with the path of their defoe installation (**defoe_path**). This is necesary for cleaning the collections' text (step included in most defoe queries, **but not in the normalize queries**). The [cleaning step LINE #263](https://github.com/defoe-code/defoe/blob/master/defoe/query_utils.py) calls to a set of different scripts depending on the user's operationg system.  
 
 # Running Defoe queries
 
