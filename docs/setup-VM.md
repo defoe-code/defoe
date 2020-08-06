@@ -111,7 +111,31 @@ echo /home/rosa_filgueira_vicente/datasets/nls-data-gazetteersOfScotland/9743755
 Using an Spark application (SparkPi) included in the Spark source code
 
 ```
-spark-submit --class org.apache.spark.examples.SparkPi  --master local[8] --executor-memory 20G --total-executor-cores 4  $SPARK_HOME/examples/jars/spark-examples_2.11-2.4.6.jar 1000 
+spark-submit --class org.apache.spark.examples.SparkPi  --master local[8] --executor-memory 20G --total-executor-cores 4  $SPARK_HOME/examples/jars/spark-examples_2.11-2.4.6.jar 100
+```
+
+While the application is running, it will appear in the screen several messages being one of the last ones the result "Pi is roughly 3.1434151434151434". 
+See bellow:
+
+```
+0/07/29 01:39:33 INFO Executor: Finished task 9.0 in stage 0.0 (TID 9). 824 bytes result sent to driver
+20/07/29 01:39:33 INFO Executor: Finished task 8.0 in stage 0.0 (TID 8). 824 bytes result sent to driver
+20/07/29 01:39:33 INFO TaskSetManager: Finished task 9.0 in stage 0.0 (TID 9) in 83 ms on localhost (executor driver) (9/10)
+20/07/29 01:39:33 INFO TaskSetManager: Finished task 8.0 in stage 0.0 (TID 8) in 87 ms on localhost (executor driver) (10/10)
+20/07/29 01:39:33 INFO TaskSchedulerImpl: Removed TaskSet 0.0, whose tasks have all completed, from pool 
+20/07/29 01:39:33 INFO DAGScheduler: ResultStage 0 (reduce at SparkPi.scala:38) finished in 0.687 s
+20/07/29 01:39:33 INFO DAGScheduler: Job 0 finished: reduce at SparkPi.scala:38, took 0.734743 s
+Pi is roughly 3.1434151434151434
+20/07/29 01:39:33 INFO SparkUI: Stopped Spark web UI at http://instance-2.us-central1-a.c.durable-primacy-284213.internal:4041
+20/07/29 01:39:33 INFO MapOutputTrackerMasterEndpoint: MapOutputTrackerMasterEndpoint stopped!
+20/07/29 01:39:33 INFO MemoryStore: MemoryStore cleared
+20/07/29 01:39:33 INFO BlockManager: BlockManager stopped
+20/07/29 01:39:33 INFO BlockManagerMaster: BlockManagerMaster stopped
+20/07/29 01:39:33 INFO OutputCommitCoordinator$OutputCommitCoordinatorEndpoint: OutputCommitCoordinator stopped!
+20/07/29 01:39:33 INFO SparkContext: Successfully stopped SparkContext
+20/07/29 01:39:33 INFO ShutdownHookManager: Shutdown hook called
+20/07/29 01:39:33 INFO ShutdownHookManager: Deleting directory /tmp/spark-21174518-da24-455d-8c97-6593f726b542
+20/07/29 01:39:33 INFO ShutdownHookManager: Deleting directory /tmp/spark-98ad4407-10ed-4e28-96e8-a653055b2241
 ```
 
 # Testing Defoe 
@@ -123,6 +147,14 @@ conda activate g-py36
 cd $HOME/defoe
 spark-submit --py-files defoe.zip defoe/run_query.py sg_sample.txt nls defoe.nls.queries.normalize -r results_norm_gaz -n 34
 ```
+
+The result of the query will a file called *results_norm_gaz* with this:
+```
+1842:
+- 1
+- 920
+- 1129054
+``` 
 **NOTE**: Most of defoe queries require a configuration file (this is not the case for the normalize query), in which users indicate their operating system (either **linux** or **mac**), along with the path of their defoe installation (**defoe_path**). This is necesary for cleaning the collections' text (step included in most defoe queries, **but not in the normalize queries**). The [cleaning step LINE #263](https://github.com/defoe-code/defoe/blob/master/defoe/query_utils.py) calls to a set of different scripts depending on the user's operationg system.  
 
 # Running Defoe queries
