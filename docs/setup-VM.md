@@ -156,7 +156,7 @@ Change queries/geoparser.yml with according to your needs:
 
 Furthermore, any future changes about *how to call to the original geoparser tool* have to be made in [geoparser_cmd function - Line 487](https://github.com/defoe-code/defoe/blob/master/defoe/query_utils.py). 
 
-### Using a SG sample dataset
+### Using the SG sample dataset
 
 We are going to use the *sg_sample.txt* file created before. Remember that  *sg_sample.txt* needs to be placed in your *defoe_path*. 
 
@@ -198,7 +198,7 @@ Change queries/georesolve.yml according to your needs:
 
 Furthermore, any future changes about *how to call to the georesolve tool* have to be made in [georesolve_cmd function - Line 380](https://github.com/defoe-code/defoe/blob/master/defoe/query_utils.py). 
 
-### Using a SG sample dataset:
+### Using the SG sample dataset:
 
 We are going to use the *sg_sample.txt* file created before. Remember that *sg_sample.txt* needs to be placed in your *defoe_path*. 
 
