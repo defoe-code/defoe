@@ -150,6 +150,8 @@ Change queries/geoparser.yml with according to your needs:
    - A copy of **addfivewsnippet.xsl** (and others sytlesheets) can be found at [defoe/others](https://github.com/defoe-code/defoe/blob/master/others/addfivewsnippet.xsl)
       -  Make sure that you take a copy of this *addfivewsnippet.xsl* and put it inside your *defoe_path+ geoparser-v1.1/lib/georesolve/.* . Otherwise you will get an error while running this query.
 
+Furthermore, any future changes about how to call to the original geoparser tool have to be made in [geoparser_cmd function - Line 487](https://github.com/defoe-code/defoe/blob/master/defoe/query_utils.py). 
+
 ### Using a sample dataset
 
 We are going to use the *sg_sample.txt* file created before. Remember that  *sg_sample.txt* needs to be placed in your *defoe_path*. 
@@ -188,6 +190,7 @@ Change queries/georesolve.yml according to your needs:
       
 - **NOTE**: use *linux* or *macos* for indicating the type of Operating System (os) inside the queries/georesolve.yml configuration file.
 
+Furthermore, any future changes about how to call to the georesolve tool have to be made in [georesolve_cmd function - Line 380](https://github.com/defoe-code/defoe/blob/master/defoe/query_utils.py). 
 
 ### Using a SAMPLE dataset:
 
