@@ -265,7 +265,7 @@ spark-submit --py-files defoe.zip defoe/run_query.py sg_total.txt nls defoe.nls.
 ```
 
 
-# QUICK TESTS: Using just one gazetter's page
+# QUICK TESTS: Using just one gazetteer's page
 
 ###  Creating a directory with a gazetteer with just one page. 
 
