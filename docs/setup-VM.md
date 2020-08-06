@@ -1,12 +1,14 @@
 
 # Installing Generic Tools
-- sudo apt-get install wget
-- sudo apt-get install zip
-- sudo apt-get install git
-- sudo apt-get install python3
-- sudo apt-get install pip
-- wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
-- ./Miniconda3-latest-Linux-x86_64.sh
+```
+sudo apt-get install wget
+sudo apt-get install zip
+sudo apt-get install git
+sudo apt-get install python3
+sudo apt-get install pip
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+./Miniconda3-latest-Linux-x86_64.sh
+```
 
 # Installing Spark
 - wget http://mirror.vorboss.net/apache/spark/spark-2.4.6/spark-2.4.6-bin-hadoop2.7.tgz
