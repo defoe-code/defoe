@@ -84,7 +84,7 @@ spark-submit --py-files defoe.zip defoe/run_query.py <DATA_FILE> <MODEL_NAME> <Q
 - cd $HOME/defoe
 - spark-submit --py-files defoe.zip defoe/run_query.py sg_sample.txt nls defoe.nls.queries.normalize -r results_norm_gaz -n 34
 
-- **NOTE**: Most of defoe queries requires a configuration file, in which users indicates the type of operating system (either linux or mac) they have, along with the path of their defoe installation (defoe_path). This is necesary for cleaning the collections' text. The cleaning process calls a set of long-S fix scripts, which change depending on the user's operationg system.  
+- **NEW**: Most of defoe queries requires a configuration file, in which users indicate their operating system (either **linux** or **mac**), along with the path of their defoe installation (**defoe_path**). This is necesary for cleaning the collections' text (step included in most defoe queries). The cleaning process calls a set of different scripts depending on the user's operationg system.  
 
 
 # Running Original Geoparser query
