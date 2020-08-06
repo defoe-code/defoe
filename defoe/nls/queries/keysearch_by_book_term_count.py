@@ -78,22 +78,22 @@ def do_query(archives, config_file=None, logger=None, context=None):
     
     
     clean_pages = documents.flatMap(
-        lambdatitle_document: [(year_document[0],  
+        lambda title_document: [(title_document[0],  
                                     clean_page_as_string(page, defoe_path, os_type)) 
-                                       for page intitle_document[1]])
+                                       for page in title_document[1]])
     pages = clean_pages.flatMap(
         lambda cl_page: [(cl_page[0], 
                                     preprocess_clean_page(cl_page[1], preprocess_type))]) 
     # [(year, page_string)
     # [(year, page_string)
     filter_pages = pages.filter(
-        lambdatitle_page: any(
-            keysentence intitle_page[1] for keysentence in keysentences))
+        lambda title_page: any(
+            keysentence in title_page[1] for keysentence in keysentences))
     
     
     # [(year, [keysentence, keysentence]), ...]
     matching_pages = filter_pages.map(
-        lambdatitle_page: (year_page[0],
+        lambda title_page: (title_page[0],
                               get_sentences_list_matches_per_page(
                                  title_page[1],
                                   keysentences)))
@@ -101,8 +101,8 @@ def do_query(archives, config_file=None, logger=None, context=None):
 
     # [[(year, keysentence), 1) ((year, keysentence), 1) ] ...]
     matching_sentences = matching_pages.flatMap(
-        lambdatitle_sentence: [((year_sentence[0], sentence), 1)
-                               for sentence intitle_sentence[1]])
+        lambda title_sentence: [((title_sentence[0], sentence), 1)
+                               for sentence in title_sentence[1]])
 
 
     # [((year, keysentence), num_keysentences), ...]
@@ -112,11 +112,11 @@ def do_query(archives, config_file=None, logger=None, context=None):
     # [(year, [keysentence, num_keysentences]), ...]
     result = matching_sentences\
         .reduceByKey(add)\
-        .map(lambdatitlesentence_count:
-             (yearsentence_count[0][0],
-              (yearsentence_count[0][1],titlesentence_count[1]))) \
+        .map(lambda titlesentence_count:
+             (titlesentence_count[0][0],
+              (titlesentence_count[0][1], titlesentence_count[1]))) \
         .groupByKey() \
-        .map(lambdatitle_sentencecount:
-             (year_sentencecount[0], list(year_sentencecount[1]))) \
+        .map(lambda title_sentencecount:
+             (title_sentencecount[0], list(title_sentencecount[1]))) \
         .collect()
     return result
