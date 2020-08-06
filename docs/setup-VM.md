@@ -111,7 +111,7 @@ echo /home/rosa_filgueira_vicente/datasets/nls-data-gazetteersOfScotland/9743755
 Using an Spark application (SparkPi) included in the Spark source code
 
 ```
-spark-submit --class org.apache.spark.examples.SparkPi  --master spark://$hostmaster:7077 --executor-memory 20G --total-executor-cores 34  $SPARK_HOME/examples/jars/spark-examples_2.11-2.4.6.jar 1000
+spark-submit --class org.apache.spark.examples.SparkPi  --master local[8] --executor-memory 20G --total-executor-cores 4  $SPARK_HOME/examples/jars/spark-examples_2.11-2.4.6.jar 1000 
 ```
 
 # Testing Defoe 
