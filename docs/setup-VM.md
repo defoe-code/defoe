@@ -78,28 +78,28 @@ zip -r defoe.zip defoe
    - /home/rosa_filgueira_vicente/defoe/geoparser-v1.1
    - /home/rosa_filgueira_vicente/defoe//georesolve
 
-# Dowloading Datasets
+# Dowloading some NLS Datasets
 
 ```
 cd $HOME
 mkdir datasets
 cd datasets/
 ```
-### Scottish Gazetteer (2.7GB)
+### Scottish Gazetteer (SG) - Size: 2.7GB
 
 ```
 wget https://nlsfoundry.s3.amazonaws.com/data/nls-data-gazetteersOfScotland.zip
 unzip nls-data-gazetteersOfScotland.zip "*.xml"
 ```
 
-### Encyclopaedia Britannica (25GB)
+### Encyclopaedia Britannica (EB) - Size: 25GB
 
 ```
 wget https://nlsfoundry.s3.amazonaws.com/data/nls-data-encyclopaediaBritannica.zip 
 unizp nls-data-encyclopaediaBritannica.zip "*.xml"
 ```
 
-### Creating a SAMPLE dataset file with Scottish Gazetters: 
+### Creating a SG sample dataset file: 
 
 ```
 cd $HOME/defoe
@@ -156,7 +156,7 @@ Change queries/geoparser.yml with according to your needs:
 
 Furthermore, any future changes about *how to call to the original geoparser tool* have to be made in [geoparser_cmd function - Line 487](https://github.com/defoe-code/defoe/blob/master/defoe/query_utils.py). 
 
-### Using a sample dataset
+### Using a SG sample dataset
 
 We are going to use the *sg_sample.txt* file created before. Remember that  *sg_sample.txt* needs to be placed in your *defoe_path*. 
 
@@ -165,7 +165,7 @@ zip -r defoe.zip defoe
 spark-submit --py-files defoe.zip defoe/run_query.py sg_sample.txt nls defoe.nls.queries.geoparser_pages queries/geoparser.yml -r geoparser_sample_results -n 34
 ```
 
-### Using the full dataset:
+### Using the SG full dataset:
 
 - Take a copy of [sg_total.txt](https://github.com/defoe-code/defoe/blob/master/others/sg_total.txt) and modify it accorderly adding the full path to *nls-data-gazetteersOfScotland* directory. 
 - Place your *sg_total.txt* inside your *defoe_path*.
@@ -198,7 +198,7 @@ Change queries/georesolve.yml according to your needs:
 
 Furthermore, any future changes about *how to call to the georesolve tool* have to be made in [georesolve_cmd function - Line 380](https://github.com/defoe-code/defoe/blob/master/defoe/query_utils.py). 
 
-### Using a SAMPLE dataset:
+### Using a SG sample dataset:
 
 We are going to use the *sg_sample.txt* file created before. Remember that *sg_sample.txt* needs to be placed in your *defoe_path*. 
 
@@ -207,7 +207,7 @@ zip -r defoe.zip defoe
 spark-submit --py-files defoe.zip defoe/run_query.py sg_sample.txt nls defoe.nls.queries.georesolution_pages queries/georesolve.yml -r georesolve_sample_results -n 34
 ```
 
-### Using the full dataset:
+### Using the SG full dataset:
 - Take a copy of [sg_total.txt](https://github.com/defoe-code/defoe/blob/master/others/sg_total.txt) and modify it accorderly adding the full path to *nls-data-gazetteersOfScotland* directory. 
 - Place your *sg_total.txt* inside your *defoe_path*
 - More information about how to specify data to a query can be found at [here](https://github.com/defoe-code/defoe/blob/master/docs/specify-data-to-query.md) 
