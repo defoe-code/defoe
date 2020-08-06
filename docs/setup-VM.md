@@ -111,7 +111,7 @@ echo /home/rosa_filgueira_vicente/datasets/nls-data-gazetteersOfScotland/9743755
 Using an Spark application (SparkPi) included in the Spark source code
 
 ```
-spark-submit --class org.apache.spark.examples.SparkPi  --master local[8] --executor-memory 20G --total-executor-cores 4  $SPARK_HOME/examples/jars/spark-examples_2.11-2.4.6.jar 100
+spark-submit --class org.apache.spark.examples.SparkPi  --master local[8] --executor-memory 20G --total-executor-cores 4  $SPARK_HOME/examples/jars/spark-examples_2.11-2.4.6.jar 10
 ```
 
 While the application is running, it will appear in the screen several messages being one of the last ones "Pi is roughly 3.1434151434151434". 
