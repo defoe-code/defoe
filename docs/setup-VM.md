@@ -54,16 +54,15 @@
    - /home/rosa_filgueira_vicente/defoe/geoparser-v1.1
    - /home/rosa_filgueira_vicente/defoe//georesolve
 
- 
-# Datasets
+ # Datasets
 - cd $HOME
 - mkdir datasets
 - cd datasets/
-### Scottish Gazetters
+### Scottish Gazetteer
 - wget https://nlsfoundry.s3.amazonaws.com/data/nls-data-gazetteersOfScotland.zip
 - unzip nls-data-gazetteersOfScotland.zip "*.xml"
    - 2.7GB
-### Encyclopedia Britannica
+### Encyclopaedia Britannica 
 - wget https://nlsfoundry.s3.amazonaws.com/data/nls-data-encyclopaediaBritannica.zip 
 - unizp nls-data-encyclopaediaBritannica.zip "*.xml"
   - 25GB
