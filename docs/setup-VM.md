@@ -76,7 +76,7 @@
 
 # Running Defoe queries
 
-- Documentation of how to run defoe queries can be found [here](https://github.com/defoe-code/defoe/blob/master/docs/run-queries.md). 
+- Documentation about how to run defoe queries can be found [here](https://github.com/defoe-code/defoe/blob/master/docs/run-queries.md). 
 - The most important parameters are:
 spark-submit --py-files defoe.zip defoe/run_query.py <DATA_FILE> <MODEL_NAME> <QUERY_NAME> <QUERY_CONFIG_FILE> [-r <RESULTS_FILE>] [-e <ERRORS_FILE>] [-n <NUM_CORES>]
 
@@ -84,6 +84,9 @@ spark-submit --py-files defoe.zip defoe/run_query.py <DATA_FILE> <MODEL_NAME> <Q
 - conda activate g-py36
 - cd $HOME/defoe
 - spark-submit --py-files defoe.zip defoe/run_query.py sg_sample.txt nls defoe.nls.queries.normalize -r results_norm_gaz -n 34
+
+- **NOTE**: Most of defoe queries requires a configuration file, in which users indicates the type of operating system (either linux or mac) they have, along with the path of their defoe installation (defoe_path). This is necesary for cleaning the collections' text. The cleaning process calls a set of long-S fix scripts, which change depending on the user's operationg system.  
+
 
 # Running Original Geoparser query
 - conda activate g-py36
