@@ -59,10 +59,16 @@
 - cd $HOME
 - mkdir datasets
 - cd datasets/
+### Scottish Gazetters
 - wget https://nlsfoundry.s3.amazonaws.com/data/nls-data-gazetteersOfScotland.zip
 - unzip nls-data-gazetteersOfScotland.zip "*.xml"
+   - 2.7GB
+### Encyclopedia Britannica
+- wget https://nlsfoundry.s3.amazonaws.com/data/nls-data-encyclopaediaBritannica.zip 
+- unizp nls-data-encyclopaediaBritannica.zip "*.xml"
+  - 25GB
 
-### Creating a SAMPLE dataset: 
+### Creating a SAMPLE dataset file with Scottish Gazetters: 
 - cd $HOME/defoe
 - **echo home/rosa_filgueira_vicente/datasets/nls-data-gazetteersOfScotland/97437554 > sg_sample.txt**
 
@@ -97,6 +103,7 @@
 ### Running with TOTAL dataset:
 - Take a copy of [sg_total.txt](https://github.com/defoe-code/defoe/blob/master/others/sg_total.txt) and modify it accorderly adding the full path to *nls-data-gazetteersOfScotland* directory. 
 - Place your *sg_total.txt* inside your *defoe_path*.
+- More information about how to specify data to a query can be found at [here](https://github.com/defoe-code/defoe/blob/master/docs/specify-data-to-query.md)
 - **zip -r defoe.zip defoe**
 - spark-submit --py-files defoe.zip defoe/run_query.py sg_sample.txt nls defoe.nls.queries.geoparser_pages queries/geoparser.yml -r geoparser_total_results -n 34
 
@@ -120,6 +127,7 @@
 ### Running with the TOTAL dataset:
 - Take a copy of [sg_total.txt](https://github.com/defoe-code/defoe/blob/master/others/sg_total.txt) and modify it accorderly adding the full path to *nls-data-gazetteersOfScotland* directory. 
 - Place your *sg_total.txt* inside your *defoe_path*
+- More information about how to specify data to a query can be found at [here](https://github.com/defoe-code/defoe/blob/master/docs/specify-data-to-query.md) 
 - **zip -r defoe.zip defoe**
 - spark-submit --py-files defoe.zip defoe/run_query.py sg_total.txt nls defoe.nls.queries.georesolution_pages queries/georesolve.yml -r georesolve_total_results -n 34
 
