@@ -78,7 +78,7 @@ zip -r defoe.zip defoe
    - /home/rosa_filgueira_vicente/defoe/geoparser-v1.1
    - /home/rosa_filgueira_vicente/defoe//georesolve
    
-For testing both tools, we have two tests available [here](https://github.com/defoe-code/defoe/tree/master/defoe/test_geoparser_scripts), that can be run just like this (after changing the *defoe_path* and *os* variables according to your needs):
+For testing both tools, we have two tests available [here](https://github.com/defoe-code/defoe/tree/master/defoe/test_geoparser_scripts), that can be run just like this (after changing the *defoe_path* and *os_type* variables according to your needs):
 
 ```
 cd $HOME/defoe/test_geoparser_scripts/
@@ -165,7 +165,7 @@ The result of the query will be a new file called *results_norm_gaz* inside your
 ``` 
 **NOTE**: Most of defoe queries require a configuration file (this is not the case for the normalize query), in which users indicate their operating system (either **linux** or **mac**), along with the path of their defoe installation (**defoe_path**). This is necesary for fixing the [long_S OCR](https://www.research.ed.ac.uk/portal/files/13581682/Alex_Glover_et_al_2012_Digitised_Historical_Text.pdf) errors in the collections' text (step included in most defoe queries, **but not in the normalize queries**). The [long_S fix - LINE 263](https://github.com/defoe-code/defoe/blob/master/defoe/query_utils.py) calls to a set of different scripts depending on the user's operationg system. 
 
-The long_S fix can be tested as a single script (called long_s.py). This script is available [here](https://github.com/defoe-code/defoe/blob/master/defoe/long_s_fix/long_s.py). For running it you just need to do the following (after changing the *defoe_path* and *os* variables according to your needs). 
+The long_S fix can be tested as a single script (called long_s.py). This script is available [here](https://github.com/defoe-code/defoe/blob/master/defoe/long_s_fix/long_s.py). For running it you just need to do the following (after changing the *defoe_path* and *os_type* variables according to your needs). 
 
 ```
 cd $HOME/defoe/defoe/long_s_fix/
@@ -193,9 +193,9 @@ Change queries/geoparser.yml with according to your needs:
      gazetteer: os
      bounding_box: -lb -7.54296875, 54.689453125, -0.774267578125, 60.8318847656 2
      defoe_path: /home/rosa_filgueira_vicente/defoe/
-     os: linux
+     os_type: linux
 ```
-- **NOTE**: use *linux* or *macos* for indicating the type of Operating System (os) inside the configuration queries/geoparser.yml 
+- **NOTE**: use *linux* or *macos* for indicating the type of Operating System (os_type) inside the configuration queries/geoparser.yml 
        
 - **IMPORTANT**: The **addfivewsnippet.xsl** stylesheet is necesary (not included in the original source code):
    - A copy of **addfivewsnippet.xsl** (and others sytlesheets) can be found at [defoe/others](https://github.com/defoe-code/defoe/blob/master/others/addfivewsnippet.xsl)
@@ -237,11 +237,11 @@ Change queries/georesolve.yml according to your needs:
      gazetteer: os
      bounding_box: -lb -7.54296875, 54.689453125, -0.774267578125, 60.8318847656 2
      defoe_path: /home/rosa_filgueira_vicente/defoe/
-     os: linux
+     os_type: linux
      
 ```
       
-- **NOTE**: use *linux* or *macos* for indicating the type of Operating System (os) inside the queries/georesolve.yml configuration file.
+- **NOTE**: use *linux* or *macos* for indicating the type of Operating System (os_type) inside the queries/georesolve.yml configuration file.
 
 Furthermore, any future changes about *how to call to the georesolve tool* have to be made in [georesolve_cmd function - Line 380](https://github.com/defoe-code/defoe/blob/master/defoe/query_utils.py). 
 
