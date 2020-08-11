@@ -73,7 +73,7 @@ log.txt
 lwm.zip
 results.yml
 results*
-log*
+log_*
 nls*
 tda*
 data.*
@@ -81,5 +81,5 @@ defoe.zip
 error.yml
 
 #Geoparser
-geoparser-v1.1/* 
-georesolve/* 
+geoparser-v1.1/
+georesolve/

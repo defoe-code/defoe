@@ -3,6 +3,7 @@ Query-related utility functions and types.
 """
 
 import os
+import time
 import subprocess
 import re
 import enum
@@ -16,20 +17,6 @@ from spacy.vocab import Vocab
 
 NON_AZ_REGEXP = re.compile('[^a-z]')
 NON_AZ_19_REGEXP = re.compile('[^a-z0-9]')
-
-##### VERY IMPORTATANT FOR LONG-S - GEOPARSER/GEORESOLVER####### 
-
-#INDICATE YOUR PATH 
-DEFOE_PATH="/Users/rosafilgueira/EPCC/TDM/CDS/defoe-code/defoe/"
-### IF you are in a LINUX enviroment use this
-#OS="sys-i386-64"
-### IF you are in a MAC os enviroment use this
-OS="sys-i386-snow-leopard"
-#### Gazetter
-gazetter = "os"
-#### Bounding Box
-bounding_box = " -lb -7.54296875, 54.689453125, -0.774267578125, 60.8318847656 2 "
-
 
 class PreprocessWordType(enum.Enum):
     """
@@ -273,12 +260,13 @@ def preprocess_word(word, preprocess_type=PreprocessWordType.NONE):
         preprocessed_word = word
     return preprocessed_word
 
-def longsfix_sentence(sentence):
+def longsfix_sentence(sentence, defoe_path, os):
+
     if "'" in sentence:
         sentence=sentence.replace("'", "\'\\\'\'")
-
-    cmd = 'printf \'%s\' \''+ sentence + '\' | '+ DEFOE_PATH + 'defoe/long_s_fix/' + OS + '/lxtransduce -l spelling='+ DEFOE_PATH+ 'defoe/long_s_fix/f-to-s.lex '+ DEFOE_PATH+ 'defoe/long_s_fix/fix-spelling.gr'
     
+    cmd = 'printf \'%s\' \''+ sentence + '\' | '+ defoe_path + 'defoe/long_s_fix/' + os + '/lxtransduce -l spelling='+ defoe_path+ 'defoe/long_s_fix/f-to-s.lex '+ defoe_path+ 'defoe/long_s_fix/fix-spelling.gr'
+
     try:
         proc=subprocess.Popen(cmd.encode('utf-8'), shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         stdout, stderr = proc.communicate()
@@ -288,7 +276,6 @@ def longsfix_sentence(sentence):
             stdout_value = sentence
         else:
              stdout_value = stdout
-        proc.terminate()
     
         fix_s= stdout_value.decode('utf-8').split('\n')[0]
     except:
@@ -297,7 +284,6 @@ def longsfix_sentence(sentence):
         fix_final=re.sub('fs', 'ss', fix_s)
     else:
         fix_final = fix_s
-
     return fix_final
 
 def spacy_nlp(text, lang_model):
@@ -390,21 +376,19 @@ def xml_geo_entities_snippet(doc):
 
         
 
-def georesolve_cmd(in_xml):
+def georesolve_cmd(in_xml, defoe_path, gazetteer, bounding_box):
     georesolve_xml =''
     atempt=0
     flag = 1
     if "'" in in_xml:
         in_xml=in_xml.replace("'", "\'\\\'\'")
     
-    cmd = 'printf \'%s\' \''+ in_xml + '\' | '+ DEFOE_PATH + 'georesolve/scripts/geoground -g ' + gazetter + bounding_box + ' -top'
-   
-    while (len(georesolve_xml) < 5) and (atempt < 10000) and (flag == 1): 
+    cmd = 'printf \'%s\' \''+ in_xml + '\' | '+ defoe_path + 'georesolve/scripts/geoground -g ' + gazetteer + ' ' +bounding_box + ' -top'
+    while (len(georesolve_xml) < 5) and (atempt < 10) and (flag == 1):
         proc=subprocess.Popen(cmd.encode('utf-8'), shell=True,
                                stdin=subprocess.PIPE,
                                stdout=subprocess.PIPE,
                                stderr=subprocess.PIPE)
-        proc.terminate()
         stdout, stderr = proc.communicate()
         if "Error" in str(stderr):
             flag = 0
@@ -412,9 +396,7 @@ def georesolve_cmd(in_xml):
             georesolve_xml =  ''
         else:
             georesolve_xml = stdout
-        atempt= atempt + 1
-       
-    
+        atempt += 1
     return georesolve_xml
 
 def coord_xml(geo_xml):
@@ -482,46 +464,45 @@ def coord_xml_snippet(geo_xml, snippet):
         dResolvedLocs["cmd"]="Georesolver_Empty"
     return dResolvedLocs
 
-def geomap_cmd(in_xml):
+def geomap_cmd(in_xml, defoe_path, os, gazetteer, bounding_box):
     geomap_html = ''
     atempt=0
     if "'" in in_xml:
         in_xml=in_xml.replace("'", "\'\\\'\'")
-    cmd = 'printf \'%s\' \''+ in_xml + ' \' | ' + DEOFE_PATH+ 'georesolve/scripts/geoground -g unlockgeonames -lb -7.54296875, 54.689453125, -0.774267578125, 60.8318847656 2 -top | ' + DEFOE_PATH + 'georesolve/bin/' + OS + '/lxt -s ' + DEFOE_PATH + 'georesolve/lib/georesolve/gazmap-leaflet.xsl'
+    cmd = 'printf \'%s\' \''+ in_xml + ' \' | ' + defoe_path+ 'georesolve/scripts/geoground -g ' + gazetteer + ' ' +bounding_box + ' -top | ' + defoe_path + 'georesolve/bin/' + os + '/lxt -s ' + defoe_path + 'georesolve/lib/georesolve/gazmap-leaflet.xsl'
 
-    while (len(geomap_html) < 5) and (atempt < 100): 
+    while (len(geomap_html) < 5) and (atempt < 10): 
         proc=subprocess.Popen(cmd.encode('utf-8'), shell=True,
                                stdin=subprocess.PIPE,
                                stdout=subprocess.PIPE,
                                stderr=subprocess.PIPE)
-        proc.terminate()
         geomap_html = proc.communicate(timeout=100)[0]
-        atempt= atempt + 1
+        atempt+= 1
     return geomap_html.decode("utf-8")
 
 
-def geoparser_cmd(text):
+def geoparser_cmd(text, defoe_path, os, gazetteer, bounding_box):
     atempt=0
     flag = 1
     geoparser_xml = ''
     if "'" in text:
         text=text.replace("'", "\'\\\'\'")
    
-    cmd = 'echo \'%s\' \''+ text + '\' | '+ DEFOE_PATH + 'geoparser-v1.1/scripts/run -t plain -g ' + gazetter + bounding_box + ' -top | ' + DEFOE_PATH+ 'georesolve/bin/'+ OS + '/lxreplace -q s | '+ DEFOE_PATH + 'geoparser-v1.1/bin/'+ OS +'/lxt -s '+ DEFOE_PATH+'geoparser-v1.1/lib/georesolve/addfivewsnippet.xsl'
+    cmd = 'echo \'%s\' \''+ text + '\' | '+ defoe_path + 'geoparser-v1.1/scripts/run -t plain -g ' + gazetteer + ' ' + bounding_box + ' -top | ' + defoe_path+ 'georesolve/bin/'+ os + '/lxreplace -q s | '+ defoe_path + 'geoparser-v1.1/bin/'+ os +'/lxt -s '+ defoe_path+'geoparser-v1.1/lib/georesolve/addfivewsnippet.xsl'
 
-    while (len(geoparser_xml) < 5) and (atempt < 10000) and (flag == 1): 
+    
+    while (len(geoparser_xml) < 5) and (atempt < 10) and (flag == 1):
         proc=subprocess.Popen(cmd.encode('utf-8'), shell=True,
                                stdin=subprocess.PIPE,
                                stdout=subprocess.PIPE,
                                stderr=subprocess.PIPE)
-        proc.terminate()
         stdout, stderr = proc.communicate()
         if "Error" in str(stderr):
             flag = 0
             print("err: '{}'".format(stderr))
         else:
             geoparser_xml = stdout
-        atempt+=1
+        atempt+= 1
     return geoparser_xml
 
 def geoparser_coord_xml(geo_xml):

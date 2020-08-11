@@ -5,11 +5,11 @@ import spacy
 from spacy.tokens import Doc
 from spacy.vocab import Vocab
 
-DEFOE_PATH="/Users/rosafilgueira/EPCC/TDM/CDS/defoe-code/defoe/"
-OS="sys-i386-snow-leopard"
-gazetter = "os"
-bounding_box = " -lb -7.54296875, 54.689453125, -0.774267578125, 60.8318847656 2 "
 
+#change this according to your path
+defoe_path ="/home/rosa_filgueira_vicente/defoe/"
+gazetteer = "os"
+bounding_box = " -lb -7.54296875, 54.689453125, -0.774267578125, 60.8318847656 2 "
 
 def georesolve_page_2(text):
     nlp = spacy.load("en_core_web_lg")
@@ -68,14 +68,13 @@ def georesolve_cmd(in_xml):
     if "'" in in_xml:
         in_xml=in_xml.replace("'", "\'\\\'\'")
    
-    cmd = 'printf \'%s\' \''+ in_xml + '\' | '+ DEFOE_PATH + 'georesolve/scripts/geoground -g ' + gazetter + bounding_box + ' -top'
+    cmd = 'printf \'%s\' \''+ in_xml + '\' | '+ defoe_path + 'georesolve/scripts/geoground -g ' + gazetter + ' ' + bounding_box + ' -top'
     print("CMD is %s" % cmd)  
-    while (len(georesolve_xml) < 5) and (atempt < 8000) and (flag == 1):
+    while (len(georesolve_xml) < 5) and (atempt < 10) and (flag == 1):
         proc=subprocess.Popen(cmd.encode('utf-8'), shell=True,
                                stdin=subprocess.PIPE,
                                stdout=subprocess.PIPE,
                                stderr=subprocess.PIPE)
-        proc.terminate()
         atempt= atempt + 1
         stdout, stderr = proc.communicate()
         if "Error" in str(stderr):
@@ -85,11 +84,11 @@ def georesolve_cmd(in_xml):
         else:
             georesolve_xml = stdout
         atempt += 1
-        print(stdout, stderr)
+        print(atempt,stdout, stderr)
     print("----> Georesolve %s" %georesolve_xml)
     return georesolve_xml
 
 
-sentence ="I like to live in Madrid"
+sentence ="I like to live in Edinburgh"
 georesolve_page_2(sentence)
 

@@ -28,7 +28,25 @@ def do_query(archives, config_file=None, logger=None, context=None):
     :return: "0"
     :rtype: string
     """
-    
+    with open(config_file, "r") as f:
+        config = yaml.load(f)
+    gazetteer = config["gazetteer"]
+    if "bounding_box" in config:
+        bounding_box = config["bounding_box"]
+    else:
+        bounding_box = ""
+    if "os_type" in config:
+        if config["os_type"] == "linux":
+            os_type = "sys-i386-64"
+        else:
+            os_type= "sys-i386-snow-leopard"
+    else:
+            os_type = "sys-i386-64"
+    if "defoe_path" in config :
+        defoe_path = config["defoe_path"]
+    else:
+        defoe_path = "./"
+
     documents = archives.flatMap(
         lambda archive: [(document.year, document.title, document.edition, \
                           document.archive.filename, document) for document in list(archive)])
@@ -38,11 +56,11 @@ def do_query(archives, config_file=None, logger=None, context=None):
     
     pages_clean = documents.flatMap(
         lambda year_document: [(year_document[0], year_document[1], year_document[2],\
-                                year_document[3], page.code, page.page_id, clean_page_as_string(page)) for page in year_document[4]])
+                                year_document[3], page.code, page.page_id, clean_page_as_string(page,defoe_path, os_type)) for page in year_document[4]])
 
     geo_xml_pages = pages_clean.flatMap(
         lambda clean_page: [(clean_page[0], clean_page[1], clean_page[2],\
-                               clean_page[3], clean_page[4], clean_page[5], query_utils.geoparser_cmd(clean_page[6]))])
+                               clean_page[3], clean_page[4], clean_page[5], query_utils.geoparser_cmd(clean_page[6], defoe_path, os_type, gazetteer, bounding_box))])
     
      
     matching_pages = geo_xml_pages.map(
