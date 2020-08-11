@@ -68,10 +68,9 @@ def do_query(issues, config_file=None, logger=None, context=None):
     target_sentences = keysentences[0:num_target]
     keysentences = keysentences[lexicon_start:]
     clean_articles = issues.flatMap(
-        lambda issue: [(issue.date.year, clean_article_as_string(
+        lambda issue: [(issue.date.year, issue, article, clean_article_as_string(
             article)) for article in issue.articles if int(issue.date.year)>= start_year and int(issue.date.year)<= end_year])
-
-
+    
     # [(year, preprocess_article_string), ...]
     t_articles = clean_articles.flatMap(
         lambda cl_article: [(cl_article[0], cl_article[1], cl_article[2],  
