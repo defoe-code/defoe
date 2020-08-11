@@ -260,12 +260,12 @@ def preprocess_word(word, preprocess_type=PreprocessWordType.NONE):
         preprocessed_word = word
     return preprocessed_word
 
-def longsfix_sentence(sentence, defoe_path, os):
+def longsfix_sentence(sentence, defoe_path, os_type):
 
     if "'" in sentence:
         sentence=sentence.replace("'", "\'\\\'\'")
     
-    cmd = 'printf \'%s\' \''+ sentence + '\' | '+ defoe_path + 'defoe/long_s_fix/' + os + '/lxtransduce -l spelling='+ defoe_path+ 'defoe/long_s_fix/f-to-s.lex '+ defoe_path+ 'defoe/long_s_fix/fix-spelling.gr'
+    cmd = 'printf \'%s\' \''+ sentence + '\' | '+ defoe_path + 'defoe/long_s_fix/' + os_type + '/lxtransduce -l spelling='+ defoe_path+ 'defoe/long_s_fix/f-to-s.lex '+ defoe_path+ 'defoe/long_s_fix/fix-spelling.gr'
 
     try:
         proc=subprocess.Popen(cmd.encode('utf-8'), shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -464,12 +464,12 @@ def coord_xml_snippet(geo_xml, snippet):
         dResolvedLocs["cmd"]="Georesolver_Empty"
     return dResolvedLocs
 
-def geomap_cmd(in_xml, defoe_path, os, gazetteer, bounding_box):
+def geomap_cmd(in_xml, defoe_path, os_type, gazetteer, bounding_box):
     geomap_html = ''
     atempt=0
     if "'" in in_xml:
         in_xml=in_xml.replace("'", "\'\\\'\'")
-    cmd = 'printf \'%s\' \''+ in_xml + ' \' | ' + defoe_path+ 'georesolve/scripts/geoground -g ' + gazetteer + ' ' +bounding_box + ' -top | ' + defoe_path + 'georesolve/bin/' + os + '/lxt -s ' + defoe_path + 'georesolve/lib/georesolve/gazmap-leaflet.xsl'
+    cmd = 'printf \'%s\' \''+ in_xml + ' \' | ' + defoe_path+ 'georesolve/scripts/geoground -g ' + gazetteer + ' ' +bounding_box + ' -top | ' + defoe_path + 'georesolve/bin/' + os_type + '/lxt -s ' + defoe_path + 'georesolve/lib/georesolve/gazmap-leaflet.xsl'
 
     while (len(geomap_html) < 5) and (atempt < 10): 
         proc=subprocess.Popen(cmd.encode('utf-8'), shell=True,
@@ -481,14 +481,14 @@ def geomap_cmd(in_xml, defoe_path, os, gazetteer, bounding_box):
     return geomap_html.decode("utf-8")
 
 
-def geoparser_cmd(text, defoe_path, os, gazetteer, bounding_box):
+def geoparser_cmd(text, defoe_path, os_type, gazetteer, bounding_box):
     atempt=0
     flag = 1
     geoparser_xml = ''
     if "'" in text:
         text=text.replace("'", "\'\\\'\'")
    
-    cmd = 'echo \'%s\' \''+ text + '\' | '+ defoe_path + 'geoparser-v1.1/scripts/run -t plain -g ' + gazetteer + ' ' + bounding_box + ' -top | ' + defoe_path+ 'georesolve/bin/'+ os + '/lxreplace -q s | '+ defoe_path + 'geoparser-v1.1/bin/'+ os +'/lxt -s '+ defoe_path+'geoparser-v1.1/lib/georesolve/addfivewsnippet.xsl'
+    cmd = 'echo \'%s\' \''+ text + '\' | '+ defoe_path + 'geoparser-v1.1/scripts/run -t plain -g ' + gazetteer + ' ' + bounding_box + ' -top | ' + defoe_path+ 'georesolve/bin/'+ os_type + '/lxreplace -q s | '+ defoe_path + 'geoparser-v1.1/bin/'+ os_type +'/lxt -s '+ defoe_path+'geoparser-v1.1/lib/georesolve/addfivewsnippet.xsl'
 
     
     while (len(geoparser_xml) < 5) and (atempt < 10) and (flag == 1):
