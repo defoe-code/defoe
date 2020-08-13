@@ -528,6 +528,39 @@ def get_text_keyword_idx(text,
             matches.add(match)
     return sorted(list(matches))
 
+
+def get_text_keysentence_idx(text,
+                            keysentences):
+    """
+    Gets a list of keywords (and their position indices) within an
+    article.
+
+    :param text: text
+    :type article: string
+    :param keywords: keywords
+    :type keywords: list(str or unicode)
+    :return: sorted list of keywords and their indices
+    :rtype: list(tuple(str or unicode, int))
+    """
+    matches = []
+    text_list= text.split()
+    for sentence in keysentences:
+        if len(sentence.split()) > 1:
+            if sentence in text:
+                results=[match.start() for match in re.finditer(sentence, text)]
+                for r in results:
+                    idx=len(text[0:r].split())
+                    match=(sentence, idx)
+                    matches.append(match)
+        else:
+            pattern = re.compile(r'^%s$'%sentence)
+            for idx, word in enumerate(text_list):
+                if re.search(pattern, word):
+                    match=(word, idx)
+                    matches.append(match)
+    return sorted(matches)
+
+
 def get_concordance(text,
                     keyword,
                     idx,
@@ -563,4 +596,46 @@ def get_concordance(text,
     concordance_words = []
     for word in text_list[start_idx:end_idx]:
         concordance_words.append(word)
+    return concordance_words
+
+def get_concordance_string(text,
+                    keyword,
+                    idx,
+                    window):
+    """
+    For a given keyword (and its position in an article), return
+    the concordance of words (before and after) using a window.
+
+    :param text: text
+    :type text: string 
+    :param keyword: keyword
+    :type keyword: str or unicode
+    :param idx: keyword index (position) in list of article's words
+    :type idx: int
+    :window: number of words to the right and left
+    :type: int
+    :return: concordance
+    :rtype: list(str or unicode)
+    """
+    text_list= text.split()
+    text_size = len(text_list)
+
+    if idx >= window:
+        start_idx = idx - window
+    else:
+        start_idx = 0
+
+    if idx + window >= text_size:
+        end_idx = text_size
+    else:
+        end_idx = idx + window + 1
+
+    concordance_words = ''
+    flag_first = 1 
+    for word in text_list[start_idx:end_idx]:
+        if flag_first == 1:
+            concordance_words += word
+            flag_first = 0
+        else:
+            concordance_words += ' ' + word
     return concordance_words
