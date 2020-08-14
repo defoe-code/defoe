@@ -205,7 +205,7 @@ def get_page_as_string(page,
     return page_string
 
 
-def clean_text_as_string(text, flag):
+def clean_text_as_string(text, flag, defoe_path, os_type):
     """
     Clean a text as a single string,
     Handling hyphenated words: combine and split and also fixing the long-s
@@ -227,7 +227,7 @@ def clean_text_as_string(text, flag):
    
     if (len(text_combined) > 1) and ('f' in text_combined): 
        
-       text_clean = longsfix_sentence(text_combined) 
+       text_clean = longsfix_sentence(text_combined, defoe_path, os_type) 
     else:
         text_clean= text_combined
     if flag!=2:
@@ -266,11 +266,11 @@ def clean_headers_page_as_string(page):
     :rtype: string or unicode
     """
     page_words=page.words
-    page_string_final=clean_text_as_string(page_words, 0)
+    page_string_final=clean_text_as_string(page_words, 0, defoe_path, os_type)
     header_left_words=page.header_left_words
-    header_left_string_final=clean_text_as_string(header_left_words, 1)
+    header_left_string_final=clean_text_as_string(header_left_words, 1, defoe_path, os_type)
     header_right_words=page.header_right_words
-    header_right_string_final=clean_text_as_string(header_right_words, 1)
+    header_right_string_final=clean_text_as_string(header_right_words, 1, defoe_path, os_type)
     #in case the right header is part of the text E.G. (LELAND,John,aneminentEnglishantiquarian,was)
     if len(header_right_string_final)>12:
          header_right_string_final=''
@@ -278,7 +278,7 @@ def clean_headers_page_as_string(page):
     #print("Header_left_string_final %s - header_right_string_final %s" %(header_left_string_final, header_right_string_final))
     return header_left_string_final, header_right_string_final, page_string_final
 
-def filter_terms_page(page):
+def filter_terms_page(page, defoe_path, os_type):
     """
     Discovering the TERMS in the leftmost side of each colum.
     :param page: Page
@@ -288,9 +288,9 @@ def filter_terms_page(page):
     """
     page_words=page.words
     header_left_words=page.header_left_words
-    header_left=clean_text_as_string(header_left_words, 1)
+    header_left=clean_text_as_string(header_left_words, 1, defoe_path, os_type)
     header_right_words=page.header_right_words
-    header_right=clean_text_as_string(header_right_words, 1)
+    header_right=clean_text_as_string(header_right_words, 1, defoe_path, os_type)
     #in case the right header is part of the text E.G. (LELAND,John,aneminentEnglishantiquarian,was)
     if len(header_right)>12:
          header_right=''
@@ -392,8 +392,8 @@ def filter_terms_page(page):
     
     if page_term_dict:
         for term in page_term_dict:
-            clean_term=clean_text_as_string(term,2)
-            clean_def=clean_text_as_string(page_term_dict[term],0)
+            clean_term=clean_text_as_string(term,2, defoe_path, os_type)
+            clean_def=clean_text_as_string(page_term_dict[term],0, defoe_path, os_type)
             page_clean_term_dict[clean_term]=clean_def
 
     if len(page_clean_term_dict)>5 and (type_page == "Topic"):
