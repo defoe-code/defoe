@@ -34,6 +34,6 @@ def geoparser_cmd(text):
     print("--->Geoparser %s" %geoparser_xml)
     return geoparser_xml
 
-sentence ="I like to live in Madrid"
+sentence ="I like to live in Madrid, which is the capital of Spain."
 geoparser_cmd(sentence)
 

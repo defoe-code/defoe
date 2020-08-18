@@ -89,6 +89,6 @@ def georesolve_cmd(in_xml):
     return georesolve_xml
 
 
-sentence ="I like to live in Edinburgh"
+sentence ="I like to live in Edinburgh, which is one of the Scottish cities."
 georesolve_page_2(sentence)
 
