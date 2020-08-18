@@ -261,7 +261,6 @@ def preprocess_word(word, preprocess_type=PreprocessWordType.NONE):
     return preprocessed_word
 
 def longsfix_sentence(sentence, defoe_path, os_type):
-
     if "'" in sentence:
         sentence=sentence.replace("'", "\'\\\'\'")
     

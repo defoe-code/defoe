@@ -108,7 +108,7 @@ def do_query(archives, config_file=None, logger=None, context=None):
           "place": page_data[1].place,
           "publisher": page_data[1].publisher,
           "page_number": page_data[2].code,
-          "content": page_data[2].content,
+          "snippet": page_data[2].content,
           "term": page_data[3],
           "document_id": page_data[1].code,
           "filename": page_data[1].archive.filename}))

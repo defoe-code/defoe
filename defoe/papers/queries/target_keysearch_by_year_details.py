@@ -43,6 +43,18 @@ def do_query(issues, config_file=None, logger=None, context=None):
     """
     with open(config_file, "r") as f:
         config = yaml.load(f)
+    if "os_type" in config:
+        if config["os_type"] == "linux":
+            os_type = "sys-i386-64"
+        else:
+            os_type= "sys-i386-snow-leopard"
+    else:
+            os_type = "sys-i386-64"
+    if "defoe_path" in config :
+        defoe_path= config["defoe_path"]
+    else:
+        defoe_path = "./"
+
     preprocess_type = query_utils.extract_preprocess_word_type(config)
     data_file = query_utils.extract_data_file(config,
                                               os.path.dirname(config_file))
@@ -67,7 +79,7 @@ def do_query(issues, config_file=None, logger=None, context=None):
     keysentences = keysentences[lexicon_start:]
     clean_articles = issues.flatMap(
         lambda issue: [(issue.date.year, issue, article, clean_article_as_string(
-            article)) for article in issue.articles])
+            article, defoe_path, os_type)) for article in issue.articles])
 
 
     # [(year, preprocess_article_string), ...]
