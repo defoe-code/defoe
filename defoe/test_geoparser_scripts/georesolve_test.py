@@ -9,7 +9,7 @@ from spacy.vocab import Vocab
 #change this according to your path
 defoe_path ="/home/rosa_filgueira_vicente/defoe/"
 gazetteer = "os"
-bounding_box = " -lb -7.54296875, 54.689453125, -0.774267578125, 60.8318847656 2 "
+bounding_box = " -lb -7.57216793459 49.959999905 1.68153079591 58.6350001085 2 "
 
 def georesolve_page_2(text):
     nlp = spacy.load("en_core_web_lg")
