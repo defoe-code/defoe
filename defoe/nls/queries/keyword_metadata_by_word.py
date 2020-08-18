@@ -55,7 +55,7 @@ def do_query(archives, config_file=None, logger=None, context=None):
 
     # [(year, document, page, word), ...]
     filtered_words = documents.flatMap(
-        lambda document: get_page_matches(document,
+        lambda document: (document,
                                           keywords))
 
     # [(year, document, page, word), ...]
