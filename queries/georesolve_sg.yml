@@ -1,0 +1,5 @@
+lang_model: en_core_web_lg
+gazetteer: os
+defoe_path: /home/rosa_filgueira_vicente/defoe/
+bounding_box: -7.57216793459 49.959999905 1.68153079591 58.6350001085
+os_type: linux
