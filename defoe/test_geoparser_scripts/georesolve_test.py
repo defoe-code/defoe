@@ -68,7 +68,7 @@ def georesolve_cmd(in_xml):
     if "'" in in_xml:
         in_xml=in_xml.replace("'", "\'\\\'\'")
    
-    cmd = 'printf \'%s\' \''+ in_xml + '\' | '+ defoe_path + 'georesolve/scripts/geoground -g ' + gazetter + ' ' + bounding_box + ' -top'
+    cmd = 'printf \'%s\' \''+ in_xml + '\' | '+ defoe_path + 'georesolve/scripts/geoground -g ' + gazetteer + ' ' + bounding_box + ' -top'
     print("CMD is %s" % cmd)  
     while (len(georesolve_xml) < 5) and (atempt < 10) and (flag == 1):
         proc=subprocess.Popen(cmd.encode('utf-8'), shell=True,
