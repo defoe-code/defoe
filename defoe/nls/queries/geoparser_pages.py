@@ -32,7 +32,7 @@ def do_query(archives, config_file=None, logger=None, context=None):
         config = yaml.load(f)
     gazetteer = config["gazetteer"]
     if "bounding_box" in config:
-        bounding_box = config["bounding_box"]
+        bounding_box = " -lb " + config["bounding_box"] + " 2"
     else:
         bounding_box = ""
     if "os_type" in config:

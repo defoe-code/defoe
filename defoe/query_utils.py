@@ -382,9 +382,9 @@ def georesolve_cmd(in_xml, defoe_path, gazetteer, bounding_box):
     flag = 1
     if "'" in in_xml:
         in_xml=in_xml.replace("'", "\'\\\'\'")
-    
-    cmd = 'printf \'%s\' \''+ in_xml + '\' | '+ defoe_path + 'georesolve/scripts/geoground -g ' + gazetteer + ' ' +bounding_box + ' -top'
-    while (len(georesolve_xml) < 5) and (atempt < 10) and (flag == 1):
+
+    cmd = 'printf \'%s\' \''+ in_xml + '\' | '+ defoe_path + 'georesolve/scripts/geoground -g ' + gazetteer + ' ' + bounding_box + ' -top'
+    while (len(georesolve_xml) < 5) and (atempt < 1000) and (flag == 1):
         proc=subprocess.Popen(cmd.encode('utf-8'), shell=True,
                                stdin=subprocess.PIPE,
                                stdout=subprocess.PIPE,
@@ -395,7 +395,10 @@ def georesolve_cmd(in_xml, defoe_path, gazetteer, bounding_box):
             print("err: '{}'".format(stderr))
             georesolve_xml =  ''
         else:
-            georesolve_xml = stdout
+            if stdout == in_xml:
+                georesolve_xml = ''
+            else:
+                georesolve_xml = stdout
         atempt += 1
     return georesolve_xml
 
@@ -471,7 +474,7 @@ def geomap_cmd(in_xml, defoe_path, os_type, gazetteer, bounding_box):
         in_xml=in_xml.replace("'", "\'\\\'\'")
     cmd = 'printf \'%s\' \''+ in_xml + ' \' | ' + defoe_path+ 'georesolve/scripts/geoground -g ' + gazetteer + ' ' +bounding_box + ' -top | ' + defoe_path + 'georesolve/bin/' + os_type + '/lxt -s ' + defoe_path + 'georesolve/lib/georesolve/gazmap-leaflet.xsl'
 
-    while (len(geomap_html) < 5) and (atempt < 10): 
+    while (len(geomap_html) < 5) and (atempt < 1000): 
         proc=subprocess.Popen(cmd.encode('utf-8'), shell=True,
                                stdin=subprocess.PIPE,
                                stdout=subprocess.PIPE,
@@ -491,7 +494,7 @@ def geoparser_cmd(text, defoe_path, os_type, gazetteer, bounding_box):
     cmd = 'echo \'%s\' \''+ text + '\' | '+ defoe_path + 'geoparser-v1.1/scripts/run -t plain -g ' + gazetteer + ' ' + bounding_box + ' -top | ' + defoe_path+ 'georesolve/bin/'+ os_type + '/lxreplace -q s | '+ defoe_path + 'geoparser-v1.1/bin/'+ os_type +'/lxt -s '+ defoe_path+'geoparser-v1.1/lib/georesolve/addfivewsnippet.xsl'
 
     
-    while (len(geoparser_xml) < 5) and (atempt < 10) and (flag == 1):
+    while (len(geoparser_xml) < 5) and (atempt < 1000) and (flag == 1):
         proc=subprocess.Popen(cmd.encode('utf-8'), shell=True,
                                stdin=subprocess.PIPE,
                                stdout=subprocess.PIPE,
