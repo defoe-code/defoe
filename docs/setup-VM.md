@@ -188,18 +188,21 @@ The NLS geoparser query code is [here](https://github.com/defoe-code/defoe/blob/
 conda activate g-py36
 cd $HOME/defoe
 ```
-Change queries/geoparser.yml with according to your needs:
+Change queries/geoparser_sg.yml with according to your needs:
 ```
      gazetteer: os
      bounding_box: -lb -7.54296875 54.689453125 -0.774267578125 60.8318847656 2
      defoe_path: /home/rosa_filgueira_vicente/defoe/
      os_type: linux
 ```
-- **NOTE**: use *linux* or *macos* for indicating the type of Operating System (os_type) inside the configuration queries/geoparser.yml 
+- **NOTE**: use *linux* or *macos* for indicating the type of Operating System (os_type) inside the configuration queries/geoparser_sg.yml 
        
 - **IMPORTANT**: The **addfivewsnippet.xsl** stylesheet is necesary (not included in the original source code):
    - A copy of **addfivewsnippet.xsl** (and others sytlesheets) can be found at [defoe/others](https://github.com/defoe-code/defoe/blob/master/others/addfivewsnippet.xsl)
       -  Make sure that you take a copy of this *addfivewsnippet.xsl* and put it inside your *defoe_path+ geoparser-v1.1/lib/georesolve/.* . Otherwise you will get an error while running this query.
+
+
+Since we are geoparsing two collections, Encyclopedia Britannica (EB) and the Scottish Gazetters (SG), we have two geoparser YML files (geoparser_sg.yml, and geoparser_eb.yml). Both files have different configurations. For EB we use *geonames* gazzeter, and for SG we use *os* gazetter plus the bounding box.
 
 Furthermore, any future changes about *how to call to the original geoparser tool* have to be made in [geoparser_cmd function - Line 487](https://github.com/defoe-code/defoe/blob/master/defoe/query_utils.py). 
 
@@ -209,7 +212,7 @@ We are going to use the *sg_sample.txt* file created before. Remember that  *sg_
 
 ```
 zip -r defoe.zip defoe
-spark-submit --py-files defoe.zip defoe/run_query.py sg_sample.txt nls defoe.nls.queries.geoparser_pages queries/geoparser.yml -r geoparser_sample_results -n 34
+spark-submit --py-files defoe.zip defoe/run_query.py sg_sample.txt nls defoe.nls.queries.geoparser_pages queries/geoparser_sg.yml -r geoparser_sample_results -n 34
 ```
 
 ### Using the SG full dataset:
@@ -220,7 +223,7 @@ spark-submit --py-files defoe.zip defoe/run_query.py sg_sample.txt nls defoe.nls
 
 ```
 zip -r defoe.zip defoe
-spark-submit --py-files defoe.zip defoe/run_query.py sg_total.txt nls defoe.nls.queries.geoparser_pages queries/geoparser.yml -r geoparser_total_results -n 34
+spark-submit --py-files defoe.zip defoe/run_query.py sg_total.txt nls defoe.nls.queries.geoparser_pages queries/geoparser_sg.yml -r geoparser_total_results -n 34
 ```
 
 # Running the Georesolve Defoe query
@@ -231,7 +234,7 @@ The NLS georesolve query code is [here](https://github.com/defoe-code/defoe/blob
 conda activate g-py36
 cd $HOME/defoe
 ```
-Change queries/georesolve.yml according to your needs:
+Change queries/georesolve_sg.yml according to your needs:
 ```
      lang_model: en_core_web_lg
      gazetteer: os
@@ -241,7 +244,9 @@ Change queries/georesolve.yml according to your needs:
      
 ```
       
-- **NOTE**: use *linux* or *macos* for indicating the type of Operating System (os_type) inside the queries/georesolve.yml configuration file.
+- **NOTE**: use *linux* or *macos* for indicating the type of Operating System (os_type) inside the queries/georesolve_sg.yml configuration file.
+
+Since we are georesolving two collections, Encyclopedia Britannica (EB) and the Scottish Gazetters (SG), we have two georesolve YML files (georesolve_sg.yml, and georesolve_eb.yml). Both files have different configurations. For EB we use *geonames* gazzeter, and for SG we use *os* gazetter plus the bounding box.
 
 Furthermore, any future changes about *how to call to the georesolve tool* have to be made in [georesolve_cmd function - Line 380](https://github.com/defoe-code/defoe/blob/master/defoe/query_utils.py). 
 
@@ -251,7 +256,7 @@ We are going to use the *sg_sample.txt* file created before. Remember that *sg_s
 
 ```
 zip -r defoe.zip defoe
-spark-submit --py-files defoe.zip defoe/run_query.py sg_sample.txt nls defoe.nls.queries.georesolution_pages queries/georesolve.yml -r georesolve_sample_results -n 34
+spark-submit --py-files defoe.zip defoe/run_query.py sg_sample.txt nls defoe.nls.queries.georesolution_pages queries/georesolve_sg.yml -r georesolve_sample_results -n 34
 ```
 
 ### Using the SG full dataset:
@@ -261,7 +266,7 @@ spark-submit --py-files defoe.zip defoe/run_query.py sg_sample.txt nls defoe.nls
 
 ```
 zip -r defoe.zip defoe
-spark-submit --py-files defoe.zip defoe/run_query.py sg_total.txt nls defoe.nls.queries.georesolution_pages queries/georesolve.yml -r georesolve_total_results -n 34
+spark-submit --py-files defoe.zip defoe/run_query.py sg_total.txt nls defoe.nls.queries.georesolution_pages queries/georesolve_sg.yml -r georesolve_total_results -n 34
 ```
 
 
@@ -293,18 +298,18 @@ zip -r defoe.zip defoe
 
 #### Run the Georesolve Query:
 
-Remember to change first the queries/georesolve.yml configuration file according to your needs.
+Remember to change first the queries/georesolve_sg.yml configuration file according to your needs.
 ```
-spark-submit --py-files defoe.zip defoe/run_query.py sg_one_page.txt nls defoe.nls.queries.georesolution_pages queries/georesolve.yml -r sample_97437554_97440572.34_georesolve -n 34
+spark-submit --py-files defoe.zip defoe/run_query.py sg_one_page.txt nls defoe.nls.queries.georesolution_pages queries/georesolve_sg.yml -r sample_97437554_97440572.34_georesolve -n 34
 ```
 Check your sample_97437554_97440572.34_georesolve result file with [this one](https://github.com/defoe-code/defoe/blob/master/others/sample_97437554_97440572.34_georesolve)
 
 #### Run the Original Geoparser Query:
 
-Remember to change first the queries/geoparser.yml configuration file according to your needs.
+Remember to change first the queries/geoparser_sg.yml configuration file according to your needs.
 
 ```
-spark-submit --py-files defoe.zip defoe/run_query.py sg_one_page.txt nls defoe.nls.queries.geoparser_pages queries/geoparser.yml -r sample_97437554_97440572.34_orig_geoparser -n 34
+spark-submit --py-files defoe.zip defoe/run_query.py sg_one_page.txt nls defoe.nls.queries.geoparser_pages queries/geoparser_sg.yml -r sample_97437554_97440572.34_orig_geoparser -n 34
 ```
 
 Check your sample_97437554_97440572.34_orig_geoparser result file with [this one](https://github.com/defoe-code/defoe/blob/master/others/sample_97437554_97440572.34_orig_geoparser)
