@@ -41,10 +41,20 @@ def do_query(archives, config_file=None, logger=None, context=None):
     :return: "0"
     :rtype: string
     """
-    
-    os_type = "sys-i386-64"
-    defoe_path= "/lustre/home/sc048/rosaf4/defoe/"
-    
+    with open(config_file, "r") as f:
+        config = yaml.load(f)
+    if "os_type" in config:
+        if config["os_type"] == "linux":
+            os_type = "sys-i386-64"
+        else:
+            os_type= "sys-i386-snow-leopard"
+    else:
+            os_type = "sys-i386-64"
+    if "defoe_path" in config :
+        defoe_path = config["defoe_path"]
+    else:
+        defoe_path = "./"
+
     text_unit = "page"
     # [(tittle, edition, year, place, archive filename, 
     #   num pages, type of archive, type of disribution, model)]
@@ -77,5 +87,5 @@ def do_query(archives, config_file=None, logger=None, context=None):
     nlsRow=Row("title",  "edition", "year", "place", "archive_filename",  "source_text_filename", "text_unit", "text_unit_id", "num_text_unit", "type_archive", "model", "type_page", "header", "term", "definition", "num_articles", "num_page_words", "num_article_words")
     sqlContext = SQLContext(context)
     df = sqlContext.createDataFrame(pages_articles,nlsRow)
-    df.write.mode('overwrite').option("header","true").csv("hdfs:///eb_first_edition.csv")
+    df.write.mode('overwrite').option("header","true").csv("eb_total_articles.csv")
     return "0"
