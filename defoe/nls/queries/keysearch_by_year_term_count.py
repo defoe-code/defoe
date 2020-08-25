@@ -1,12 +1,12 @@
 """
-Counts number (The query counts as a “hint” every time that finds a page with a particular term from our lexicon in) of occurrences of keywords or keysentences and groups by year.
+Counts number of occurrences (term count: The query counts as a “hint” every time that finds a term from our lexicon) of keywords or keysentences and groups by year.
 """
 
 from operator import add
 
 from defoe import query_utils
 from defoe.nls.query_utils import preprocess_clean_page, clean_page_as_string
-from defoe.nls.query_utils import get_sentences_list_matches
+from defoe.nls.query_utils import get_sentences_list_matches_per_page
 
 import yaml, os
 
@@ -93,7 +93,7 @@ def do_query(archives, config_file=None, logger=None, context=None):
     # [(year, [keysentence, keysentence]), ...]
     matching_pages = filter_pages.map(
         lambda year_page: (year_page[0],
-                              get_sentences_list_matches(
+                              get_sentences_list_matches_per_page(
                                   year_page[1],
                                   keysentences)))
     

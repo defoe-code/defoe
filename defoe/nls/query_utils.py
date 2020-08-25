@@ -288,6 +288,35 @@ def get_sentences_list_matches(text, keysentence):
     return sorted(match)
 
 
+def get_sentences_list_matches_per_page(text,
+                            keysentences):
+    """
+    Gets a list the total list of keywords within an
+    article.
+
+    :param text: text
+    :type article: string
+    :param keywords: keywords
+    :type keywords: list(str or unicode)
+    :return: sorted list of keywords and their indices
+    :rtype: list(tuple(str or unicode, int))
+    """
+    match = []
+    text_list= text.split()
+    for sentence in keysentences:
+        if len(sentence.split()) > 1:
+            if sentence in text:
+                results=[matches.start() for matches in re.finditer(sentence, text)]
+                for r in results:
+                    match.append(sentence)
+        else:
+            pattern = re.compile(r'^%s$'%sentence)
+            for word in text_list:
+                if re.search(pattern, word):
+                    match.append(sentence)
+    return sorted(match)
+
+
 def preprocess_clean_page_spacy(clean_page,
                           preprocess_type=PreprocessWordType.LEMMATIZE):
 
