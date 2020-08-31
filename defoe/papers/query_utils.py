@@ -11,7 +11,7 @@ import re
 
 
 def get_article_matches(issue,
-                        keysentences,
+                        keysentences, defoe_path, os_type,
                         preprocess_type=PreprocessWordType.LEMMATIZE):
     """
     Get articles within an issue that include one or more keywords.
@@ -40,7 +40,7 @@ def get_article_matches(issue,
     for keysentence in keysentences:
         for article in issue:
             sentence_match = None
-            clean_article=clean_article_as_string(article)
+            clean_article=clean_article_as_string(article, defoe_path, os_type)
             preprocess_article=preprocess_clean_article(clean_article, preprocess_type)
             sentence_match = get_sentences_list_matches(preprocess_article, keysentence)
             if sentence_match:
@@ -231,7 +231,7 @@ def get_concordance(article,
 
 
 
-def clean_article_as_string(article):
+def clean_article_as_string(article, defoe_path, os_type):
         
     """
     Clean a article as a single string,
@@ -253,7 +253,7 @@ def clean_article_as_string(article):
     article_combined = ''.join(article_separete)
   
     if (len(article_combined) > 1) and ('f' in article_combined): 
-       article_clean = longsfix_sentence(article_combined) 
+       article_clean = longsfix_sentence(article_combined, defoe_path, os_type) 
        return article_clean
     else:
         return article_combined
