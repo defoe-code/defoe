@@ -105,7 +105,7 @@ def do_query(issues, config_file=None, logger=None, context=None):
         lambda year_article: (year_article[0], year_article[1], year_article[2], year_article[3], get_articles_list_matches(year_article[3], keysentences)))
     
     matching_sentences = matching_articles.flatMap(
-        lambda year_sentence: [(year_sentence[0], year_sentence[1], year_sentence[2], year_article[3], sentence)\
+        lambda year_sentence: [(year_sentence[0], year_sentence[1], year_sentence[2], year_sentence[3], sentence)\
                                 for sentence in year_sentence[4]])
 
     matching_data = matching_sentences.map(
