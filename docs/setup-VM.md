@@ -191,7 +191,7 @@ cd $HOME/defoe
 Change queries/geoparser.yml with according to your needs:
 ```
      gazetteer: os
-     bounding_box: -lb -7.54296875, 54.689453125, -0.774267578125, 60.8318847656 2
+     bounding_box: -lb -7.54296875 54.689453125 -0.774267578125 60.8318847656 2
      defoe_path: /home/rosa_filgueira_vicente/defoe/
      os_type: linux
 ```
@@ -235,7 +235,7 @@ Change queries/georesolve.yml according to your needs:
 ```
      lang_model: en_core_web_lg
      gazetteer: os
-     bounding_box: -lb -7.54296875, 54.689453125, -0.774267578125, 60.8318847656 2
+     bounding_box: -lb -7.54296875 54.689453125 -0.774267578125 60.8318847656 2
      defoe_path: /home/rosa_filgueira_vicente/defoe/
      os_type: linux
      
