@@ -55,7 +55,7 @@ $SPARK_HOME/bin/spark-submit --master spark://$hostmaster:7077 --executor-memory
 
 $SPARK_HOME/bin/spark-submit --master spark://$hostmaster:7077 --executor-memory 60g --py-files defoe.zip defoe/run_query.py chapbooks_data.txt nls defoe.nls.queries.keysearch_by_year_term_count queries/english.yml -r frequency_english_per_year_count_term -n $NUMCORES > log_chapbooks_english_term
 
-############# PEACE / WAR - TDM ############################
+############# PEACE / WAR - TDA ############################
 
 ### FREQUENCY QUERY
 
