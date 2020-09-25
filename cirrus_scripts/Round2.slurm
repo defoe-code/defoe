@@ -1,11 +1,11 @@
 #!/bin/bash
-#SBATCH --job-name=KEYSEARCH
-#SBATCH --time=8:00:00
+#SBATCH --job-name=Round2
+#SBATCH --time=20:00:00
 #SBATCH --exclusive
 #SBATCH --nodes=1
 #SBATCH --tasks-per-node=36
 #SBATCH --cpus-per-task=1
-#SBATCH --account=sc048
+#SBATCH --account=XXXX
 #SBATCH --partition=standard
 #SBATCH --qos=standard
  
@@ -69,4 +69,5 @@ $SPARK_HOME/bin/spark-submit --master spark://$hostmaster:7077 --executor-memory
 ## Preprocessed articles text
 
 $SPARK_HOME/bin/spark-submit --master spark://$hostmaster:7077 --executor-memory 60g --py-files defoe.zip defoe/run_query.py tda_total.txt papers defoe.papers.queries.target_keysearch_by_year_preprocessed_details queries/peace_war.yml -r results_freq_peace_preprocessed_details -n $NUMCORES > log_details_peace_war_prep
-echo "End of the text mining query"
+
+echo "End of defoe text mining queries for Round 2"
