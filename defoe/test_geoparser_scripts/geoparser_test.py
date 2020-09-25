@@ -17,8 +17,8 @@ def geoparser_cmd(text):
     if "'" in text:
         text=text.replace("'", "\'\\\'\'")
 
-    cmd = 'echo \'%s\' \''+ text + '\' | '+ defoe_path + 'geoparser-v1.1/scripts/run -t plain -g ' + gazetteer + ' '+ bounding_box + ' -top | ' + defoe_path+ 'georesolve/bin/'+ os + '/lxreplace -q s | '+ defoe_path + 'geoparser-v1.1/bin/'+ os_type +'/lxt -s '+ defoe_path+'geoparser-v1.1/lib/georesolve/addfivewsnippet.xsl'
-
+    cmd = 'echo \'%s\' \''+ text + '\' | '+ defoe_path + 'geoparser-v1.1/scripts/run -t plain -g ' + gazetteer + ' ' + bounding_box + ' -top | ' + defoe_path+ 'georesolve/bin/'+ os_type + '/lxreplace -q s | '+ defoe_path + 'geoparser-v1.1/bin/'+ os_type +'/lxt -s '+ defoe_path+'geoparser-v1.1/lib/georesolve/addfivewsnippet.xsl'
+    
     print("CMD is %s" %cmd)
 
     while (len(geoparser_xml) < 5) and (atempt < 10) and (flag == 1):
@@ -34,6 +34,6 @@ def geoparser_cmd(text):
     print("--->Geoparser %s" %geoparser_xml)
     return geoparser_xml
 
-sentence ="I like to live in Madrid"
+sentence ="I like to live in Madrid, which is the capital of Spain."
 geoparser_cmd(sentence)
 

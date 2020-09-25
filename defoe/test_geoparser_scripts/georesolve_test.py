@@ -9,7 +9,7 @@ from spacy.vocab import Vocab
 #change this according to your path
 defoe_path ="/home/rosa_filgueira_vicente/defoe/"
 gazetteer = "os"
-bounding_box = " -lb -7.54296875, 54.689453125, -0.774267578125, 60.8318847656 2 "
+bounding_box = " -lb -7.57216793459 49.959999905 1.68153079591 58.6350001085 2 "
 
 def georesolve_page_2(text):
     nlp = spacy.load("en_core_web_lg")
@@ -68,7 +68,7 @@ def georesolve_cmd(in_xml):
     if "'" in in_xml:
         in_xml=in_xml.replace("'", "\'\\\'\'")
    
-    cmd = 'printf \'%s\' \''+ in_xml + '\' | '+ defoe_path + 'georesolve/scripts/geoground -g ' + gazetter + ' ' + bounding_box + ' -top'
+    cmd = 'printf \'%s\' \''+ in_xml + '\' | '+ defoe_path + 'georesolve/scripts/geoground -g ' + gazetteer + ' ' + bounding_box + ' -top'
     print("CMD is %s" % cmd)  
     while (len(georesolve_xml) < 5) and (atempt < 10) and (flag == 1):
         proc=subprocess.Popen(cmd.encode('utf-8'), shell=True,
@@ -89,6 +89,6 @@ def georesolve_cmd(in_xml):
     return georesolve_xml
 
 
-sentence ="I like to live in Edinburgh"
+sentence ="I like to live in Edinburgh, which is one of the Scottish cities."
 georesolve_page_2(sentence)
 
