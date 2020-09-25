@@ -50,5 +50,22 @@ So, we have created two slurm jobs, one per Round: [Round1.slurm](https://github
   ```
    >> sbatch Round_1.slurm
    ```
-Note, that for running Round_[1|2].slurm job, you need to have first running the **sparkcluster_driver_defoe.slurm** job.   
+Note, that for running Round_[1|2].slurm job, you need to have first running the **sparkcluster_driver_defoe.slurm** job. 
+
+Also, you will need to modify Round_[1|2].slurm files according to your needs - e.g time, account, job name. But you will only need to **reserve 1 node** (36 cores).
+
+
+```
+#!/bin/bash
+#SBATCH --job-name=Round1
+#SBATCH --time=20:00:00
+#SBATCH --exclusive
+#SBATCH --nodes=1
+#SBATCH --tasks-per-node=36
+#SBATCH --cpus-per-task=1
+#SBATCH --account=XXXX
+#SBATCH --partition=standard
+#SBATCH --qos=standard
+```
+
 
