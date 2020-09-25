@@ -1,8 +1,8 @@
 #!/bin/bash
-#SBATCH --job-name=PBS_SLURM
-#SBATCH --time=5:00:00
+#SBATCH --job-name=SPARKCLUSTER
+#SBATCH --time=24:00:00
 #SBATCH --exclusive
-#SBATCH --nodes=5
+#SBATCH --nodes=9
 #SBATCH --tasks-per-node=36
 #SBATCH --cpus-per-task=1
 #SBATCH --account=sc048
@@ -22,8 +22,6 @@ export PATH=$SPARK_HOME/sbin:$SPARK_HOME/bin:$PATH
 export HADOOP_HOME=$HOME/HADOOP/hadoop-2.9.2
 export HADOOP_CONF_DIR=$HOME/HADOOP/conf_dir
 export PATH=$PATH:$HADOOP_HOME/bin
-
-export NUM_NODES=2
 
 cd $HOME/bash_scripts
 rm -f master.log
@@ -65,7 +63,7 @@ do
 done
 
 #$SPARK_HOME/sbin/start-history-server.sh
-sleep 5h
+sleep 24h
 
 
 
