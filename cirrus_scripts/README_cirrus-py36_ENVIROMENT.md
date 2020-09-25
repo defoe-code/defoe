@@ -1,3 +1,5 @@
+To create a python 3 enviroment in Cirrus, do:
+
 ```
 module load anaconda/python3 
 conda create -n cirrus-py36 python=3.6 anaconda
