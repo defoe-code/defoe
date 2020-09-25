@@ -1,11 +1,11 @@
 #!/bin/bash
-#SBATCH --job-name=KEYSEARCH
-#SBATCH --time=24:00:00
+#SBATCH --job-name=Round1
+#SBATCH --time=20:00:00
 #SBATCH --exclusive
 #SBATCH --nodes=1
 #SBATCH --tasks-per-node=36
 #SBATCH --cpus-per-task=1
-#SBATCH --account=sc048
+#SBATCH --account=XXXX
 #SBATCH --partition=standard
 #SBATCH --qos=standard
  
@@ -123,4 +123,4 @@ $SPARK_HOME/bin/spark-submit --master spark://$hostmaster:7077 --executor-memory
 
 
 
-echo "End of the text mining query"
+echo "End of defoe text mining queries for Round 1"
