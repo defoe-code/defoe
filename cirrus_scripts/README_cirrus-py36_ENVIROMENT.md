@@ -16,7 +16,7 @@ To activate this environment, use:
 
 ```
 >> source activate cirrus-py36
-bash scripts/download_ntlk_corpus.sh
+
 ```
 
 To deactivate an active environment, use:
