@@ -1,6 +1,6 @@
 """ 
 Extracting automatically articles from the EB. 
-The articles are stored in HDFS files.
+The articles are stored in a HDFS file.
 
 Note that for running this query, apart from Spark you need to have HADOOP installeld in your computing enviroment.
 
@@ -14,7 +14,7 @@ import yaml, os
 
 def do_query(archives, config_file=None, logger=None, context=None):
     """
-    Ingest NLS pages, clean and extract the articles of each to each page, and save them to HDFS, with some metadata associated with each page.
+    Ingest NLS pages, clean and extract the articles of each to each page, and save them to HDFS, with some metadata associated with each article.
     
     Metadata collected:  "title",  "edition", "year", "place", "archive_filename",  "source_text_filename", "text_unit", 
     "text_unit_id", "num_text_unit", "type_archive", "model", "type_page", "header", "term", "definition",
