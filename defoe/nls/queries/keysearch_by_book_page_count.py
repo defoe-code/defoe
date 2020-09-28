@@ -21,6 +21,8 @@ def do_query(archives, config_file=None, logger=None, context=None):
     
     Also the config_file can indicate the preprocess treatment, along with the defoe
     path, and the type of operating system.
+    
+    If a term appears several times in the same page, I still count as “1”.
 
     Example:
         '''Twas on the morn of sweet May Day':
