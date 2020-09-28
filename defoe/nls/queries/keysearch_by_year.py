@@ -14,11 +14,11 @@ def do_query(archives, config_file=None, logger=None, context=None):
     """
     Counts number of occurrences of keywords or keysentences and groups by year.
 
-    config_file must be the path to a configuration file with a list
-    of the keywords to search for, one per line.
-
-    Both keywords/keysentences and words in documents are normalized, by removing
-    all non-'a-z|A-Z' characters.
+    The config_file must indicate the path to a lexicon file with a list of the keywords 
+    to search for, one per line.
+    
+    Also the config_file can indicate the preprocess treatment, along with the defoe
+    path, and the type of operating system.
 
     Returns result of form:
 
