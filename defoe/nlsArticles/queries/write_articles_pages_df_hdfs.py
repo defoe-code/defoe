@@ -1,5 +1,9 @@
 """ 
-Pages as a collection of articles to ElasticSearch (ES) using dataframes, and some metadata associated with each document.
+Extracting automatically articles from the EB. 
+The articles are stored in HDFS files.
+
+Note that for running this query, apart from Spark you need to have HADOOP installeld in your computing enviroment.
+
 """
 
 from defoe import query_utils
@@ -10,11 +14,13 @@ import yaml, os
 
 def do_query(archives, config_file=None, logger=None, context=None):
     """
-    Ingest NLS pages, clean and extract the articles of each to each page, and save them to ES, with some metadata associated with each page.
-    Metadata collected: tittle, edition, year, place, archive filename, page filename, page id, num pages, 
-    type of archive, model, type_page, header, articles_page, num_articles, num_words  
+    Ingest NLS pages, clean and extract the articles of each to each page, and save them to HDFS, with some metadata associated with each page.
+    
+    Metadata collected:  "title",  "edition", "year", "place", "archive_filename",  "source_text_filename", "text_unit", 
+    "text_unit_id", "num_text_unit", "type_archive", "model", "type_page", "header", "term", "definition",
+    "num_articles", "num_page_words", "num_article_words",   
 
-    Data is saved as Dataframes into ElasticSearch: Index:'nlsArticles'  Type:'Encyclopaedia_Britannica_Articles'
+    Data is saved as Dataframes into HDFS. 
 
     Example:
     'Encyclopaedia Britannica: or, A dictionary of arts and sciences':
