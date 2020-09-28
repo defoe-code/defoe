@@ -1,5 +1,5 @@
 """
-Stores the preprocessed articles text by keywords or keysentences and groups by year.
+Stores the preprocessed articles text filtered by keywords or keysentences and groups them by year.
 This query is the recommended to use when there are target words.
 
 """
@@ -56,7 +56,7 @@ def do_query(issues, config_file=None, logger=None, context=None):
         
 
 
-    :param archives: RDD of defoe.nls.archive.Archive
+    :param archives: RDD of defoe.papers.archive.Archive
     :type archives: pyspark.rdd.PipelinedRDD
     :param config_file: query configuration file
     :type config_file: str or unicode
