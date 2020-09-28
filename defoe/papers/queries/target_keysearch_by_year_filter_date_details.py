@@ -1,6 +1,6 @@
 """
-Select the articles text by filtering them by years and also using keywords or keysentences.
-It groups by year.
+Select the articles text by filtering them by dates and also using keywords or keysentences.
+It groups results by year.
 """
 
 from operator import add
@@ -33,7 +33,7 @@ def do_query(issues, config_file=None, logger=None, context=None):
     If we do not want to include the target words (lets image that we have just one target word) 
     in the lexicon, we should indicate in the configuration file as, lexicon_start: 1.
     
-    Finally, to select the years that we want to use in this query, we have to indicate them
+    Finally, to select the dates that we want to use in this query, we have to indicate them
     in the configuration file as follows:
     
       start_year: YEAR_START (including that year)
