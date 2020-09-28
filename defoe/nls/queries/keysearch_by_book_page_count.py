@@ -1,5 +1,6 @@
 """
-Counts number (The query counts as a “hint” every time that finds a page with a particular term from our lexicon in) of occurrences of keywords or keysentences and groups bytitle.
+The query counts as a “hit” every time that finds a page with a particular term from a lexicon
+and it groups the results by books.
 """
 
 from operator import add
@@ -12,25 +13,24 @@ import yaml, os
 
 def do_query(archives, config_file=None, logger=None, context=None):
     """
-    Counts number of occurrences of keywords or keysentences and groups bytitle.
+    The query counts as a “hit” every time that finds a page with a particular 
+    term from a lexicon and it groups the results by years.
+    
+    config_file must be the path to a lexicon file with a list of the keywords 
+    to search for, one per line.
+    
+    Also the config_file can indicate the preprocess treatment, along with the defoe
+    path, and the type of operating system.
 
-    config_file must be the path to a configuration file with a list
-    of the keywords to search for, one per line.
+    Example:
+        '''Twas on the morn of sweet May Day':
+            - - neu
+                 - 1
+            - - blaw
+                 - 4
+    That means that neu appears in one page of the book 'Twas on the morn of sweet May Day'. 
+    And blaw appears in 4 pages of the same book.
 
-    Both keywords/keysentences and words in documents are normalized, by removing
-    all non-'a-z|A-Z' characters.
-
-    Returns result of form:
-
-        {
-          <YEAR>:
-          [
-            [<SENTENCE|WORD>, <NUM_SENTENCES|WORDS>],
-            ...
-          ],
-          <YEAR>:
-          ...
-        }
 
     :param archives: RDD of defoe.nls.archive.Archive
     :type archives: pyspark.rdd.PipelinedRDD
