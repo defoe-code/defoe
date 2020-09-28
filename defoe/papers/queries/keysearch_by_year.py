@@ -1,5 +1,6 @@
 """
-Counts number of occurrences of keywords or keysentences and groups by year.
+Counts number of occurrences of keywords or keysentences and groups by year. 
+This query is the recommended to use when there are not target words.  
 """
 
 from operator import add
@@ -13,12 +14,16 @@ import yaml, os
 def do_query(issues, config_file=None, logger=None, context=None):
     """
     Counts number of occurrences of keywords or keysentences and groups by year.
+    
+    This query is the recommended to use when there are not target words.  
 
-    config_file must be the path to a configuration file with a list
+    config_file must be the path to a lexicon file with a list
     of the keywords to search for, one per line.
+    
+    Also the config_file can indicate the preprocess treatment, along with the defoe
+    path, and the type of operating system. 
 
-    Both keywords/keysentences and words in articles are normalized, by removing
-    all non-'a-z|A-Z' characters.
+   
 
     Returns result of form:
 
