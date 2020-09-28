@@ -1,5 +1,7 @@
 """
-Gets concordance of window for keysentence and groups by date.
+Select the EB articles using a keysentences or keywords list and groups by date.
+Use this query ONLY for searching in the EB articles stored in HDFS previously 
+using nlsArticles/write_articles_pages_df_hdfs.py query. 
 """
 
 from operator import add
@@ -15,24 +17,34 @@ def do_query(df, config_file=None, logger=None, context=None):
     Gets concordance using a window of words, for keywords and groups by date.
 
     Data in HDFS have the following colums:
+    
+    "title",  "edition", "year", "place", "archive_filename",  "source_text_filename", "text_unit", 
+    "text_unit_id", "num_text_unit", "type_archive", "model", "type_page", "header", "term", "definition",
+    "num_articles", "num_page_words", "num_article_words", 
 
-    "title",  "edition", "year", "place", "archive_filename", 
-    "source_text_filename", "text_unit", "text_unit_id", 
-    "num_text_unit", "type_archive", "model", "source_text_raw", 
-    "source_text_clean", "source_text_norm", "source_text_lemmatize", "source_text_stem",
-    "num_words"
+    config_file must be the path to a lexicon file with a list of the keywords 
+    to search for, one per line.
+    
+    Also the config_file can indicate the preprocess treatment, along with the defoe
+    path, and the type of operating system. 
 
-    config_file must be the path to a configuration file with a list
-    of the keywords to search for, one per line.
-
-    Both keywords and words in documents are normalized, by removing
-    all non-'a-z|A-Z' characters.
-
-    Returns result of form:
-          [(year, [(title, edition, archive_filename, filename, word,corcondance),
-              (title, edition, archive_filename, filename, word, concordance ), ...]), ...]
-
-
+      Returns result of form:
+        {
+          <YEAR>:
+          [
+            [- title: 
+             - edition:
+             - archive_filename:
+             - page number:
+             - header:
+             - term
+             - article
+             - article-definition ]
+            ...
+          ],
+          <YEAR>:
+          ...
+        }
   
     :type issues: pyspark.rdd.PipelinedRDD
     :param config_file: query configuration file
