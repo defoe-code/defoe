@@ -56,7 +56,7 @@ def do_query(issues, config_file=None, logger=None, context=None):
         
 
 
-    :param archives: RDD of defoe.papers.archive.Archive
+    :param issues: RDD of defoe.papers.issue.Issue
     :type archives: pyspark.rdd.PipelinedRDD
     :param config_file: query configuration file
     :type config_file: str or unicode
