@@ -67,13 +67,13 @@ Run queries:
 * [Specify data to query](./docs/specify-data-to-query.md)
 * [Specify Azure data to query](./docs/specify-data-to-query-azure.md)
 * [Run individual queries](./docs/run-queries.md)
-* [NEW: Run multiple queries at once - just one ingestion](./docs/run-list-of-queries.md)
-* [NEW: Extracting, Transforming and Saving RDD objects to HDFS as a dataframe](./docs/nls_demo_examples/nls_demo_individual_queries.md#writing-and-reading-data-fromto-hdfs)
-* [NEW: Loading dataframe from HDFS and performing a query](./docs/nls_demo_examples/nls_demo_individual_queries.md#writing-and-reading-data-fromto-hdfs)
-* [NEW: Extracting, Transforming and Saving RDD objects to PostgreSQL database](./docs/nls_demo_examples/nls_demo_individual_queries.md#writing-and-reading-data-fromto-postgresql-database)
-* [NEW: Loading dataframe from PostgreSQL database and performing a query](./docs/nls_demo_examples/nls_demo_individual_queries.md#writing-and-reading-data-fromto-postgresql-database)
-* [NEW: Extracting, Transforming and Saving RDD objects to ElastiSearch](./docs/nls_demo_examples/nls_demo_individual_queries.md#writing-and-reading-data-tofrom-elasticsearch-es)
-* [NEW: Loading dataframe from ElasticSearch and performing a query](./docs/nls_demo_examples/nls_demo_individual_queries.md#writing-and-reading-data-tofrom-elasticsearch-es)
+* [Run multiple queries at once - just one ingestion](./docs/run-list-of-queries.md)
+* [Extracting, Transforming and Saving RDD objects to HDFS as a dataframe](./docs/nls_demo_examples/nls_demo_individual_queries.md#writing-and-reading-data-fromto-hdfs)
+* [Loading dataframe from HDFS and performing a query](./docs/nls_demo_examples/nls_demo_individual_queries.md#writing-and-reading-data-fromto-hdfs)
+* [Extracting, Transforming and Saving RDD objects to PostgreSQL database](./docs/nls_demo_examples/nls_demo_individual_queries.md#writing-and-reading-data-fromto-postgresql-database)
+* [Loading dataframe from PostgreSQL database and performing a query](./docs/nls_demo_examples/nls_demo_individual_queries.md#writing-and-reading-data-fromto-postgresql-database)
+* [Extracting, Transforming and Saving RDD objects to ElastiSearch](./docs/nls_demo_examples/nls_demo_individual_queries.md#writing-and-reading-data-tofrom-elasticsearch-es)
+* [Loading dataframe from ElasticSearch and performing a query](./docs/nls_demo_examples/nls_demo_individual_queries.md#writing-and-reading-data-tofrom-elasticsearch-es)
 
 Available queries:
 
@@ -82,10 +82,11 @@ Available queries:
 * [FMP newspapers](./docs/fmp/index.md) (Find My Past Newspapers datasets at article level)
 * [Papers Past New Zealand and Pacific newspapers](./docs/nzpp/index.md)
 * [Generic XML document queries](./docs/generic_xml/index.md) (these can be run on arbitrary XML documents)
-* [NLS queries](./docs/nls/index.md) (these can be run on the Encyclopaedia Britannica dataset)
+* [NLS queries](./docs/nls/index.md) (these can be run on the Encyclopaedia Britannica, Scottish Gazetteers or ChapBooks datasets)
 * HDFS queries - running queries against HDFS files - for interoperability across models.
 * PostgreSQL queries - running queries against PostgreSQL database - for interoperability across models.
 * ES queries - running queries against ES - for interoperability across models.
+* NLSArticles queries - just for extracting automatically articles from the Encyclopaedia Britannica dataset. 
 
 Developers:
 
