@@ -39,12 +39,20 @@ def do_query(issues, config_file=None, logger=None, context=None):
         {
           <YEAR>:
           [
-            [<SENTENCE|WORD>, <NUM_SENTENCES|WORDS>],
+            [- article_id: 
+             - authors:
+             - filename:
+             - issue_id:
+             - page_ids:
+             - text:
+             - term
+             - title ]
             ...
           ],
           <YEAR>:
           ...
         }
+        
 
     :param archives: RDD of defoe.nls.archive.Archive
     :type archives: pyspark.rdd.PipelinedRDD
