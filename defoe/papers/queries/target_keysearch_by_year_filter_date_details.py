@@ -1,5 +1,6 @@
 """
-Counts number of occurrences of keywords or keysentences and groups by year.
+Select the articles text by filtering them by years and also using keywords or keysentencesa.
+It groups by year.
 """
 
 from operator import add
@@ -12,13 +13,31 @@ import yaml, os
 
 def do_query(issues, config_file=None, logger=None, context=None):
     """
-    Counts number of occurrences of keywords or keysentences and groups by year.
+    Select the articles text along with metadata by using a list of 
+    keywords or keysentences and filter those by date. Results are grouped by year.
 
-    config_file must be the path to a configuration file with a list
-    of the keywords to search for, one per line.
-
-    Both keywords/keysentences and words in articles are normalized, by removing
-    all non-'a-z|A-Z' characters.
+    config_file must be the path to a lexicon file with a list of the keywords 
+    to search for, one per line.
+    
+    Also the config_file can indicate the preprocess treatment, along with the defoe
+    path, and the type of operating system. We can also configure how many target words 
+    we want to use, and in which position the lexicon words starts. 
+    
+    For indicating the number of target words to use from the lexicon file, we can indicate it 
+    in the configuration file as, num_target: 1. That means, that we have only one word/sentence
+    as the target word (the first one). 
+    
+    If we want to include the target words in the lexicon, we should indicate in 
+    the configuration file as, lexicon_start: 0.
+    
+    If we do not want to include the target words (lets image that we have just one target word) 
+    in the lexicon, we should indicate in the configuration file as, lexicon_start: 1.
+    
+    Finally, to select the years that we want to use in this query, we have to indicate them
+    in the configuration file as follows:
+    
+      start_year: YEAR_START (including that year)
+      end_year: YEAR_FINISH (including that year)
 
     Returns result of form:
 
