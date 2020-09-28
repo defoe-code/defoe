@@ -40,18 +40,24 @@ def do_query(issues, config_file=None, logger=None, context=None):
       end_year: YEAR_FINISH (including that year)
 
     Returns result of form:
-
         {
           <YEAR>:
           [
-            [<SENTENCE|WORD>, <NUM_SENTENCES|WORDS>],
+            [- article_id: 
+             - authors:
+             - filename:
+             - issue_id:
+             - page_ids:
+             - text:
+             - term
+             - title ]
             ...
           ],
           <YEAR>:
           ...
         }
 
-    :param archives: RDD of defoe.nls.archive.Archive
+    :param archives: RDD of defoe.papers.archive.Archive
     :type archives: pyspark.rdd.PipelinedRDD
     :param config_file: query configuration file
     :type config_file: str or unicode
