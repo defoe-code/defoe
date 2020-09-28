@@ -1,5 +1,7 @@
 """
-Gets concordance of window for keysentence and groups by date.
+Gets the snippet of a term (using a window) along with the metadata, using a list of keywords or keysentences.
+We recommend to use this query when we want to select a window of words around each term, instead of selecting
+all the words of the in which the term was found. 
 """
 
 from operator import add
@@ -11,25 +13,32 @@ import yaml, os
 
 def do_query(archives, config_file=None, logger=None, context=None):
     """
-    Gets concordance using a window of words, for keywords and groups by date.
+    Gets concordance using a window of words (here configured to 40), for keywords and groups by date.
+    Store the snippet (40 words before and after each term). 
 
-    Data in ES have the following colums:
-
-    "title",  "edition", "year", "place", "archive_filename", 
-    "source_text_filename", "text_unit", "text_unit_id", 
-    "num_text_unit", "type_archive", "model", "source_text_raw", 
-    "source_text_clean", "source_text_norm", "source_text_lemmatize", "source_text_stem",
-    "num_words"
-
-    config_file must be the path to a configuration file with a list
-    of the keywords to search for, one per line.
-
-    Both keywords and words in documents are normalized, by removing
-    all non-'a-z|A-Z' characters.
-
+    config_file must be the path to a lexicon file with a list of the keywords 
+    to search for, one per line.
+    
+    Also the config_file can indicate the preprocess treatment, along with the defoe
+    path, and the type of operating system. 
+    
+    
     Returns result of form:
-          [(year, [(title, edition, archive_filename, filename, word,corcondance),
-              (title, edition, archive_filename, filename, word, concordance ), ...]), ...]
+        {
+          <YEAR>:
+          [
+            [- archive_filename: 
+             - edition:
+             - filename:
+             - snippet:
+             - term
+             - title ]
+            ...
+          ],
+          <YEAR>:
+          ...
+        }
+  
 
 
     :param issues: RDD of defoe.alto.issue.Issue
@@ -61,9 +70,7 @@ def do_query(archives, config_file=None, logger=None, context=None):
     preprocess_config = config["preprocess"]
     data_file = query_utils.extract_data_file(config,
                                               os.path.dirname(config_file))
-    
-    #newdf=fdf.filter(fdf.source_text_clean.isNotNull()).filter(fdf["model"]=="nls").select(fdf.year, fdf.title, fdf.edition, fdf.archive_filename, fdf.source_text_filename, fdf.source_text_clean)
-
+ 
 
     keysentences = []
     with open(data_file, 'r') as f:
