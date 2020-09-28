@@ -1,5 +1,6 @@
 """
-Counts number of occurrences of keywords or keysentences and groups by year.
+Select the article text by a list of keywords or keysentences and groups by year.
+This query is the recommended to use when there are not target words. 
 """
 
 from operator import add
@@ -12,26 +13,34 @@ import yaml, os
 
 def do_query(issues, config_file=None, logger=None, context=None):
     """
-    Counts number of occurrences of keywords or keysentences and groups by year.
-
-    config_file must be the path to a configuration file with a list
-    of the keywords to search for, one per line.
-
-    Both keywords/keysentences and words in articles are normalized, by removing
-    all non-'a-z|A-Z' characters.
-
+    Select the articles text along with metadata by using a list of 
+    keywords or keysentences and groups by year.
+    
+    config_file must be the path to a lexicon file with a list of the keywords 
+    to search for, one per line.
+    
+    Also the config_file can indicate the preprocess treatment, along with the defoe
+    path, and the type of operating system. We can also configure how many target words 
+    we want to use, and in which position the lexicon words starts. 
+    
+    
     Returns result of form:
-
         {
           <YEAR>:
           [
-            [<SENTENCE|WORD>, <NUM_SENTENCES|WORDS>],
+            [- article_id: 
+             - authors:
+             - filename:
+             - issue_id:
+             - page_ids:
+             - text:
+             - term
+             - title ]
             ...
           ],
           <YEAR>:
           ...
         }
-
     :param archives: RDD of defoe.nls.archive.Archive
     :type archives: pyspark.rdd.PipelinedRDD
     :param config_file: query configuration file
