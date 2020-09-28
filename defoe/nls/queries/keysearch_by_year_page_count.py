@@ -16,7 +16,7 @@ def do_query(archives, config_file=None, logger=None, context=None):
     The query counts as a “hit” every time that finds a page with a particular 
     term from a lexicon and it groups the results by years.
 
-    config_file must be the path to a lexicon file with a list of the keywords 
+    The config_file must indicate the path to a lexicon file with a list of the keywords 
     to search for, one per line.
     
     Also the config_file can indicate the preprocess treatment, along with the defoe
