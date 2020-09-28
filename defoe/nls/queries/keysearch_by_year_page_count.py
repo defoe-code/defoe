@@ -1,5 +1,5 @@
 """
-The query counts as a “hit” every time that finds a page with a particular term from a lexicon
+The query counts as a “hint” every time that finds a page with a particular term from a lexicon
 and it groups the results by years.
 """
 
@@ -22,7 +22,7 @@ def do_query(archives, config_file=None, logger=None, context=None):
     Also the config_file can indicate the preprocess treatment, along with the defoe
     path, and the type of operating system. 
 
-     If a term appears several times in the same page, I still count as “1”.
+    If a term appears several times in the same page, it will be still counted as “1”.
             Example:
             1795:
             - - kail
