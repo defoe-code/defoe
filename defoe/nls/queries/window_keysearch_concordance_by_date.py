@@ -1,7 +1,7 @@
 """
-Gets the snippet of a term (using a window) along with the metadata, using a list of keywords or keysentences.
-We recommend to use this query when we want to select a window of words around each term, instead of selecting
-all the words of the in which the term was found. 
+Gets the snippet of each term (from a list of keywords or keysentences) along with the metadata.
+We recommend to use this query when we want to select a window of words (snippet lenght) around each term, instead of selecting
+all the words of the page in which the term was found. 
 """
 
 from operator import add
@@ -13,7 +13,7 @@ import yaml, os
 
 def do_query(archives, config_file=None, logger=None, context=None):
     """
-    Gets concordance using a window of words (here configured to 40), for keywords and groups by date.
+    Gets concordance using a window of words (here it is configured to 40), for keywords and groups by date.
     Store the snippet (40 words before and after each term). 
 
     config_file must be the path to a lexicon file with a list of the keywords 
