@@ -37,11 +37,12 @@ def do_query(df, config_file=None, logger=None, context=None):
              - archive_filename:
              - page number:
              - header:
-             - term
-             - article
-             - article-definition ]
+             - term:
+             - article:
+             - article-definition: ], 
+             [], 
             ...
-          ],
+         
           <YEAR>:
           ...
         }
