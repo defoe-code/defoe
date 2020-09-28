@@ -13,9 +13,9 @@ import yaml, os
 
 def do_query(issues, config_file=None, logger=None, context=None):
     """
-    Counts number of occurrences of keywords or keysentences and groups by year.
+    Select the articles text along with metadata by using a list of 
+    keywords or keysentences and groups by year.
 
-    
     config_file must be the path to a lexicon file with a list of the keywords 
     to search for, one per line.
     
