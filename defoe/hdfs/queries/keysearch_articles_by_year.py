@@ -22,16 +22,29 @@ def do_query(df, config_file=None, logger=None, context=None):
     "source_text_clean", "source_text_norm", "source_text_lemmatize", "source_text_stem",
     "num_words"
 
-    config_file must be the path to a configuration file with a list
-    of the keywords to search for, one per line.
-
-    Both keywords and words in documents are normalized, by removing
-    all non-'a-z|A-Z' characters.
-
-    Returns result of form:
-          [(year, [(title, edition, archive_filename, filename, word,corcondance),
-              (title, edition, archive_filename, filename, word, concordance ), ...]), ...]
-
+    config_file must be the path to a lexicon file with a list of the keywords 
+    to search for, one per line.
+    
+    Also the config_file can indicate the preprocess treatment, along with the defoe
+    path, and the type of operating system. 
+      Returns result of form:
+        {
+          <YEAR>:
+          [
+            [- title: 
+             - edition:
+             - archive_filename:
+             - page number:
+             - header:
+             - term:
+             - article:
+             - article-definition: ], 
+             [], 
+            ...
+         
+          <YEAR>:
+          ...
+        }
 
    
     :type issues: pyspark.rdd.PipelinedRDD
