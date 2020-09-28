@@ -1,5 +1,5 @@
 """
-Select the articles text by filtering them by years and also using keywords or keysentencesa.
+Select the articles text by filtering them by years and also using keywords or keysentences.
 It groups by year.
 """
 
