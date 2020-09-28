@@ -1,5 +1,7 @@
 """ 
-Identify the locations per page and geo-resolve them.
+Identify the locations per page and geo-resolve them. 
+It uses spaCy for identifying all posible locations within a page.
+It uses the Edinburgh georesolve for getting the latituted and longitude of each location.
 """
 
 from defoe import query_utils
@@ -10,14 +12,42 @@ import yaml, os
 
 def do_query(archives, config_file=None, logger=None, context=None):
     """
-    Ingest NLS pages, applies scpaCy NLP pipeline for identifying the possible locations of each page. And applies the edinburgh geoparser for getting the latituted and longitude of each of them.
-    Before applying the geoparser, two clean steps are applied - long-S and hyphen words. 
+    It ingest NLS pages, applies scpaCy NLP pipeline for identifying the possible locations of each page. 
+    And it applies the edinburgh geoparser (just the georesolver) for getting the latituted and longitude of each of them.
+    
+    Before applying the spaCy NLP, two clean steps are applied - long-S and hyphen words. 
+    
+    A config_file must be the path to a lexicon file with a list of the keywords 
+    to search for, one per line.
+    
+    A config_file should be indicated to specify the lang_model, gazetteer to use, 
+    the defoe_path, the bounding box (optional), as well as the operating system. 
     
     Example:
-
-    ("Descriptive account of the principal towns in Scotland: to accompany Wood's town atlas", '1828', 1828, 'Edinburgh', '/home/tdm/datasets/nls-data-gazetteersOfScotland/97350713', 'alto/97350911.34.xml', 'page', 'Page17', 376, 'book', 'nls', 'CONTENTS. Page. Aberdeen, 1 Annan, 19 Arbroath, 23 Ayr, .--SO Banff, 39 Berwick, 4S Brechin, 55 Crieff, 61 Cupar Fife, • 65 Dalkeith, 70 Dingwall, 76 DunbartorT, • 79 Dundee, 83 Dumfries, <• 91 Dunfermline, 99 Dunkeid, « 105 Edinburgh, -. . 1 1 1 Elgin, . . . ]29 Forfar, -135 Forres, 139 Glasgow, . 117', {}), ("Descriptive account of the principal towns in Scotland: to accompany Wood's town atlas", '1828', 1828, 'Edinburgh', '/home/tdm/datasets/nls-data-gazetteersOfScotland/97350713', 'alto/97350923.34.xml', 'page', 'Page18', 376, 'book', 'nls', 'Xll Greenock, 171 Haddington, 181 Hamilton, 185 Hawick, 191 Inverary, 199 Inverness, . * •> 203 Irvine, * 211 Jedburgh, * * 215 Kelso, 221 Kilmarnock, • 227 Kirkcaldy 233 Kinross, * * 241 Lanark, * 247 Leith, 253 Linlithgow, «• * 265 Montrose, 271 Nairn, 277 Paisley, 281 Peebles, 291 Perth, * 297 Portobello, 309 Rothesay, * 313 Selkirk, > , 319 St Andrews, 323 Stirling, -^331 Stonehaven, * 339 Stornowav, ... Si-5', {('Hamilton', '1'): ('55.77731433348086', '-4.067392672500774'), ('Inverary', '2'): ('56.2333333', '-5.0666667'), ('Inverness', '3'): ('57.47871409771949', '-4.212450527351024'), ('Lanark', '4'): ('55.67483195471274', '-3.775417694605498')}),
-
-
+      - 1842:
+        - archive: /home/rosa_filgueira_vicente/datasets/sg_simple_sample/97437554
+        - edition: 1842, Volume 1
+        - georesolution_page:
+            - Aberdeenshire-19:
+              - in-cc: ''
+              - lat: '57.21923117162595'
+              - long: '-2.801013003249016'
+              - pop: ''
+              - snippet: 'BUCHAN , a district of Aberdeenshire , extending along the coast '
+              - type: civila
+            - Cumberland-12:
+              - in-cc: ''
+              - lat: '51.4342921249674'
+              - long: '-0.6131610294930387'
+              - pop: ''
+              - snippet: 'all the low country of Cumberland lies full before you , '
+              - type: fac
+             ....
+        - lang_model: en_core_web_lg
+        - page_filename: alto/97440572.34.xml
+        - text_unit id: Page252
+        - title: topographical, statistical, and historical gazetteer of Scotland
+    
 
     :param archives: RDD of defoe.nls.archive.Archive
     :type archives: pyspark.rdd.PipelinedRDD
