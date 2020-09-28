@@ -1,5 +1,6 @@
 """
-Counts number of occurrences (term count: The query counts as a “hint” every time that finds a term from our lexicon) of keywords or keysentences and groups by year.
+The query counts as a “hint” every time that finds a term from our lexicon
+and group the results by years. 
 """
 
 from operator import add
@@ -12,25 +13,27 @@ import yaml, os
 
 def do_query(archives, config_file=None, logger=None, context=None):
     """
-    Counts number of occurrences of keywords or keysentences and groups by year.
-
-    config_file must be the path to a configuration file with a list
-    of the keywords to search for, one per line.
-
-    Both keywords/keysentences and words in documents are normalized, by removing
-    all non-'a-z|A-Z' characters.
-
-    Returns result of form:
-
-        {
-          <YEAR>:
-          [
-            [<SENTENCE|WORD>, <NUM_SENTENCES|WORDS>],
-            ...
-          ],
-          <YEAR>:
-          ...
-        }
+    The query counts as a “hint” every time that finds a term from our lexicon
+    and group the results by books.
+    
+    config_file must be the path to a lexicon file with a list of the keywords 
+    to search for, one per line.
+    
+    Also the config_file can indicate the preprocess treatment, along with the defoe
+    path, and the type of operating system. 
+    
+    Example: 
+            1795:
+            …
+            - - kail
+              - 1
+            - - aff
+              - 5
+            ….
+            - - laird
+              - 18
+    It means that kail appears once , aff 5 times and lairds 18 times across all the books in the year 1795.
+      
 
     :param archives: RDD of defoe.nls.archive.Archive
     :type archives: pyspark.rdd.PipelinedRDD
