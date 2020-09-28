@@ -1,6 +1,6 @@
 """
 The query counts as a “hint” every time that finds a term from our lexicon
-and group the results by years. 
+and group the results by books. 
 """
 
 from operator import add
@@ -14,7 +14,7 @@ import yaml, os
 def do_query(archives, config_file=None, logger=None, context=None):
     """
     The query counts as a “hint” every time that finds a term from our lexicon
-    and group the results by years.
+    and group the results by books.
 
     config_file must be the path to a lexicon file with a list of the keywords 
     to search for, one per line.
@@ -23,17 +23,13 @@ def do_query(archives, config_file=None, logger=None, context=None):
     path, and the type of operating system. 
 
      If a term appears several times in the same page, I still count as “1”.
-            Example:
-                1795:
-                …
-                - - kail
-                  - 1
-                - - aff
-                  - 5
-                ….
-                - - laird
-                  - 18
-     That means that kail appears once , aff 5 times and lairds 18 times across all the books in the year 1795.
+         -  '''Twas on the morn of sweet May Day':
+                - - neu
+                     - 1
+                - - blaw
+                     - 5
+     That means that neu appears in once of the book 'Twas on the morn of sweet May Day'. 
+     And blaw appears 5 times in the same book. 
 
     :param archives: RDD of defoe.nls.archive.Archive
     :type archives: pyspark.rdd.PipelinedRDD
