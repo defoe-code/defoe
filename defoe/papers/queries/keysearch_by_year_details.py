@@ -20,8 +20,7 @@ def do_query(issues, config_file=None, logger=None, context=None):
     to search for, one per line.
     
     Also the config_file can indicate the preprocess treatment, along with the defoe
-    path, and the type of operating system. We can also configure how many target words 
-    we want to use, and in which position the lexicon words starts. 
+    path, and the type of operating system.
     
     
     Returns result of form:
