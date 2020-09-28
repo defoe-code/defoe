@@ -6,7 +6,7 @@ import re
 defoe_path ="/home/rosa_filgueira_vicente/defoe/"
 os_type = "sys-i386-64"
 # Use the following value for os variable in case you are running this in a MAC
-#os= "sys-i386-snow-leopard"
+#os_type= "sys-i386-snow-leopard"
 
 def longsfix_sentence(sentence):
     print("Original sentence: %s" %sentence)
