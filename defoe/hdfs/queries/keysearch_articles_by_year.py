@@ -14,7 +14,7 @@ def do_query(df, config_file=None, logger=None, context=None):
     """
     Gets concordance using a window of words, for keywords and groups by date.
 
-    Data in ES have the following colums:
+    Data in HDFS have the following colums:
 
     "title",  "edition", "year", "place", "archive_filename", 
     "source_text_filename", "text_unit", "text_unit_id", 
@@ -33,7 +33,7 @@ def do_query(df, config_file=None, logger=None, context=None):
               (title, edition, archive_filename, filename, word, concordance ), ...]), ...]
 
 
-    :param issues: RDD of defoe.alto.issue.Issue
+   
     :type issues: pyspark.rdd.PipelinedRDD
     :param config_file: query configuration file
     :type config_file: str or unicode
