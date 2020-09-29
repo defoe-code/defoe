@@ -41,11 +41,15 @@ Data can be accessed via API calls which return search results in the form of XM
 This dataset is available, under licence, from [Papers Past](http://paperspast.natlib.govt.nz).
 
 
-### National Library of Scotland - Encyclopaedia Britannica, 1768-1860
+### National Library of Scotland (NLS)- 
 
-[National Library of Scotland](https://data.nls.uk/data) provide digitised [Encyclopaedia Britanica](https://data.nls.uk/data/digitised-collections/encyclopaedia-britannica/) from the 18th and 20th centuries.
+[National Library of Scotland](https://data.nls.uk/data/digitised-collections/) provide sveral digitised collections, such as:
+- [Encyclopaedia Britanica](https://data.nls.uk/data/digitised-collections/encyclopaedia-britannica/) from the 18th and 20th centuries.
+- [ChapBooks](https://data.nls.uk/data/digitised-collections/chapbooks-printed-in-scotland/)
+- [Scottish Gazetteers](https://data.nls.uk/data/digitised-collections/gazetteers-of-scotland/)
 
-Data can be download from a zip file: 155,388 ALTO XML files; 195 METS files; 155,388 image files.
+**Note, that ALL collections offered by NLS use the same XML and METS format. Therefore, we can use the defoe NLS model to query any of those collections**
+
 See [copyrights restrictions](https://www.nls.uk/copyright)
 
 ---
@@ -61,6 +65,13 @@ Set up (Urika):
 * [Set up Urika environment](./docs/setup-urika.md)
 * [Import data into Urika](./docs/import-data-urika.md)
 * [Import British Library Books and Newspapers data into Urika](./docs/import-data-urika-ati-se-humanities-uoe.md) (Alan Turing Institute-Scottish Enterprise Data Engineering Program University of Edinburgh project members only)
+
+Set up (Cirrus - HPC Cluster):
+* [Installing defoe, Spark, and transferring data][https://github.com/defoe-code/CDCS_Text_Mining_Lab/blob/master/README.md]
+
+Set up (VM):
+
+* [Set up a VM, with defoe, Spark, Hadoop, Edinburgh Geoparser](./docs/setup-VM.md)
 
 Run queries:
 
