@@ -8,7 +8,6 @@ It uses the Original Edinburgh geoparser pipeline for identifying all the posibl
 from operator import add
 from defoe import query_utils
 from defoe.hdfs.query_utils import blank_as_null
-from defoe.nls.query_utils import georesolve_page_2
 from pyspark.sql import SQLContext
 from pyspark.sql.functions import col, when
 
