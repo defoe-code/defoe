@@ -2,7 +2,7 @@
 
 * Documents are cleaned (long-S and hyphen fixes) and also preprocessed using all the treatments that we have.
 * Pages are saved as cleaned, as well as the other preprocessed method, in different columns, along with some metadata
-* Query module: `defoe.nls.queries.keysentence_by_year`
+* Query module: `defoe.nls.queries.write_pages_df_es`
 * Configuration file:
   - defoe path (defoe_path)
   - operating system (os)
