@@ -7,7 +7,7 @@ It uses the Edinburgh georesolve for getting the latituted and longitude of each
 
 from operator import add
 from defoe import query_utils
-from defoe.hdfs.query_utils import get_sentences_list_matches, blank_as_null
+from defoe.hdfs.query_utils import blank_as_null
 from defoe.nls.query_utils import georesolve_page_2
 from pyspark.sql import SQLContext
 from pyspark.sql.functions import col, when
