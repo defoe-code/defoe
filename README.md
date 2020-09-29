@@ -41,7 +41,7 @@ Data can be accessed via API calls which return search results in the form of XM
 This dataset is available, under licence, from [Papers Past](http://paperspast.natlib.govt.nz).
 
 
-### National Library of Scotland (NLS)- 
+### National Library of Scotland (NLS) digital collections 
 
 [National Library of Scotland](https://data.nls.uk/data/digitised-collections/) provide several digitised collections, such as:
 - [Encyclopaedia Britanica](https://data.nls.uk/data/digitised-collections/encyclopaedia-britannica/) from the 18th and 20th centuries.
