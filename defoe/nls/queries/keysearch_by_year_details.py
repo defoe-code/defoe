@@ -1,5 +1,5 @@
 """
-Counts number of occurrences of keywords or keysentences and groups by year.
+Count concordance (also called details) occurrences of keywords or keysentences (by page) and group by year
 """
 
 from operator import add
@@ -12,7 +12,7 @@ import yaml, os
 
 def do_query(archives, config_file=None, logger=None, context=None):
     """
-    Counts number of occurrences of keywords or keysentences and groups by year.
+    Gets the concordance (also called details) occurrences of keywords or keysentences and groups by year.
 
     The config_file must indicate the path to a lexicon file with a list of the keywords 
     to search for, one per line.
