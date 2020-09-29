@@ -1,6 +1,8 @@
 """ 
 Extracting automatically articles from the EB. 
-The articles are stored in a HDFS file.
+The articles are stored in a HDFS CSV file.
+
+The text is cleaned by using long-S and hyphen fixes.
 
 Note that for running this query, apart from Spark you need to have HADOOP installeld in your computing enviroment.
 
