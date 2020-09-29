@@ -1,5 +1,6 @@
 """ 
 Pages as string to HDFS CSv files (using dataframes), and some metadata associated with each document.
+The text is cleaned using the long-S and Hyphen fixes. 
 """
 
 from defoe import query_utils

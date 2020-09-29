@@ -1,5 +1,6 @@
 """ 
 Pages as string to postgreSQL database (using dataframes), and some metadata associated with each document.
+The text is cleaned using the long-S and hyphen fixes.
 """
 
 from defoe import query_utils

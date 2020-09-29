@@ -1,5 +1,6 @@
 """ 
-Pages as string to HDFS CSv files (using dataframes), and some metadata associated with each document.
+Pages as string to a YML file, and some metadata associated with each document.
+The text is cleaned using the long-S and hyphen fixes.
 """
 
 from defoe import query_utils
@@ -10,7 +11,7 @@ import yaml, os
 
 def do_query(archives, config_file=None, logger=None, context=None):
     """
-    Ingest NLS pages, applies all 4 preprocess treatments (none, normalize, lemmatize, stem) to each page, and save them to HDFS CSV files, with some metadata associated with each page.
+    Ingest NLS pages, applies all 4 preprocess treatments (none, normalize, lemmatize, stem) to each page, and save them to a YML file, with some metadata associated with each page.
     Metadata collected: tittle, edition, year, place, archive filename, page filename, page id, num pages, 
     type of archive, model, source_text_raw, source_text_norm, source_text_lemmatize, source_text_stem, num_page_words
 
