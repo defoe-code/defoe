@@ -43,12 +43,12 @@ This dataset is available, under licence, from [Papers Past](http://paperspast.n
 
 ### National Library of Scotland (NLS)- 
 
-[National Library of Scotland](https://data.nls.uk/data/digitised-collections/) provide sveral digitised collections, such as:
+[National Library of Scotland](https://data.nls.uk/data/digitised-collections/) provide several digitised collections, such as:
 - [Encyclopaedia Britanica](https://data.nls.uk/data/digitised-collections/encyclopaedia-britannica/) from the 18th and 20th centuries.
 - [ChapBooks](https://data.nls.uk/data/digitised-collections/chapbooks-printed-in-scotland/)
 - [Scottish Gazetteers](https://data.nls.uk/data/digitised-collections/gazetteers-of-scotland/)
 
-**Note, that ALL collections offered by NLS use the same XML and METS format. Therefore, we can use the defoe NLS model to query any of those collections**
+**Note, that ALL collections offered by NLS use the same XML and METS format. Therefore, we can use the defoe NLS model to query any of those collections.**
 
 See [copyrights restrictions](https://www.nls.uk/copyright)
 
