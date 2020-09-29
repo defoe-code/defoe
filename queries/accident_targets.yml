@@ -2,3 +2,5 @@ preprocess: lemmatize
 data: accident_data.yml
 years_filter: 1780-1918
 output_path: /Users/akrause/ATI/LivingWithMachines/Defoe/images/
+defoe_path: /lustre/home/sc048/rosaf4/defoe/
+os_type: linux
