@@ -1,7 +1,7 @@
-# Count number of occurrences of keywords or keysentences and group by word
+# Count number of pages in which each of keywords or keysentences appear and group by book
 
 * Both keywords/keysentences and words in documents are cleaned (long-S and hyphen fixes) and preprocessed according to the configuration file
-* Query module: `defoe.nls.queries.keysentence_by_word`
+* Query module: `defoe.nls.queries.keysentence_by_book_page_count`
 * Configuration file:
   - defoe path (defoe_path)
   - operating system (os) 
@@ -15,8 +15,10 @@
 * Result format:
 
 ```
-<WORD>:
-- [<YEAR>, <NUM_WORDS>]
+<BOOK>:
+- [<WORD>, <NUM_WORDS>]
 - ...
-<WORD>:
+<BOOK>:
 ...
+```
+
