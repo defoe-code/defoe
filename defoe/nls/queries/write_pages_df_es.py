@@ -75,8 +75,6 @@ def do_query(archives, config_file=None, logger=None, context=None):
     sqlContext = SQLContext(context)
     df = sqlContext.createDataFrame(pages,nlsRow)
     df = df.drop('_id')
-    with open(config_file, "r") as f:
-        config = yaml.load(f)
     df.write.format('org.elasticsearch.spark.sql').option('es.nodes', config["host"]).option('es.port', config["port"]).option('es.resource', config["index"],).option('es.nodes.wan.only',"true").mode('overwrite').save()
 
     return "0"
