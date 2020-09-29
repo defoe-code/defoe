@@ -2,3 +2,5 @@ index: nls
 type_name: Scottish Gazetteer
 host: tdm-es-01.edina.ac.uk
 port: 9200
+defoe_path: /home/rosa_filgueira_vicente/defoe/
+os_type: linux
