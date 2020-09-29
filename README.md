@@ -96,8 +96,8 @@ Available queries:
 * [NLS queries](./docs/nls/index.md) (these can be run on the Encyclopaedia Britannica, Scottish Gazetteers or ChapBooks datasets)
 * [HDFS queries](./docs/hdfs/index.md) (running queries against HDFS files - for interoperability across models)
 * [ES queries](./docs/es/index.md) (running queries against ES - for interoperability across models)
-* [NLSArticles query](./docs/nlsArticles/index.md) (just for extracting automatically articles from the Encyclopaedia Britannica dataset)
 * [PostgreSQL queries](/docs/psql/index.md) (running queries against PostgreSQL database - for interoperability across models)
+* [NLSArticles query](./docs/nlsArticles/index.md) (just for extracting automatically articles from the Encyclopaedia Britannica dataset)
 
 
 Developers:
