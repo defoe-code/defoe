@@ -34,4 +34,5 @@
 
 
 **Note-1**: You will need to have the articles previously extracted stored in HDFS using `defoe.nlsArticles.queries.write_articles_pages_df_hdfs`.
+
 **Note-2**: Use this query just for EB Articles - not for other NLS collections previously stored in HDFS. For other collections use `defoe.hdfs.queries.keysearch_by_year.md`.
