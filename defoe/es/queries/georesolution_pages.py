@@ -1,4 +1,5 @@
 """ 
+It uses ES stored data
 Identify the locations per page and geo-resolve them. 
 It uses spaCy for identifying all posible locations within a page.
 It uses the Edinburgh georesolve for getting the latituted and longitude of each location.
@@ -59,6 +60,8 @@ def do_query(df, config_file=None, logger=None, context=None):
    
     with open(config_file, "r") as f:
         config = yaml.load(f)
+
+    lang_model = config["lang_model"]
     gazetteer = config["gazetteer"]
     if "bounding_box" in config:
         bounding_box = " -lb " + config["bounding_box"] + " 2"
