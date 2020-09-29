@@ -29,6 +29,20 @@ def do_query(archives, config_file=None, logger=None, context=None):
     :return: "0"
     :rtype: string
     """
+
+    with open(config_file, "r") as f:
+        config = yaml.load(f)
+    if "os_type" in config:
+        if config["os_type"] == "linux":
+            os_type = "sys-i386-64"
+        else:
+            os_type= "sys-i386-snow-leopard"
+    else:
+            os_type = "sys-i386-64"
+    if "defoe_path" in config :
+        defoe_path = config["defoe_path"]
+    else:
+        defoe_path = "./"
     
     preprocess_none = query_utils.parse_preprocess_word_type("none")
     preprocess_normalize = query_utils.parse_preprocess_word_type("normalize")
@@ -47,7 +61,7 @@ def do_query(archives, config_file=None, logger=None, context=None):
         lambda year_document: [(year_document[0], year_document[1], year_document[2],\
                                year_document[3], year_document[4], page.code, text_unit, page.page_id, \
                                year_document[5], year_document[6], year_document[7], get_page_as_string(page, preprocess_none), \
-                               clean_page_as_string(page), len(page.words)) for page in year_document[8]])
+                               clean_page_as_string(page, defoe_path_os_type), len(page.words)) for page in year_document[8]])
     # [(tittle, edition, year, place, archive filename, page filename, text_unit, text_unit_id, 
     #   num_text_unit, type of archive, type of disribution, model, raw_page, clean_page, clean_norm_page, clean_lemma_page, clean_stemm_page, num_words)]
     pages = pages_clean.flatMap(
