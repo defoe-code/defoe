@@ -1,8 +1,8 @@
 # HDFS document queries
 
-Keyword searches:
+Key searches:
 
-* [Count number of occurrences of keywords (pages) and group by year](./keysearch_by_year.md)
+* [Count number of occurrences of keywords/keysentences (pages) and group by year](./keysearch_by_year.md)
 * [Get concordance (details) - full articles - for keywords and group by year](./keysearch_articles_by_year_details.md)
 
 **Note**: 

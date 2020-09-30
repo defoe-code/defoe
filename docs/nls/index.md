@@ -8,16 +8,16 @@ General:
 * [Get measure of OCR quality for each page and group by year](./ocr_quality_by_year.md)
 * [Normalize](./normalize.md) - count total number of documents, pages and words per year.
 
-Keysearches:
+Key searches:
 
-* [Count number of occurrences of keywords (pages) and group by year](./keysearch_by_year.md)
-* [Count number of occurrences of keywords (pages) and group by word](./keysearch_by_word.md)
-* [Count number of occurrences of pages with keywords and group by year](./keysearch_by_year_page_count.md)
-* [Count number of occurrences of pages with keywords and group by book](./keysearch_by_book_page_count.md)
-* [Count number of occurrences of keywords and group by year](./keysearch_by_year_term_count.md)
-* [Count number of occurrences of keywords and group by book](./keysearch_by_book_term_count.md)
-* [Get concordance (details) - window of words - for keywords and group by year](./window_keysearch_concordance_by_date.md)
-* [Get concordance (details) - full page - for keywords and group by year](./keysearch_by_year_details.md)
+* [Count number of occurrences of keywords/keysentences (pages) and group by year](./keysearch_by_year.md)
+* [Count number of occurrences of keywords/keysentences (pages) and group by word](./keysearch_by_word.md)
+* [Count number of occurrences of pages with keywords/keysentences and group by year](./keysearch_by_year_page_count.md)
+* [Count number of occurrences of pages with keywords/keysentences and group by book](./keysearch_by_book_page_count.md)
+* [Count number of occurrences of keywords/keysentences and group by year](./keysearch_by_year_term_count.md)
+* [Count number of occurrences of keywords/keysentences and group by book](./keysearch_by_book_term_count.md)
+* [Get concordance (details) - window of words - for keywords/keysentences and group by year](./window_keysearch_concordance_by_date.md)
+* [Get concordance (details) - full page - for keywords/keysentences and group by year](./keysearch_by_year_details.md)
 
 **Note**: *keysearch_by_year.md* and *keysearch_by_year_page_count.md* perform the same action. 
 
@@ -39,7 +39,6 @@ Colocated word searches:
 
 Old queries:
 
-* [Depricated queries](./depricated)
 * [Get concordance for keywords and group by word](./depricated/keyword_concordance_by_word.md)
 * [Get concordance (details) -full page-  for keywords and group by year](./depricated/keyword_concordance_by_year.md)
 
