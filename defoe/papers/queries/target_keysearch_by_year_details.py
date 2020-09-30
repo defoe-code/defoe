@@ -1,5 +1,6 @@
 """
-Select the articles text by keywords or keysentences and groups by year.
+Get concordance (also called details) of articles in which we have keywords or keysentences.
+Filter those by target words and group results by year. 
 This query is the recommended to use when there are target words. 
 """
 

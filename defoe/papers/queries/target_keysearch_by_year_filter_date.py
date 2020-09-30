@@ -1,6 +1,5 @@
 """
-Counts the number of occurrences of keywords or keysentences and filter those by dates.
-Results are  grouped by year.
+Count number of articles in which appear keywords or keysentences, filtering those by target words and dates, and group by year.
 """
 
 from operator import add

@@ -1,7 +1,7 @@
 """
-Counts number of articles in which appear keywords or keysentences and groups by year. 
+Counts number of articles in which appear keywords or keysentences.
+Groups results by year. 
 This query is the recommended to use when there are not target words.  
-(Article count)
 """
 
 from operator import add

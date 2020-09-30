@@ -1,5 +1,6 @@
 """
-Counts number of occurrences of keywords or keysentences and groups by year.
+Count number of articles in which appear keywords or keysentences.
+Filter those by target words, and group results by year
 This query is the recommended to use when there are target words. 
 """
 

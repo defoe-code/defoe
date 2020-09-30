@@ -1,6 +1,6 @@
 """
-Select the articles text by filtering them by dates and also using keywords or keysentences.
-It groups results by year.
+Get concordance (also called details) of articles in which we have keywords or keysentences.
+Filter those by target words and dates, and group results by year.
 """
 
 from operator import add
