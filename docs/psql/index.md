@@ -2,7 +2,7 @@
 
 General:
 
-* [Normalize](./normalize.md) - count total number of documents, pages and words per year.
+* [Normalize](./normalize.md) 
 
 Key searches:
 * [Count number of occurrences of keywords/keysentences (pages) and group by year](./keysearch_by_year.md)
