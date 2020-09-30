@@ -35,5 +35,6 @@
         - title: 
 ```
 
-**Note**: This query is similar to the  `defoe.nls.queries.georesolution_pages`. The only difference, is that this query uses the Edinburgh geoparser for both steps: identifying locations and geo-resolve them. 
+**Note-1**: This query is similar to the  `defoe.nls.queries.georesolution_pages`. The only difference, is that this query uses the Edinburgh geoparser for both steps: identifying locations and geo-resolve them. 
 
+**Note-2:** Additional information about how to install and run this query, including how to install and download the Edinburgh Geoparser can be found [here][../setup-VM.md].
