@@ -8,7 +8,7 @@ General:
 * [Get measure of OCR quality for each page and group by year](./ocr_quality_by_year.md)
 * [Normalize](./normalize.md) - count total number of documents, pages and words per year.
 
-Keyword searches:
+Keysearches:
 
 * [Count number of occurrences of keywords (pages) and group by year](./keysearch_by_year.md)
 * [Count number of occurrences of keywords (pages) and group by word](./keysearch_by_word.md)
