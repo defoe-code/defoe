@@ -22,9 +22,6 @@ def do_query(df, config_file=None, logger=None, context=None):
 
     A configuration file is needed, to indicate the lexicon, the preprocessed treatment to use.
   
-    Both keywords/keysentences and words in documents are normalized, by removing
-    all non-'a-z|A-Z' characters.
-
     Returns result of form:
 
         {

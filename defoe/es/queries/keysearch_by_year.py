@@ -1,5 +1,5 @@
 """
-Read from HDFS file, and counts number of occurrences of keywords or keysentences and groups by year.
+Read from ES file, and counts number of occurrences of keywords or keysentences and groups by year.
 """
 
 from operator import add
@@ -13,20 +13,15 @@ import yaml, os
 
 def do_query(df, config_file=None, logger=None, context=None):
     """
-    Read from HDFS, and counts number of occurrences of keywords or keysentences and groups by year.
+    Read from ES, and counts number of occurrences of keywords or keysentences and groups by year.
     We have an entry in the HFDS file with the following information: 
     
     "title",  "edition", "year", "place", "archive_filename",  "source_text_filename", 
     "text_unit", "text_unit_id", "num_text_unit", "type_archive", "model", "source_text_raw", 
     "source_text_clean", "source_text_norm", "source_text_lemmatize", "source_text_stem", "num_words"
 
-    config_filep 
-
     config_file must be the path to a configuration file with a list
     of the keywords to search for, one per line.
-
-    Both keywords/keysentences and words in documents are normalized, by removing
-    all non-'a-z|A-Z' characters.
 
     Returns result of form:
 
