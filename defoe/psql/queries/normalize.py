@@ -1,5 +1,6 @@
 """
 Counts total number of documents, pages and words per year.
+It uses PSQL pre-stored data. 
 
 This can be useful if wanting to see how the average number of
 documents, pages and words change over time, for example.
