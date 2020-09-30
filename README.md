@@ -19,7 +19,7 @@ Developer (from November 2019): Rosa Filgueira (EPCC)
 ---
 ## Supported datasets
 
-Defoe supports already several datasets. In order to query a daset, defoe needs a list of files and/or directories that conform the dataset. Many of the files used so far, can be found under the [others](./others) directory. Those files would need to be modifed, in order to update them with the corresponding paths. 
+Defoe supports already several datasets. In order to query a daset, defoe needs a list of files and/or directories that conform the dataset. Many of those files (used so far), can be found under the [others](./others) directory. Those files would need to be modifed, in order to update them with the corresponding paths. 
   
 
 ### British Library Books
