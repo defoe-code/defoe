@@ -11,17 +11,17 @@ General:
 * [Find every unique word and its frequency](./unique_words.md)
 * [Get measure of OCR quality for each article and group by year](./ocr_quality_by_year.md)
 
-Keyword searches:
+Keysearches:
 
-* [Count number of occurrences of keywords and group by year](./keyword_by_year.md)
-* [Get concordance for keywords and group by date](./keyword_concordance_by_date.md)
-* [Count number of articles containing two or more keywords and group by year](./keywords_by_year.md)
-* [Count number of articles containing both a target word and one or more keywords and group by year](./target_and_keywords_by_year.md)
-* [Count number of times that each keyword appears for every article that has a target word in it and group by year](./target_and_keywords_count_by_year.md)
+* [Count number of occurrences of keywords/keysentences and group by year](./keysearch_by_year.md)
+* [Get concordance (details) for keywords/keysentences and group by year](./keysearch_by_year_details.md)
+* [Count number of articles containing both target word(s) and one or more keywords/keysentences and group by year](./target_and_keysearch_by_year.md)
+* [Get concordance (details) containing boht target word(s) and one or more keywords/keysentences and group by year](./target_keysearch_by_year_details.md)
+* [Get the preprocessed concordance (details) containing boht target word(s) and one or more keywords/keysentences, and group by year](./target_keysearch_by_year_preprocessed_details.md)
+* [Count number of articles containing both target word(s) and one or more keywords/keysentences, filter by date, and group by year](./target_and_keysearch_by_year_filter_date.md)
+* [Get concordance (details) containing boht target word(s) and one or more keywords/keysentences, filter by date, and group by year](./target_keysearch_by_year_filter_date_details.md)
 
-Keysentence searches:
 
-* [Count number of articles in which there are occurences of keysentences and group by year](./keysentence_by_year.md)
 
 Colocated word searches:
 
@@ -31,3 +31,13 @@ Colocated word searches:
 Others:
 
 * [Get the Latent Dirochelet Allocation (LDA) topics for words within articles](./lda_topics.md)
+
+Depricated:
+
+* [Count number of occurrences of keywords and group by year](./depricated/keyword_by_year.md)
+* [Get concordance for keywords and group by date](./depricated/keyword_concordance_by_date.md)
+* [Count number of articles containing two or more keywords and group by year](./depricated/keywords_by_year.md)
+* [Count number of articles containing both a target word and one or more keywords and group by year](./depricated/target_and_keywords_by_year.md)
+* [Count number of times that each keyword appears for every article that has a target word in it and group by year](./depricated/target_and_keywords_count_by_year.md)
+* [Count number of articles in which there are occurences of keysentences and group by year](./depricated/keysentence_by_year.md)
+
