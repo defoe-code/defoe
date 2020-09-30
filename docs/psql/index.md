@@ -10,4 +10,4 @@ Key searches:
 **Note**: For running any of above queries, they need NLS pages to be stored previously in PSQL using [this query](../nls/write_pages_df_psql.md)
 
 
-**Important:** We recommend to read also the documentation for [writing and reading data from/to PSQL](../doc/nls_demo_examples/nls_demo_individual_queries.md#writing-and-reading-data-fromto-postgresql-database).
+**Important:** We recommend to read also the documentation for [writing and reading data from/to PSQL](../../doc/nls_demo_examples/nls_demo_individual_queries.md#writing-and-reading-data-fromto-postgresql-database).

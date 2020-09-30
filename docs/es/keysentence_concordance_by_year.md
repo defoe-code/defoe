@@ -24,4 +24,4 @@
 
 **Caution:** as this query returns each page's content, for every match, there is a risk that the query will fail due to lack of memory. This query should only be run with interesting words that are not expected to occur often. Otherwise, use `defoe.es.queries.window_concordance_by_date` query instead, since this one just retrieve a number of words (window) before and after each match.
 
-**Important:** We recommend to read also the documentation for [writing and reading data/from ES](../doc/nls_demo_examples/nls_demo_individual_queries.md#writing-and-reading-data-tofrom-elasticsearch-es).
+**Important:** We recommend to read also the documentation for [writing and reading data/from ES](../../doc/nls_demo_examples/nls_demo_individual_queries.md#writing-and-reading-data-tofrom-elasticsearch-es).

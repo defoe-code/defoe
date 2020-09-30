@@ -17,4 +17,4 @@ Row("title",  "edition", "year", "place", "archive_filename",  "source_text_file
 "source_text_clean", "source_text_norm", "source_text_lemmatize", "source_text_stem","num_words")
 ```
 
-**Important:** We recommend to read also the documentation for [writing and reading data from/to HDFS](../doc/nls_demo_examples/nls_demo_individual_queries.md#writing-and-reading-data-fromto-hdfs).
+**Important:** We recommend to read also the documentation for [writing and reading data from/to HDFS](../../doc/nls_demo_examples/nls_demo_individual_queries.md#writing-and-reading-data-fromto-hdfs).

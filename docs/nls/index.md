@@ -44,4 +44,4 @@ Old queries:
 * [Get concordance for keywords and group by word](./depricated/keyword_concordance_by_word.md)
 * [Get concordance (details) -full page-  for keywords and group by year](./depricated/keyword_concordance_by_year.md)
 
-**Important:** We recommend to read also the documentation for running [nls indivual queries](../doc/nls_demo_examples/nls_demo_individual_queries.md) and [nls aggregated queries](../doc/nls_demo_examples/nls_demo_aggregated_queries.md).
+**Important:** We recommend to read also the documentation for running [nls indivual queries](../../doc/nls_demo_examples/nls_demo_individual_queries.md) and [nls aggregated queries](../../doc/nls_demo_examples/nls_demo_aggregated_queries.md).

@@ -20,4 +20,4 @@
 
 **Note-1**: You will need to have the data previously stored in HDFS using `defoe.nls.queries.write_pages_df_hdfs`.
 
-**Important:** We recommend to read also the documentation for [writing and reading data to/from HDFS](../doc/nls_demo_examples/nls_demo_individual_queries.md#writing-and-reading-data-fromto-hdfs).
+**Important:** We recommend to read also the documentation for [writing and reading data to/from HDFS](../../doc/nls_demo_examples/nls_demo_individual_queries.md#writing-and-reading-data-fromto-hdfs).
