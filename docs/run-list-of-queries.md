@@ -41,7 +41,7 @@ where:
 For example, to submit a query to search a set of books for occurrences of some words (e.g. "heart" or "hearts") and return the counts of these occurrences grouped by year, you could run:
 
 ```bash
-spark-submit --py-files defoe.zip defoe/run_queries.py nls_data.txt nls -l query_distributed_topics.txt
+spark-submit --py-files defoe.zip defoe/run_queries.py nls_total.txt nls -l query_distributed_topics.txt
 ```
 
 Where `query_distributed_topics.txt` could be:
@@ -54,7 +54,7 @@ defoe.nls.queries.keysearch_by_year queries/animal.yml -r results_ks_animal
 defoe.nls.queries.inventory_per_year -r results_inventory_per_year
 ```
 And:
-* `nls_data.txt` is the file with the paths to the encyclopaedia files to run the query over.
+* `nls_total.txt` is the file with the paths to the encyclopaedia files to run the query over. Check [here](../others/nls_total.txt) to see an example of this file  
 
 
 ---

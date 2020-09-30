@@ -19,6 +19,9 @@ Developer (from November 2019): Rosa Filgueira (EPCC)
 ---
 ## Supported datasets
 
+Defoe supports already several datasets. In order to query a daset, defoe needs a list of files and/or directories that conform the dataset. Many of the files used so far, can be found under the [others](./others) directory. Those files would need to be modifed, in order to update them with the corresponding paths. 
+  
+
 ### British Library Books
 
 This dataset consists of ~1TB of digitised versions of ~68,000 books from the 16th to the 19th centuries. The books have been scanned into a collection of XML documents. Each book has one XML document one per page plus one XML document for metadata about the book as a whole. The XML documents for each book are held within a compressed, ZIP, file. Each ZIP file holds the XML documents for a single book (the exception is 1880-1889's 000000037_0_1-42pgs__944211_dat.zip which wholds the XML documents for 2 books). These ZIP files occupy ~224GB.
@@ -64,6 +67,8 @@ This dataset is available, under licence, from [Papers Past](http://paperspast.n
 **Note, that ALL collections offered by NLS use the same XML and METS format. Therefore, we can use the defoe NLS model to query any of those collections.**
 
 See [copyrights restrictions](https://www.nls.uk/copyright)
+
+
 
 ---
 

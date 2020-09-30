@@ -43,7 +43,7 @@ spark-submit --py-files defoe.zip defoe/run_query.py data.txt books defoe.alto.q
 
 where:
 
-* `data.txt` is the file with the paths to the books files to run the query over.
+* `data.txt` is the file with the paths to the books files to run the query over. Examples of this can be found under the [others](../others) directory.
 * `defoe.alto.queries.find_words_group_by_year` is the module that runs the query.
 * `queries/hearts.txt` is a configuration file for the query which contains a list of the words, one per line, to search for.
 
@@ -55,7 +55,7 @@ spark-submit --py-files defoe.zip defoe/run_query.py ~/data/papers.2.txt papers 
 
 where:
 
-* `data.txt` is the file with the paths to the papers files to run the query over.
+* `data.txt` is the file with the paths to the papers files to run the query over. Examples of this can be found under the [others](../others) directory.
 * `defoe.papers.queries.articles_containing_words` is the module that runs the query.
 * `queries/gender.txt` is a configuration file for the query which contains a list of the words, one per line, to search for.
 
