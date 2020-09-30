@@ -19,4 +19,4 @@ Geoparser queries:
 **Note-2:** Additional information about how to install and download the Edinburgh Geoparser can be found [here](../setup-VM.md#installing-the-geoparser--georesolve-tools-inside-defoe).
 
 
-**Important:** We recommend to read also the documentation for [writing and reading data from/to ES](../../doc/nls_demo_examples/nls_demo_individual_queries.md#writing-and-reading-data-tofrom-elasticsearch-es).
+**Important:** We recommend to read also the documentation for [writing and reading data from/to ES](../nls_demo_examples/nls_demo_individual_queries.md#writing-and-reading-data-tofrom-elasticsearch-es).
