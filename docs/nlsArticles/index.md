@@ -1,22 +1,10 @@
-# NLS document queries
+# NLS Articles document queries
 
-Encyclopaedia Britannica dataset.
+For working **just** with Encyclopaedia Britannica (EB) dataset.
 
-General:
+Extract automatically articles from EB pages:
 
-* [Count total number of documents](./total_documents.md)
-* [Count total number of pages](./total_pages.md)
-* [Count total number of words](./total_words.md)
-* [Get measure of OCR quality for each page and group by year](./ocr_quality_by_year.md)
-* [Normalize](./normalize.md) - count total number of documents, pages and words per year.
 
-Keyword searches:
+Store extracted articles using HDFS:
 
-* [Count number of occurrences of keywords and group by year](./keyword_by_year.md)
-* [Count number of occurrences of keywords and group by word](./keyword_by_word.md)
-* [Get concordance for keywords and group by year](./keyword_concordance_by_year.md)
-* [Get concordance for keywords and group by word](./keyword_concordance_by_word.md)
-
-Colocated word searches:
-
-* [Get colocated words and group by year](./colocates_by_year.md)
+* [Ingest NLS pages, clean them, and store them using HDFSh](./write_articles_pages_df_hdfs.md)
