@@ -7,6 +7,6 @@ Keyword searches:
 
 **Note**: 
 
-* For running the [first query above](./keysearch_by_year.md), it needs NLS pages to be stored previously in HDFS using [this query](./write_pages_df_hdfs.md)
-* For running the [second query above](./keysearch_articles_by_year_details.md), it needs EB articles to be previously extracted and stored in HDFS using [this query](./write_articles_pages_df_hdfs.md)
+* For running the [first query above](./keysearch_by_year.md), it needs NLS pages to be stored previously in HDFS using [this query](../docs/nls/write_pages_df_hdfs.md)
+* For running the [second query above](./keysearch_articles_by_year_details.md), it needs EB articles to be previously extracted and stored in HDFS using [this query](../docs/nls/write_articles_pages_df_hdfs.md)
 
