@@ -1,0 +1,6 @@
+/lustre/home/sc048/rosaf4/datasets/nls-data-encyclopaediaBritannica/144133901
+/lustre/home/sc048/rosaf4/datasets/nls-data-encyclopaediaBritannica/144133902
+/lustre/home/sc048/rosaf4/datasets/nls-data-encyclopaediaBritannica/144133903
+/lustre/home/sc048/rosaf4/datasets/nls-data-encyclopaediaBritannica/144850366
+/lustre/home/sc048/rosaf4/datasets/nls-data-encyclopaediaBritannica/144850367
+/lustre/home/sc048/rosaf4/datasets/nls-data-encyclopaediaBritannica/144850368

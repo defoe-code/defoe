@@ -1,0 +1,10 @@
+/lustre/home/sc048/rosaf4/datasets/nls-data-encyclopaediaBritannica/144850370 	
+/lustre/home/sc048/rosaf4/datasets/nls-data-encyclopaediaBritannica/144850373
+/lustre/home/sc048/rosaf4/datasets/nls-data-encyclopaediaBritannica/144850374
+/lustre/home/sc048/rosaf4/datasets/nls-data-encyclopaediaBritannica/144850375
+/lustre/home/sc048/rosaf4/datasets/nls-data-encyclopaediaBritannica/144850376
+/lustre/home/sc048/rosaf4/datasets/nls-data-encyclopaediaBritannica/144850377
+/lustre/home/sc048/rosaf4/datasets/nls-data-encyclopaediaBritannica/144850378
+/lustre/home/sc048/rosaf4/datasets/nls-data-encyclopaediaBritannica/144850379
+/lustre/home/sc048/rosaf4/datasets/nls-data-encyclopaediaBritannica/190273289
+/lustre/home/sc048/rosaf4/datasets/nls-data-encyclopaediaBritannica/190273290
