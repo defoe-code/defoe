@@ -1,7 +1,5 @@
 # NLS document queries
 
-Encyclopaedia Britannica dataset.
-
 General:
 
 * [Count total number of documents](./total_documents.md)
@@ -12,11 +10,36 @@ General:
 
 Keyword searches:
 
-* [Count number of occurrences of keywords and group by year](./keyword_by_year.md)
-* [Count number of occurrences of keywords and group by word](./keyword_by_word.md)
-* [Get concordance for keywords and group by year](./keyword_concordance_by_year.md)
-* [Get concordance for keywords and group by word](./keyword_concordance_by_word.md)
+* [Count number of occurrences of keywords (pages) and group by year](./keysearch_by_year.md)
+* [Count number of occurrences of keywords (pages) and group by word](./keysearch_by_word.md)
+* [Count number of occurrences of pages with keywords and group by year](./keysearch_by_year_page_count.md)
+* [Count number of occurrences of pages with keywords and group by book](./keysearch_by_book_page_count.md)
+* [Count number of occurrences of keywords and group by year](./keysearch_by_year_term_count.md)
+* [Count number of occurrences of keywords and group by book](./keysearch_by_book_term_count.md)
+* [Get concordance (details) - window of words - for keywords and group by year](./window_keysearch_concordance_by_date.md)
+* [Get concordance (details) -full page-  for keywords and group by year](./depricated/keysearch_by_year_details.md)
+
+**Note**: *keysearch_by_year.md* and *keysearch_by_year_page_count.md* perform the same action. 
+
+Store preprocessed pages using different storage solutions:
+
+* [Ingest NLS pages, clean them, preprocess them, and store them using ElasticSearch](./write_pages_df_es.md)
+* [Ingest NLS pages, clean them, preprocess them, and store them using HDFS](./write_pages_df_hdfs.md)
+* [Ingest NLS pages, clean them, preprocess them, and store them using PSQL dabase](./write_pages_df_psql.md)
+* [Ingest NLS pages, clean them, preprocess them, and store them using a YML file](./write_pages_df_yml.md)
+
+Geoparser queries:
+
+* [Geoparser NLS pages using the original Edinburgh Geoparser](./geoparser_pages.md)
+* [Geoparser NLS pages using spacY and Edinburgh Georesolver](./georesolution_pages.md)
 
 Colocated word searches:
 
 * [Get colocated words and group by year](./colocates_by_year.md)
+
+Old queries:
+
+* [Depricated queries](./depricated)
+* [Get concordance for keywords and group by word](./depricated/keyword_concordance_by_word.md)
+* [Get concordance (details) -full page-  for keywords and group by year](./depricated/keyword_concordance_by_year.md)
+
