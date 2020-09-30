@@ -39,4 +39,4 @@
 
 **Note-1**: This query is similar to the  `defoe.nls.queries.geoparser_pages`. The only difference, is that this query uses spaCy for identifying the locations with a page, and just the Edinburgh gfor geo-resolve them. 
 
-**Note-2:** Additional information about how to install and run this query, including how to install and download the Edinburgh Geoparser can be found [here][../setup-VM.md].
+**Note-2:** Additional information about how to install and run this query, including how to install and download the Edinburgh Geoparser can be found [here](../setup-VM.md).

@@ -33,7 +33,7 @@ Geoparser queries:
 * [Geoparser NLS pages using the original Edinburgh Geoparser](./geoparser_pages.md)
 * [Geoparser NLS pages using spacY and Edinburgh Georesolver](./georesolution_pages.md)
 
-**Note:** Additional information about how to install and run those queries, including how to install and download the Edinburgh Geoparser can be found [here][../setup-VM.md].
+**Note:** Additional information about how to install and run those queries, including how to install and download the Edinburgh Geoparser can be found [here](../setup-VM.md).
 
 Colocated word searches:
 
