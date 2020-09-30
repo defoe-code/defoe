@@ -87,7 +87,10 @@ Everytime we run a query (e.g. defoe.nls.queries.total_documents or defoe.nls.qu
 
 # Writing and Reading data from/to HDFS
 
-Writing [pages to HDFS cvs file using dataframes](https://github.com/alan-turing-institute/defoe/blob/master/defoe/nls/queries/write_pages_df_hdfs.py) loads in memory all the pages and their metadata, applies all type of preprocess treatment ot the pages, create a dataframe, store data into the dataframe, and finally save the dataframe into HDFS using a csv file.  
+Writing [pages to HDFS cvs file using dataframes](../../defoe/nls/queries/write_pages_df_hdfs.py) loads in memory all the pages and their metadata, applies all type of preprocess treatment ot the pages, create a dataframe, store data into the dataframe, and finally save the dataframe into HDFS using a csv file.  
+
+../defoe/hdfs/queries/keysearch_by_year.py 
+
 
 The information stored per page is the following:
 "title",  "edition", "year", "place", "archive_filename",  "source_text_filename", "text_unit", "text_unit_id", "num_text_unit", "type_archive", "model", "source_text_raw", "source_text_clean", "source_text_norm", "source_text_lemmatize", "source_text_stem", "num_words". 
@@ -97,10 +100,17 @@ In “source_text_clean”, I store the result of applying two modifications to 
 
 We have to indicate the HDFS FILE inside **write_pages_df__hdfs.py** (e.g. "nls_demo.csv"). 
 
-  
+
+Notice that *defoe_path* and *os_type* properties (needed for the long-S fix) are indicated in the configuration file, such as  [queries/writehdfs.yml](../../queries/writehdfs.yml):
 
 ```bash
- nohup spark-submit --py-files defoe.zip defoe/run_query.py nls_tiny.txt nls defoe.nls.queries.write_pages_df_hdfs  -r results -n 324 > log.txt &
+defoe_path: /home/rosa_filgueira_vicente/defoe/
+os_type: linux
+```
+
+
+```bash
+ nohup spark-submit --py-files defoe.zip defoe/run_query.py nls_tiny.txt nls defoe.nls.queries.write_pages_df_hdfs queries/writehdfs.yml -r results -n 324 > log.txt &
 ```
 
 
@@ -128,17 +138,22 @@ xxx/nls -data-encyclopaediaBritannica/193916150
  hdfs dfs -getmerge /user/at003/rosa/nls_demo.csv nls_demo.csv
 ```
 
-Read pages (preprocessed or just clean) as Dataframes from HDFS CSV file, and do a [keysearch](https://github.com/alan-turing-institute/defoe/blob/master/defoe/hdfs/queries/keysearch_by_year.py) groupping results by year.
+Read pages (preprocessed or just clean) as Dataframes from HDFS CSV file, and do a [keysearch](../defoe/hdfs/queries/keysearch_by_year.py) groupping results by year.
 
-In [hdfs_data.txt](https://github.com/alan-turing-institute/defoe/blob/master/hdfs_data.txt) we have to indicate the HDFS file that we want to read from (e.g. hdfs:///user/at003/rosa/nls_demo.csv)
+In [hdfs_data.txt](../../others/hdfs_data.txt) we have to indicate the HDFS file that we want to read from (e.g. hdfs:///user/at003/rosa/nls_demo.csv)
 	
-In the configuration file (e.g.[queries/sport.yml](https://github.com/alan-turing-institute/defoe/blob/master/queries/sport.yml)) we have to indicate which preprocess treatment (e.g. none, normalize, etc.) we want to use in the query, so we can select the dataframe's columm (e.g. *source_text_clean*, *source_text_norm*, etc.) according to that. 
+In the configuration file (e.g.[queries/sport.yml](../../queries/sport.yml)) we have to indicate which preprocess treatment (e.g. none, normalize, etc.) we want to use in the query, so we can select the dataframe's columm (e.g. *source_text_clean*, *source_text_norm*, etc.) according to that. 
+
 
 ```bash
 queries/sport.yml: 
 	preprocess: normalize
 	data: sport.txt
+        defoe_path: /lustre/home/sc048/rosaf4/defoe/
+        os_type: linux
 ```
+
+Note that the *defoe_path* and *os_type* parameters are not needed in this query.
 
 ```bash
   spark-submit --py-files defoe.zip defoe/run_query.py hdfs_data.txt hdfs defoe.hdfs.queries.keysearch_by_year queries/sport.yml  -r results_ks_sports_tiny -n 324 
@@ -181,7 +196,7 @@ results_ks_sports_tiny:
 
 # Writing and Reading data from/to PostgreSQL database 
 
-Writing [pages to PostgresSQL database using dataframes](https://github.com/alan-turing-institute/defoe/blob/master/defoe/nls/queries/write_pages_df_psql.py) loads in memory all the pages and their metadata, applies all type of preprocess treatment ot the pages, create a dataframe, store data into the dataframe, and finally save the dataframe into a database table. Properties of the database to use can be specified by using a config file (e.g. [queries/db_properties.yml](https://github.com/alan-turing-institute/defoe/blob/master/queries/db_properties.yml))
+Writing [pages to PostgresSQL database using dataframes](../../defoe/nls/queries/write_pages_df_psql.py) loads in memory all the pages and their metadata, applies all type of preprocess treatment ot the pages, create a dataframe, store data into the dataframe, and finally save the dataframe into a database table. Properties of the database to use can be specified by using a config file (e.g. [queries/db_properties.yml](../../queries/db_properties.yml))
 
 The information stored per page is the following:
 "title",  "edition", "year", "place", "archive_filename",  "source_text_filename", "text_unit", "text_unit_id", "num_text_unit", "type_archive", "model", "source_text_raw", "source_text_clean", "source_text_norm", "source_text_lemmatize", "source_text_stem", "num_words". 
@@ -193,7 +208,7 @@ In “source_text_clean”, I store the result of applying two modifications to 
 spark-submit --driver-class-path $HOME/postgresql-42.2.8.jar --jars $HOME/postgresql-42.2.8.jar --py-files defoe.zip defoe/run_query.py nls_tiny.txt nls defoe.nls.queries.write_pages_df_psql queries/db_properties.yml  -r results -n 324 
 ```
 
-Notice that the properties of the database to use are indicated in a file --> queries/db_properties.yml:
+Notice that the properties of the database to use are indicated in a configuration file, such as [queries/db_properties.yml](../../queries/db_properties.ymll), along with *defoe_path* and *os_type* properties (needed for the long-S fix):
 
 ```bash
 host: ati-nid00006
@@ -201,13 +216,15 @@ port: 55555
 database: defoe_db
 table: publication_page
 user: rfilguei2
+defoe_path: /home/rosa_filgueira_vicente/defoe/
+os_type: linux
 ```
 
 
 Important:
 * You need to have the postgresql driver, or [download it](https://jdbc.postgresql.org/) and indicate it in the spark-submit command (see previous command). 
 
-* You need to have previously the postgreSQL database created- [See extended notes](https://github.com/alan-turing-institute/defoe/blob/master/defoe/psql/postgreSQL_Spark_Notes.txt). However, the table will be created automatically. 
+* You need to have previously the postgreSQL database created- [See extended notes](../../defoe/psql/postgreSQL_Spark_Notes.txt). However, the table will be created automatically. 
 
 
 ```bash
@@ -245,20 +262,25 @@ defoe_db=# \d+ publication_page
   
 ```
 
-Read pages (preprocessed or just clean) as Dataframes from PostgreSQL database, and do a [keysearch](https://github.com/alan-turing-institute/defoe/blob/master/defoe/psql/queries/keysearch_by_year.py) groupping results by year.
+Read pages (preprocessed or just clean) as Dataframes from PostgreSQL database, and do a [keysearch](../../defoe/psql/queries/keysearch_by_year.py) groupping results by year.
 
-In the configuration file (e.g.[queries/sport.yml](https://github.com/alan-turing-institute/defoe/blob/master/queries/sport.yml)) we have to indicate which preprocess treatment (e.g. none, normalize, etc.) we want to use in the query, so we can select the dataframe's columm (e.g. *source_text_clean*, *source_text_norm*, etc.) according to that. 
+In the configuration file (e.g.[queries/sport.yml](../../queries/sport.yml)) we have to indicate which preprocess treatment (e.g. none, normalize, etc.) we want to use in the query, so we can select the dataframe's columm (e.g. *source_text_clean*, *source_text_norm*, etc.) according to that. 
 
 ```bash
 queries/sport.yml: 
 	preprocess: normalize
 	data: sport.txt
+        defoe_path: /lustre/home/sc048/rosaf4/defoe/
+        os_type: linux
 ```
+
+Note that the *defoe_path* and *os_type* parameters are not needed in this query.
+
 
 ```bash
 spark-submit --driver-class-path $HOME/postgresql-42.2.8.jar --jars $HOME/postgresql-42.2.8.jar --py-files defoe.zip defoe/run_query.py db_data.txt psql defoe.psql.queries.keysearch_by_year queries/sport.yml  -r results_ks_sports_tiny -n 324
 ```
-Important: A file with the database properties has to be specified (e.g.[db_data.txt](https://github.com/alan-turing-institute/defoe/blob/master/db_data.txt)). It has to have the following information (and in this order), separated by comma: 
+Important: A file with the database properties has to be specified (e.g.[db_data.txt](../../others/db_data.txt)). It has to have the following information (and in this order), separated by comma: 
 
 #host,port,db_name,user,driver,table_name
 ati-nid00006,55555,defoe_db,rfilguei2,org.postgresql.Driver,publication_page
@@ -267,7 +289,7 @@ ati-nid00006,55555,defoe_db,rfilguei2,org.postgresql.Driver,publication_page
 
 # Writing and Reading data to/from ElasticSearch (ES) 
 
-Writing [pages to ES  using dataframes](https://github.com/alan-turing-institute/defoe/blob/master/defoe/nls/queries/write_pages_df_es.py) loads in memory all the pages and their metadata, applies all type of preprocess treatment ot the pages, create a dataframe, store data into the dataframe, and finally save the dataframe into ES.
+Writing [pages to ES  using dataframes](../../defoe/nls/queries/write_pages_df_es.py) loads in memory all the pages and their metadata, applies all type of preprocess treatment ot the pages, create a dataframe, store data into the dataframe, and finally save the dataframe into ES.
 
 The information stored per page is the following:
 "title",  "edition", "year", "place", "archive_filename",  "source_text_filename", "text_unit", "text_unit_id", "num_text_unit", "type_archive", "model", "source_text_raw", "source_text_clean", "source_text_norm", "source_text_lemmatize", "source_text_stem", "num_words". 
@@ -276,40 +298,47 @@ In “source_text_clean”, I store the result of applying two modifications to 
 
 
 ```bash
-spark-submit --driver-class-path elasticsearch-hadoop-7.5.0/dist/elasticsearch-hadoop-7.5.0.jar --jars elasticsearch-hadoop-7.5.0/dist/elasticsearch-hadoop-7.5.0.jar  --py-files defoe.zip defoe/run_query.py nls-data.txt nls defoe.nls.queries.write_pages_df_es queries/es_properties.yml -r results -n 324
+spark-submit --driver-class-path elasticsearch-hadoop-7.5.0/dist/elasticsearch-hadoop-7.5.0.jar --jars elasticsearch-hadoop-7.5.0/dist/elasticsearch-hadoop-7.5.0.jar  --py-files defoe.zip defoe/run_query.py nls-data.txt nls defoe.nls.queries.write_pages_df_es queries/es_properties_edina_eb-with-mapping.yml -r results -n 324
 ```
 
-Notice that the properties of index and type name for ES are indicated in a file --> queries/es_properties.yml:
+Notice that the properties of index and type name for ES are indicated in a configuration file, such as [queries/es_properties_edina_eb-with-mapping.yml](../../queries/es_properties_edina_eb-with-mapping.yml), along with *defoe_path* and *os_type* properties (needed for the long-S fix):
 
 
 ```bash
-index: nls
-type_name: Encyclopaedia_Britannica
+index: eb-with-mapping
+host: 172.16.51.140 
+port: 9200
+defoe_path: /home/rosa_filgueira_vicente/defoe/
+os_type: linux
 ```
 
 Important:
 * You need to have the elasticsearch-hadoop driver, or [download it](https://www.elastic.co/downloads/hadoop) and indicate it in the spark-submit command (see previous command). 
 
 
-Read pages (preprocessed or just clean) as Dataframes from ES, and do a [keysearch](https://github.com/alan-turing-institute/defoe/blob/master/defoe/es/queries/keysearch_by_year.py) groupping results by year.
+Read pages (preprocessed or just clean) as Dataframes from ES, and do a [keysearch](../../defoe/es/queries/keysearch_by_year.py) groupping results by year.
 
-In the configuration file (e.g.[queries/sport.yml](https://github.com/alan-turing-institute/defoe/blob/master/queries/sport.yml)) we have to indicate which preprocess treatment (e.g. none, normalize, etc.) we want to use in the query, so we can select the dataframe's columm (e.g. *source_text_clean*, *source_text_norm*, etc.) according to that. 
+In the configuration file (e.g.[queries/sport.yml](../../queries/sport.yml)) we have to indicate which preprocess treatment (e.g. none, normalize, etc.) we want to use in the query, so we can select the dataframe's columm (e.g. *source_text_clean*, *source_text_norm*, etc.) according to that. 
 
 ```bash
 queries/sport.yml: 
 	preprocess: normalize
 	data: sport.txt
+        defoe_path: /lustre/home/sc048/rosaf4/defoe/
+        os_type: linux
 ```
+
+Note that the *defoe_path* and *os_type* parameters are not needed in this query.
+
 
 ```bash
 spark-submit --driver-class-path elasticsearch-hadoop-7.5.0/dist/elasticsearch-hadoop-7.5.0.jar --jars elasticsearch-hadoop-7.5.0/dist/elasticsearch-hadoop-7.5.0.jar --py-files defoe.zip defoe/run_query.py es_data.txt es defoe.es.queries.keysearch_by_year queries/sport.yml  -r results_ks_sports -n 324
 ```
 
-Important: A file with the ES properties has to be specified (e.g.[es_data.txt](https://github.com/alan-turing-institute/defoe/blob/master/es_data.txt)). It has to have the following information (and in this order), separated by comma: 
+Important: A file with the ES properties has to be specified (e.g.[es_data.txt](../../others/es_data_edina_eb.txt )). It has to have the following information (and in this order), separated by comma: 
 
-#index,type_name
-nls,Encyclopaedia_Britannica
-
+#index,host,port
+eb-with-mapping,172.16.51.140,9200
 
 
 # Spark in a SHELL - Pyspark 
@@ -384,4 +413,24 @@ Reading **rdds**:
 
 
 
+# Writing to a YML file
+
+Writing [pages to a YML file  using dataframes](../../defoe/nls/queries/write_pages_df_yml.py) loads in memory all the pages and their metadata, applies all type of preprocess treatment ot the pages, create a dataframe, store data into the dataframe, and finally save the dataframe into a YML file.
+
+The information stored per page is the following:
+"title",  "edition", "year", "place", "archive_filename",  "source_text_filename", "text_unit", "text_unit_id", "num_text_unit", "type_archive", "model", "source_text_raw", "source_text_clean", "source_text_norm", "source_text_lemmatize", "source_text_stem", "num_words".
+
+In “source_text_clean”, I store the result of applying two modifications to the raw text (source_text_raw): 1) Handle hyphenated words and 2) fix the long-s. The pre-process treatments (*normalize*, *stem* and *lemmatize*) are applied to text stored in this field, and not from the raw one. Both, *stem* and *lemmatize*, they also include normalization.  .
+
+
+```bash
+spark-submit --driver-class-path elasticsearch-hadoop-7.5.0/dist/elasticsearch-hadoop-7.5.0.jar --jars elasticsearch-hadoop-7.5.0/dist/elasticsearch-hadoop-7.5.0.jar  --py-files defoe.zip defoe/run_query.py nls-data.txt nls defoe.nls.queries.write_pages_df_es queries/write_to_yml.yml -r results -n 324
+```
+
+Notice that *defoe_path* and *os_type* properties (needed for the long-S fix) are indicated in the configuration file [queries/write_to_yml.yml](../../queries/write_to_yml.yml)
+
+```bash
+defoe_path: /home/rosa_filgueira_vicente/defoe/
+os_type: linux
+```
 
