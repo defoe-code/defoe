@@ -15,7 +15,7 @@ Key searches:
 
 * [Count number of occurrences of keywords/keysentences and group by year](./keysearch_by_year.md)
 * [Get concordance (details) for keywords/keysentences and group by year](./keysearch_by_year_details.md)
-* [Count number of articles containing both target word(s) and one or more keywords/keysentences and group by year](./target_and_keysearch_by_year.md)
+* [Count number of articles containing both target word(s) and one or more keywords/keysentences and group by year](./target_keysearch_by_year.md)
 * [Get concordance (details) containing boht target word(s) and one or more keywords/keysentences and group by year](./target_keysearch_by_year_details.md)
 * [Get the preprocessed concordance (details) containing boht target word(s) and one or more keywords/keysentences, and group by year](./target_keysearch_by_year_preprocessed_details.md)
 * [Count number of articles containing both target word(s) and one or more keywords/keysentences, filter by date, and group by year](./target_and_keysearch_by_year_filter_date.md)

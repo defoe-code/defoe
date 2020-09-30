@@ -1,6 +1,7 @@
 """
-Stores the preprocessed articles text filtered by keywords or keysentences and groups them by year.
-This query is the recommended to use when there are target words.
+Get preprocessed concordance (also called details) of articles in which we have keywords or keysentences.
+Filtering those by target words and group results by year.
+This query is the recommended to use when there are target words and we want to store the articles' text preprocessed.
 
 """
 
