@@ -17,7 +17,7 @@ Keyword searches:
 * [Count number of occurrences of keywords and group by year](./keysearch_by_year_term_count.md)
 * [Count number of occurrences of keywords and group by book](./keysearch_by_book_term_count.md)
 * [Get concordance (details) - window of words - for keywords and group by year](./window_keysearch_concordance_by_date.md)
-* [Get concordance (details) -full page-  for keywords and group by year](./depricated/keysearch_by_year_details.md)
+* [Get concordance (details) - full page - for keywords and group by year](./depricated/keysearch_by_year_details.md)
 
 **Note**: *keysearch_by_year.md* and *keysearch_by_year_page_count.md* perform the same action. 
 
