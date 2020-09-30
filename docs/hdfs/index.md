@@ -1,5 +1,9 @@
 # HDFS document queries
 
+General:
+
+* [Normalize](./normalize.md) 
+
 Key searches:
 
 * [Count number of occurrences of keywords/keysentences (pages) and group by year](./keysearch_by_year.md)
