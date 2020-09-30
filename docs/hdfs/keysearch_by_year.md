@@ -3,20 +3,16 @@
 * Read data previously stored in HDFS  
 * Query module: `defoe.hdfs.queries.keysentence_by_year`
 * Configuration file:
-  - defoe path (defoe_path)
-  - operating system (os) 
-  - preprocessing treatment (preprocess)
+  - preprocessing treatment to select (preprocess)
   - File with keywords or keysentece (data)
   - Examples:
      - preprocess: normalize
      - data: sc_cities.txt
-     - defoe_path: /lustre/home/sc048/rosaf4/defoe/
-     - os_type: linux
 * Result format:
 
 ```
 <YEAR>:
-- [<WORD>, <NUM_WORDS>]
+- [<WORD | SENTENCE>, <NUM_WORDS|NUM_SENTENCES>]
 - ...
 <YEAR>:
 ...

@@ -1,4 +1,4 @@
-# Get concordance (also called details) occurrences of keywords or keysentences (by page) and group by year - Uses a Windonw 
+# Get concordance (also called details) occurrences of keywords or keysentences (by page) and group by year - Returns a Window of words around each match 
 
 * Both keywords/keysentences and words in documents are cleaned (long-S and hyphen fixes) and preprocessed according to the configuration file
 * Uses a window to return the number of words before and after each term found in a page. 

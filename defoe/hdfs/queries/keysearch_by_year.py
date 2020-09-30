@@ -20,7 +20,7 @@ def do_query(df, config_file=None, logger=None, context=None):
     "text_unit", "text_unit_id", "num_text_unit", "type_archive", "model", "source_text_raw", 
     "source_text_clean", "source_text_norm", "source_text_lemmatize", "source_text_stem", "num_words"
 
-    A configuration file is needed, to indicate the lexicon, defoe path, operating system, and the preprocessed treatment to use.
+    A configuration file is needed, to indicate the lexicon, the preprocessed treatment to use.
   
     Both keywords/keysentences and words in documents are normalized, by removing
     all non-'a-z|A-Z' characters.
