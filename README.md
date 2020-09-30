@@ -10,11 +10,11 @@ This repository was forked from [the previous defoe repository](https://github.c
 
 Both projects have used defoe as the backend to perform several text mining queries across several digital textual historical documents (see bellow).
 
-To learn more about the outcomes of *CDCS Text and Data Mining Lab* using defoe, we recommend to check the [defoe CDCS_Text_Mining_Lab](https://github.com/defoe-code/CDCS_Text_Mining_Lab). 
+To learn more about the outcomes of *CDCS Text and Data Mining Lab* using defoe, we recommend to check the [defoe CDCS_Text_Mining_Lab](https://github.com/defoe-code/CDCS_Text_Mining_Lab) repository. 
 
 **Note**: Since November 2019, all new defoe queries/funcionalities/support have been stored in **this** repository. 
 
-Developer: Rosa Filgueira (EPCC) 
+Developer (from November 2019): Rosa Filgueira (EPCC) 
 
 ---
 ## Supported datasets
@@ -80,7 +80,7 @@ Set up (Urika):
 * [Import British Library Books and Newspapers data into Urika](./docs/import-data-urika-ati-se-humanities-uoe.md) (Alan Turing Institute-Scottish Enterprise Data Engineering Program University of Edinburgh project members only)
 
 Set up (Cirrus - HPC Cluster):
-* [Installing defoe, Spark, and transferring data][https://github.com/defoe-code/CDCS_Text_Mining_Lab/blob/master/README.md]
+* [Installing defoe, Spark, and transferring data](https://github.com/defoe-code/CDCS_Text_Mining_Lab/blob/master/README.md)
 
 Set up (VM):
 
