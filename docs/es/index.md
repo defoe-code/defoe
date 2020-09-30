@@ -16,6 +16,6 @@ Geoparser queries:
 
 **Note-1**: For running any of above queries, they need NLS pages to be stored previously in ES using [this query](../nls/write_pages_df_es.md)
 
-**Note-2:** Additional information about how to install and download the Edinburgh Geoparser can be found [here](../setup-VM.md).
+**Note-2:** Additional information about how to install and download the Edinburgh Geoparser can be found [here](../setup-VM.md#installing-the-geoparser--georesolve-tools-inside-defoe).
 
 
