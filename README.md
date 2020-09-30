@@ -9,13 +9,12 @@ This repository was forked from [the previous defoe repository](https://github.c
  - [CDCS Text and Data Mining Lab](https://www.cdcs.ed.ac.uk/cdcs-text-mining-lab-call-projects?utm_campaign=2619665_CDCS%20Digest%20W%2FC%2016%20March%202020&utm_medium=email&utm_source=College%20of%20Arts%2C%20Humanities%20%26%20Social%20Sciences%2C%20The%20University%20of%20Edinburgh&dm_t=0,0,0,0,0) - March 2020 to October 2020. 
 
 Both projects have used defoe as the backend for performing several text mining queries to historical documents.
+
 To learn more about the outcomes of *CDCS Text and Data Mining Lab* using defoe, we recommend to check the [defoe CDCS_Text_Mining_Lab](https://github.com/defoe-code/CDCS_Text_Mining_Lab). 
 
-Since November 2019, all new defoe queries/funcionalities/support are stored in **this** repository. 
-
+**Note**: Since November 2019, all new defoe queries/funcionalities/support have been stored in **this** repository. 
 
 Developer: Rosa Filgueira (EPCC) 
-
 
 ---
 ## Supported datasets
