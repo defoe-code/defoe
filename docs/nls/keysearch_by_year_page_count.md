@@ -1,4 +1,4 @@
-# Count number of pages in which each of keywords or keysentences appear and group by year
+# Count number of pages in which appear keywords or keysentences and group by year
 
 * Both keywords/keysentences and words in documents are cleaned (long-S and hyphen fixes) and preprocessed according to the configuration file
 * Query module: `defoe.nls.queries.keysentence_by_year_page_count`

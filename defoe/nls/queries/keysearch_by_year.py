@@ -1,5 +1,5 @@
 """
-Counts number of occurrences of keywords or keysentences and groups by year.
+Count number of pages in which appear keywords or keysentences and group by year
 """
 
 from operator import add

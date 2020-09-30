@@ -1,7 +1,7 @@
-# Count number of occurrences of keywords or keysentences (by page) and group by year
+# Count number of pages in which appear keywords or keysentences and group by year
 
 * Both keywords/keysentences and words in documents are cleaned (long-S and hyphen fixes) and preprocessed according to the configuration file
-* Query module: `defoe.nls.queries.keysentence_by_year`
+* Query module: `defoe.nls.queries.keysearch_by_year`
 * Configuration file:
   - defoe path (defoe_path)
   - operating system (os) 
@@ -16,7 +16,7 @@
 
 ```
 <YEAR>:
-- [<WORD>, <NUM_WORDS>]
+- [<WORD | SENTENCES>, <NUM_WORDS | NUM_SENTENCES>]
 - ...
 <YEAR>:
 ...

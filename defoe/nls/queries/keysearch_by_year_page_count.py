@@ -1,6 +1,5 @@
 """
-The query counts as a “hint” every time that finds a page with a particular term from a lexicon
-and it groups the results by years.
+Count number of pages in which each of keywords or keysentences appear and group by year
 """
 
 from operator import add

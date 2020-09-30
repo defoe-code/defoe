@@ -1,6 +1,7 @@
 """
 Select the article text by a list of keywords or keysentences and groups by year.
 This query is the recommended to use when there are not target words. 
+(Article count details)
 """
 
 from operator import add
