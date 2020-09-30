@@ -1,5 +1,6 @@
 """
 Gets concordance of window for keysentence and groups by date.
+It uses the data previously stored in ES
 """
 
 from operator import add
@@ -24,11 +25,9 @@ def do_query(df, config_file=None, logger=None, context=None):
     "source_text_clean", "source_text_norm", "source_text_lemmatize", "source_text_stem",
     "num_words"
 
-    config_file must be the path to a configuration file with a list
-    of the keywords to search for, one per line.
+    config_file must be indicated with the list of words/sentences (lexicon) to search, and
+    the preprocess treatment to select from ES. 
 
-    Both keywords and words in documents are normalized, by removing
-    all non-'a-z|A-Z' characters.
 
     Returns result of form:
           [(year, [(title, edition, archive_filename, filename, word,corcondance),
