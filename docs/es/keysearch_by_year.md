@@ -20,3 +20,5 @@
 
 
 **Note-1**: You will need to have the data previously stored in ES using `defoe.nls.queries.write_pages_df_es`.
+
+**Important:** We recommend to read also the documentation for [writing and reading data from ES](../doc/nls_demo_examples/nls_demo_individual_queries.md#writing-and-reading-data-tofrom-elasticsearch-es).
