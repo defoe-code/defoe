@@ -1,22 +1,12 @@
-# NLS document queries
-
-Encyclopaedia Britannica dataset.
-
-General:
-
-* [Count total number of documents](./total_documents.md)
-* [Count total number of pages](./total_pages.md)
-* [Count total number of words](./total_words.md)
-* [Get measure of OCR quality for each page and group by year](./ocr_quality_by_year.md)
-* [Normalize](./normalize.md) - count total number of documents, pages and words per year.
+# HDFS document queries
 
 Keyword searches:
 
-* [Count number of occurrences of keywords and group by year](./keyword_by_year.md)
-* [Count number of occurrences of keywords and group by word](./keyword_by_word.md)
-* [Get concordance for keywords and group by year](./keyword_concordance_by_year.md)
-* [Get concordance for keywords and group by word](./keyword_concordance_by_word.md)
+* [Count number of occurrences of keywords (pages) and group by year](./keysearch_by_year.md)
+* [Get concordance (details) - full articles - for keywords and group by year](./keysearch_articles_by_year_details.md)
 
-Colocated word searches:
+**Note**: 
 
-* [Get colocated words and group by year](./colocates_by_year.md)
+* For running the [first query above](./keysearch_by_year.md), it needs NLS pages to be stored previously in HDFS using [this query](./write_pages_df_hdfs.md)
+* For running the [second query above](./keysearch_articles_by_year_details.md), it needs EB articles to be previously extracted and stored in HDFS using [this query](./write_articles_pages_df_hdfs.md)
+
