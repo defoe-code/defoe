@@ -23,6 +23,8 @@ where:
   - `fmp`: Find My Past Newspapers
   - `nzpp`: Papers Past New Zealand and Pacific newspapers
   - `generic_xml`: Arbitrary XML documents
+  - `nls`: National Library of Scotland digital collections
+  - `nlsArticles`: For extracting automatically the articles (at page level) from the Encyclopaedia Britanica.  
   - For example, `books` tells the code that the data files listed in `data.txt` are books so should be parsed into a books data model.
 * `<QUERY_NAME>` is the name of a Python module implementing the query to run, for example `defoe.alto.queries.find_words_group_by_word` or `defoe.papers.queries.articles_containing_words`. The query must be compatible with the chosen model.
 * `<QUERY_CONFIG_FILE>` is a query-specific configuration file. This is optional and depends on the query implementation.
@@ -62,6 +64,15 @@ where:
 * `queries/gender.txt` is a configuration file for the query which contains a list of the words, one per line, to search for.
 
 If successful the results will be written into a new file (by default called `results.yml`) in the current directory.
+
+**Note for Cirrus/HPC Clusters users**
+
+You will need to have a Spark cluster job running, and then you can submit defoe quer(ies) (within or in another) job. Very likely you might have to install Spark in your user account. To see an example of this, check [the defoe + Cirrus documentation](https://github.com/defoe-code/CDCS_Text_Mining_Lab/blob/master/README.md). 
+
+**Note for Cloud/VM Clusters users**
+
+You will need to install Spark, along with another tools necessaries for defoe. To see an example of this, check the following [documentation](setup-VM.md). 
+
 
 ---
 
