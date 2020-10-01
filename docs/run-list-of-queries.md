@@ -23,7 +23,8 @@ where:
   - `fmp`: Find My Past Newspapers
   - `nzpp`: Papers Past New Zealand and Pacific newspapers
   - `generic_xml`: Arbitrary XML documents
-  - `nls`: Arbitrary XML documents
+  - `nls`: National Library of Scotland digital collections
+  - `nlsArticles`: For extracting automatically the articles (at page level) from the Encyclopaedia Britanica.  
   - For example, `books` tells the code that the data files listed in `data.txt` are books so should be parsed into a books data model.
 * `<LIST_OF _QUERIES>` is a file that list the queries to be submitted. Each query is the name of a Python module implementing the query to run, for example `defoe.alto.queries.find_words_group_by_word` or `defoe.papers.queries.articles_containing_words`. The query must be compatible with the chosen model. Each query, can have also the following optional parametesr:
 * `<QUERY_CONFIG_FILE>` is a query-specific configuration file. This is optional and depends on the query implementation.
