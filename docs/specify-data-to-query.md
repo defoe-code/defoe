@@ -186,6 +186,30 @@ find /mnt/lustre/<project>/<project>/<username>/NZPP -name "*.xml" | sort > data
 
 ---
 
+## NLS  dataset
+
+You need to have in the configuration file just the **list of directories** (with the full path) to query. See bellow:
+
+```bash
+XXXX/nls-data-encyclopaediaBritannica/193108323
+XXXX/nls-data-encyclopaediaBritannica/193696080
+XXX/nls-data-encyclopaediaBritannica/144850378
+...
+```
+Each directory of those directories has to have inside a METS XML file, and **alto** directory, with an ALTO XML file per page. 
+
+```bash
+> cd XXXX/nls-data-encyclopaediaBritannica/193108323
+> ls
+alto/
+193108323-mets.xml
+> ls alto
+193201290.34.xml  193202343.34.xml ...
+```
+
+So, the configuration file for this dataset **do not require a list of XML files ** to query. Instead, it just require **a list of directories** to query. 
+
+---
 ## Arbitrary XML documents
 
 To run queries over arbitrary XML documents, the file needs a list of the paths to the XML files.
