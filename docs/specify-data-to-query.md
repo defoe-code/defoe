@@ -188,7 +188,7 @@ find /mnt/lustre/<project>/<project>/<username>/NZPP -name "*.xml" | sort > data
 
 ## NLS  dataset
 
-You need to have in the configuration file just the **list of directories** (with the full path) to query. See an example of a configuration file for this dataset (using the Encyclopaedia Britannica) bellow:
+When you want to work with a [NLS](https://data.nls.uk/data/digitised-collections/) dataset in defoe, you will need to have a data file with just the **list of directories** (with the full path) to query. See an example of a data file for this dataset (using the Encyclopaedia Britannica) bellow:
 
 ```bash
 XXXX/nls-data-encyclopaediaBritannica/193108323
@@ -207,7 +207,7 @@ alto/
 193201290.34.xml  193202343.34.xml ...
 ```
 
-So, the configuration file for this dataset **do not require a list of XML files** to query. Instead, it just require **a list of directories** to query. 
+So, a data file for a NLS dataset (e.g. Chapbooks, Scottish gazetteers, Encyclopaedia Britannica, etc) **do not require a list of XML files** to query. Instead, it just require **a list of directories** to query. 
 
 ---
 ## Arbitrary XML documents
