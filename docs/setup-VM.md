@@ -114,6 +114,9 @@ cd $HOME/defoe
 echo /home/rosa_filgueira_vicente/datasets/nls-data-gazetteersOfScotland/97437554 > sg_sample.txt
 ```
 
+Note: You can find an example of sg_sample.txt [here](../others/sg_sample.txt)
+
+
 # Testing Spark  
 
 Using an Spark application (SparkPi) included in the Spark source code
@@ -208,7 +211,7 @@ Furthermore, any future changes about *how to call to the original geoparser too
 
 ### Using the SG sample dataset (one gazetteer)
 
-We are going to use the *sg_sample.txt* file created before. Remember that  *sg_sample.txt* needs to be placed in your *defoe_path*. 
+We are going to use the *sg_sample.txt* file created before. Remember that [sg_sample.txt](../others/sg_sample.txt) needs to be placed in your *defoe_path*. 
 
 ```
 zip -r defoe.zip defoe
@@ -252,7 +255,7 @@ Furthermore, any future changes about *how to call to the georesolve tool* have 
 
 ### Using the SG sample dataset (one gazetteer):
 
-We are going to use the *sg_sample.txt* file created before. Remember that *sg_sample.txt* needs to be placed in your *defoe_path*. 
+We are going to use the *sg_sample.txt* file created before. Remember that [sg_sample.txt](../others/sg_sample.txt) needs to be placed in your *defoe_path*. 
 
 ```
 zip -r defoe.zip defoe
