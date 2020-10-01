@@ -53,6 +53,8 @@ For example, to submit a query to search a set of newspapers for occurrences of 
 spark-submit --py-files defoe.zip defoe/run_query.py ~/data/papers.2.txt papers defoe.papers.queries.articles_containing_words queries/gender.txt
 ```
 
+To create a file with the file paths (data.txt), check [how to specify data to defoe queries](./specify-data-to-query.md). 
+
 where:
 
 * `data.txt` is the file with the paths to the papers files to run the query over. Examples of this can be found under the [others](../others) directory.
