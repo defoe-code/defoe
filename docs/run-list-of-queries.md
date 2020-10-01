@@ -33,6 +33,9 @@ where:
 * `<ERRORS_FILE>` is the errors file, to hold information on any errors in YAML format. If omitted the default is `errors.yml`.
 * `<NUM_CORES>` is the number of computer processor cores requested for the job. If omitted the default is 1.
 
+
+To create a file with the file paths (data.txt), check [how to specify data to defoe queries](./specify-data-to-query.md). 
+
 **Note for Urika users**
 
 * It is recommended that the value of 144 be used for `<NUM_CORES>`. This, with the number of cores per node, determines the number of workers/executors and nodes. As Urika has 36 cores per node, this would request 144/36 = 4 workers/executors and nodes.
@@ -56,6 +59,14 @@ defoe.nls.queries.inventory_per_year -r results_inventory_per_year
 And:
 * `nls_total.txt` is the file with the paths to the encyclopaedia files to run the query over. Check [here](../others/nls_total.txt) to see an example of this file  
 
+
+**Note for Cirrus/HPC Clusters users**
+
+You will need to have a Spark cluster job running, and then you can submit defoe quer(ies) (within or in another) job. Very likely you might have to install Spark in your user account. To see an example of this, check [the defoe + Cirrus documentation](https://github.com/defoe-code/CDCS_Text_Mining_Lab/blob/master/README.md). 
+
+**Note for Cloud/VM Clusters users**
+
+You will need to install Spark, along with another tools necessaries for defoe. To see an example of this, check the following [documentation](setup-VM.md). 
 
 ---
 
