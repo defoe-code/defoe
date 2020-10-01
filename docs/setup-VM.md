@@ -220,9 +220,9 @@ spark-submit --py-files defoe.zip defoe/run_query.py sg_sample.txt nls defoe.nls
 
 ### Using the SG full dataset:
 
-- Take a copy of [sg_total.txt](https://github.com/defoe-code/defoe/blob/master/others/sg_total.txt) and modify it accorderly adding the full path to *nls-data-gazetteersOfScotland* directory. 
+- Take a copy of [sg_total.txt](../others/sg_total.txt) and modify it accorderly adding the full path to *nls-data-gazetteersOfScotland* directory. 
 - Place your *sg_total.txt* inside your *defoe_path*.
-- More information about how to specify data to a query can be found at [here](https://github.com/defoe-code/defoe/blob/master/docs/specify-data-to-query.md)
+- More information about how to specify data to a query can be found at [here](https://github.com/defoe-code/defoe/blob/master/docs/specify-data-to-query.md#nls--dataset).
 
 ```
 zip -r defoe.zip defoe
