@@ -56,13 +56,13 @@ Important: In query_distributed_topics.txt I have the following
 ```bash
 defoe.nls.queries.normalize -r results_nls_normalized
 defoe.nls.queries.keysearch_by_year queries/sc_philosophers.yml -r results_ks_philosophers
-defoe.nls.queries.keysearch_by_year queries/sport.ym -r results_ks_sports_normalize
+defoe.nls.queries.keysearch_by_year queries/sport.yml -r results_ks_sports_normalize
 defoe.nls.queries.keysearch_by_year queries/sc_cities.yml -r results_ks_cities
 defoe.nls.queries.keysearch_by_year queries/animal.yml -r results_ks_animal
 defoe.nls.queries.inventory_per_year -r results_inventory_per_year
 ```
 
-For each query, I need to specify:
+For each query, we need to specify:
 * The full module path (e.g. defoe.nls.queries.normalize)
 * The configuration paramenters if they are needed (e.g. queries/sport.yml)
 * The results file (e.g. results_ks_animal). By default it generates a file called results_<NUM_QUERY>.yml
