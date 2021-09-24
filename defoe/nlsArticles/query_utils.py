@@ -303,7 +303,8 @@ def filter_terms_page(page, defoe_path, os_type):
 
     if len(page_hpos_vpos_font) > 1:
         if type_page == "FullPage" or type_page == "Topic":
-            page_term_dict[header]=(page_words, num_page)
+            #page_term_dict[header]=(page_words, num_page)
+            page_term_dict[header]=page_words
         else:
             ln = 0
             flag = 0
@@ -318,7 +319,8 @@ def filter_terms_page(page, defoe_path, os_type):
             if flag == 2:
                 header=page_hpos_vpos_font[ln][0][3].split(".")[0]
                 type_page="Topic"
-                page_term_dict[header]=(page_words, num_page)
+                #page_term_dict[header]=(page_words, num_page)
+                page_term_dict[header]=page_words
      
             elif flag == 1:
                 page_terms=[]
@@ -364,10 +366,12 @@ def filter_terms_page(page, defoe_path, os_type):
                                     new_term= new_term+"_def"
                                 if num_terms!=0:
                                     previous_term=page_terms[-1]
-                                    page_term_dict[previous_term]=(definition, num_page)
+                                    #page_term_dict[previous_term]=(definition, num_page)
+                                    page_term_dict[previous_term]=definition
                                 definition=[]
                                 page_terms.append(new_term)
-                                page_term_dict[new_term]=("", num_page)
+                                #page_term_dict[new_term]=("", num_page)
+                                page_term_dict[new_term]=""
                                 num_terms+= 1
                                 for j in range(1,len(page_hpos_vpos_font[i])):
                                     definition.append(page_hpos_vpos_font[i][j][3])
@@ -386,16 +390,28 @@ def filter_terms_page(page, defoe_path, os_type):
                         previous_term=page_terms[-1]
                     else:
                         previous_term="previous_page"
-                    page_term_dict[previous_term]=(definition, num_page) 
+                    #page_term_dict[previous_term]=(definition, num_page) 
+                    page_term_dict[previous_term]=definition
                    
                 if not page_term_dict:
-                    page_term_dict[header]=(page_words, num_page)
-   
+                    #page_term_dict[header]=(page_words, num_page)
+                    page_term_dict[header]=page_words
+  
     if page_term_dict:
+        cont_term = 0
+        num_terms = len(page_term_dict)
         for term in page_term_dict:
             clean_term=clean_text_as_string(term,2, defoe_path, os_type)
-            clean_def=clean_text_as_string(page_term_dict[term][0],0, defoe_path, os_type)
-            page_clean_term_dict[clean_term]=(clean_def, page_term_dict[term][1])
+            #clean_def=clean_text_as_string(page_term_dict[term][0],0, defoe_path, os_type)
+            clean_def=clean_text_as_string(page_term_dict[term],0, defoe_path, os_type)
+            if cont_term + 1 == num_terms:
+                last_term = 1
+            else:
+                last_term = 0
+            #page_clean_term_dict[clean_term]=(clean_def, page_term_dict[term][1], cont_term, last_term)
+            page_clean_term_dict[clean_term]=(clean_def, cont_term, last_term)
+            cont_term += 1
+  
 
     if len(page_clean_term_dict)>5 and (type_page == "Topic"):
         type_page="Mix"
