@@ -4,7 +4,6 @@ The articles are stored in a ES file.
 
 The text is cleaned by using long-S and hyphen fixes.
 
-Note that for running this query, apart from Spark you need to have HADOOP installeld in your computing enviroment.
 
 """
 
@@ -78,16 +77,18 @@ def do_query(archives, config_file=None, logger=None, context=None):
                                year_document[3], year_document[4], page.code, text_unit, page.page_id, \
                                year_document[5], year_document[6], year_document[7], \
                                filter_terms_page(page, defoe_path, os_type), len(page.words)) for page in year_document[8]])
+
    
     # [(tittle, edition, year, place, archive filename, page filename , text_unit, tex_unit_id, num_pages,
-    #   type of archive, type of disribution, model, page_type, header, term, definition, num_articles_per_page, num_page_words, num_artciles_words)]
+    #   type of archive, type of disribution, model, page_type, header, term, (definition, num_article_page), num_articles_per_page, num_page_words, num_artciles_words)]
 
+    #type_page 11/0, header 11/1, page_clean_term_dict/ 11/2, len(page_clean_term_dict) 11/3
     pages_articles = pages_clean.flatMap(
         lambda articles_page: [(articles_page[0], articles_page[1], articles_page[2],\
                                articles_page[3], articles_page[4], articles_page[5], articles_page[6], articles_page[7], \
                                articles_page[8], articles_page[9], articles_page[10], \
-                               articles_page[11][0], articles_page[11][1], key, articles_page[11][2][key], articles_page[11][3],\
-                               articles_page[12], len(articles_page[11][2][key].split(" "))) for key in articles_page[11][2]]) 
+                               articles_page[11][0], articles_page[11][1], key, articles_page[11][2][key][0], articles_page[11][2][key][1], articles_page[11][3],\
+                               articles_page[12], len(articles_page[11][2][key][0].split(" "))) for key in articles_page[11][2]]) 
     
 
     #[Encyclopaedia Britannica; or, A dictionary of arts and sciences, compiled upon a new plan, First edition, 1771, Volume 1, A-B, 1771, Edinburgh, /lustre/home/sc048/rosaf4/datasets/nls-data-encyclopaediaBritannica/144133901, alto/188083401.34.xml, page, Page53, 832, book, nlsArticles, Articles, AFFAFR, AFFIANCE, in law, denotes the mutual plighting of troth between a man and a woman to marry each, 32, 887, 17]
@@ -110,9 +111,10 @@ def do_query(archives, config_file=None, logger=None, context=None):
           "header": row_page[12], 
           "term": row_page[13], 
           "definition": row_page[14],
-          "num_articles": row_page[15],
-          "num_page_words": row_page[16], 
-          "num_article_words": row_page[17]}))
+          "article_num_in_page": row_page[15],
+          "num_articles": row_page[16],
+          "num_page_words": row_page[17], 
+          "num_article_words": row_page[18]}))
  
     result = matching_pages \
         .groupByKey() \
