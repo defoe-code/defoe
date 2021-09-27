@@ -87,7 +87,7 @@ def do_query(archives, config_file=None, logger=None, context=None):
                                articles_page[3], articles_page[4], articles_page[5], articles_page[6], articles_page[7], \
                                articles_page[8], articles_page[9], articles_page[10], \
                                articles_page[11][0], articles_page[11][1], key, articles_page[11][2][key][0], articles_page[11][2][key][1], \
-                               articles_page[11][2][key][2],articles_page[11][3],\
+                               articles_page[11][2][key][2], articles_page[11][2][key][3], articles_page[11][3],\
                                articles_page[12], len(articles_page[11][2][key][0].split(" "))) for key in articles_page[11][2]]) 
     
 
@@ -113,9 +113,10 @@ def do_query(archives, config_file=None, logger=None, context=None):
           "definition": row_page[14],
           "term_id_in_page": row_page[15],
           "last_term_in_page": row_page[16],
-          "num_articles": row_page[17],
-          "num_page_words": row_page[18], 
-          "num_article_words": row_page[19]}))
+          "related_terms": row_page[17],
+          "num_articles": row_page[18],
+          "num_page_words": row_page[19], 
+          "num_article_words": row_page[20]}))
  
     result = matching_pages \
         .groupByKey() \
