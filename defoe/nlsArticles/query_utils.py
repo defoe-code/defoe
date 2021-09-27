@@ -405,9 +405,18 @@ def filter_terms_page(page, defoe_path, os_type):
                 last_term = 0
             if "See " in clean_def:
                 related_terms= clean_def.split("See ")[1]
+            elif "SEE " in clean_def:
+                related_terms= clean_def.split("SEE ")[1]
             else:
                 related_terms=""
-            page_clean_term_dict[clean_term]=(clean_def, cont_term, last_term, related_terms)
+          
+            related_data=[]
+            related_terms=related_terms.split(" ")
+            for elem in related_terms:
+                if elem.isupper():
+                    related_data.append(elem.split(".")[0])
+ 
+            page_clean_term_dict[clean_term]=(clean_def, cont_term, last_term, related_data)
             cont_term += 1
   
 
