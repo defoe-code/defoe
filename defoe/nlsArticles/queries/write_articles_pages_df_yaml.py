@@ -95,7 +95,7 @@ def do_query(archives, config_file=None, logger=None, context=None):
 
     matching_pages = pages_articles.map(
         lambda row_page:
-        (row_page[7],
+        (int(row_page[7].split("Page")[1]),
          {"title": row_page[0],
           "edition": row_page[1],
           "year": row_page[2],
@@ -120,6 +120,6 @@ def do_query(archives, config_file=None, logger=None, context=None):
     result = matching_pages \
         .groupByKey() \
         .map(lambda date_context:
-             (date_context[0], list(date_context[1]))) \
+             (date_context[0], list(date_context[1]))).sortByKey()  \
         .collect()
     return result
