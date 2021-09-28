@@ -414,7 +414,12 @@ def filter_terms_page(page, defoe_path, os_type):
             related_terms=related_terms.split(" ")
             for elem in related_terms:
                 if elem.isupper():
-                    related_data.append(elem.split(".")[0])
+                    elem=elem.split(".")[0]
+                    term=elem.split(",")[0]
+                    if len(term)>2:
+                        m = re.search('^([0-9]+)|([IVXLCM]+)\\.?$', term)
+                        if m is None:
+                            related_data.append(term)
  
             page_clean_term_dict[clean_term]=(clean_def, cont_term, last_term, related_data)
             cont_term += 1
