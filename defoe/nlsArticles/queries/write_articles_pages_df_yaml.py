@@ -93,9 +93,10 @@ def do_query(archives, config_file=None, logger=None, context=None):
 
     #[Encyclopaedia Britannica; or, A dictionary of arts and sciences, compiled upon a new plan, First edition, 1771, Volume 1, A-B, 1771, Edinburgh, /lustre/home/sc048/rosaf4/datasets/nls-data-encyclopaediaBritannica/144133901, alto/188083401.34.xml, page, Page53, 832, book, nlsArticles, Articles, AFFAFR, AFFIANCE, in law, denotes the mutual plighting of troth between a man and a woman to marry each, 32, 887, 17]
 
-    matching_pages = pages_articles.map(
+
+    matching_pages = pages_articles.flatMap(
         lambda row_page:
-        (int(row_page[7].split("Page")[1]),
+        [(row_page[1], (int(row_page[7].split("Page")[1]),
          {"title": row_page[0],
           "edition": row_page[1],
           "year": row_page[2],
@@ -116,7 +117,7 @@ def do_query(archives, config_file=None, logger=None, context=None):
           "related_terms": row_page[17],
           "num_articles": row_page[18],
           "num_page_words": row_page[19], 
-          "num_article_words": row_page[20]}))
+          "num_article_words": row_page[20]}))])
  
     result = matching_pages \
         .groupByKey() \
@@ -124,3 +125,4 @@ def do_query(archives, config_file=None, logger=None, context=None):
              (date_context[0], list(date_context[1]))).sortByKey()  \
         .collect()
     return result
+
