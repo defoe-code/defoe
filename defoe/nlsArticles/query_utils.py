@@ -301,6 +301,7 @@ def filter_terms_page(page, defoe_path, os_type):
     page_term_dict={}
     page_clean_term_dict={}
 
+   
     if len(page_hpos_vpos_font) > 1:
         if type_page == "FullPage" or type_page == "Topic":
             page_term_dict[header]=page_words
@@ -692,6 +693,9 @@ def get_header_eb(header_left, header_right):
         if ("Plate" in header) or ("Plafr" in header) or ("Elate" in header) or ("Tlafe" in header):
             header = "Plate"
             page_type = "FullPage"
+        elif "EncyclopaediaBritannica" in header:
+            header = "EncyclopaediaBritannica"
+            page_type = "Articles"
         elif "PREFACE" in header:
             header = "Preface"
             page_type="FullPage"
