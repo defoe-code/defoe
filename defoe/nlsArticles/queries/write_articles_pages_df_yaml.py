@@ -13,6 +13,12 @@ from pyspark.sql import Row, SparkSession, SQLContext
 
 import yaml, os
 
+def comp(o):
+   num_page=o.split("_")[0]
+   print("-----> ROSA ----> %s" %num_page)
+   return(int(num_page))
+
+
 def do_query(archives, config_file=None, logger=None, context=None):
     """
     Ingest NLS pages, clean and extract the articles of each to each page, and save them to HDFS, with some metadata associated with each article.
@@ -89,11 +95,6 @@ def do_query(archives, config_file=None, logger=None, context=None):
                                articles_page[11][0], articles_page[11][1], key, articles_page[11][2][key][0], articles_page[11][2][key][1], \
                                articles_page[11][2][key][2], articles_page[11][2][key][3], articles_page[11][3],\
                                articles_page[12], len(articles_page[11][2][key][0].split(" "))) for key in articles_page[11][2]]) 
-    
-
-    #[Encyclopaedia Britannica; or, A dictionary of arts and sciences, compiled upon a new plan, First edition, 1771, Volume 1, A-B, 1771, Edinburgh, /lustre/home/sc048/rosaf4/datasets/nls-data-encyclopaediaBritannica/144133901, alto/188083401.34.xml, page, Page53, 832, book, nlsArticles, Articles, AFFAFR, AFFIANCE, in law, denotes the mutual plighting of troth between a man and a woman to marry each, 32, 887, 17]
-
-
     matching_pages = pages_articles.flatMap(
         lambda row_page:
         [(row_page[1], (int(row_page[7].split("Page")[1]),
@@ -124,5 +125,4 @@ def do_query(archives, config_file=None, logger=None, context=None):
         .map(lambda date_context:
              (date_context[0], list(date_context[1]))).sortByKey()  \
         .collect()
-    return result
-
+    return result 
