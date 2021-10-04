@@ -420,7 +420,7 @@ def filter_terms_page(page, defoe_path, os_type):
                     if len(term)>2:
                         m = re.search('^([0-9]+)|([IVXLCM]+)\\.?$', term)
                         if m is None:
-                            related_data.append(term)
+                            related_data.append(term.upper())
  
             page_clean_term_dict[clean_term]=(clean_def, cont_term, last_term, related_data)
             cont_term += 1
