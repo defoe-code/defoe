@@ -414,7 +414,7 @@ def filter_terms_page(page, defoe_path, os_type):
             related_data=[]
             related_terms=related_terms.split(" ")
             for elem in related_terms:
-                if elem.isupper():
+                if elem.isupper() or "." in elem or "," in elem:
                     elem=elem.split(".")[0]
                     term=elem.split(",")[0]
                     if len(term)>2:
