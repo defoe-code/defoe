@@ -656,19 +656,19 @@ def get_header_eb(header_left, header_right):
         page_type="Empty"
     elif (len(header_left) <= 4) and(len(header_right) <=4):
         header= header_left+ " " + header_right
-        page_type="Articles"
+        page_type="Article"
     elif("ENCYCLOPAEDIA" in header_left) and (len(header_right)<=4):
         header = header_right
-        page_type="Articles"
+        page_type="Article"
     elif ('(' in header_left) and (')' in header_right):
         header= header_left+ " " + header_right
-        page_type="Articles"
+        page_type="Article"
     elif hasNumbers(header_left) and (len(header_right)<=4) and not hasDot(header_left) and not hasDot(header_right):
         header=header_left+" " +header_right  
-        page_type="Articles"
+        page_type="Article"
     elif hasNumbers(header_right) and (len(header_left)<=4) and not hasDot(header_left) and not hasDot(header_right):
         header=header_left+" " +header_right
-        page_type="Articles"
+        page_type="Article"
     elif (('('in header_left) and (')' in header_left)) or (('C' in header_left) and (')' in header_left)):
         header=header_left
         page_type="Mix"
@@ -695,7 +695,7 @@ def get_header_eb(header_left, header_right):
             page_type = "FullPage"
         elif "EncyclopaediaBritannica" in header:
             header = "EncyclopaediaBritannica"
-            page_type = "Articles"
+            page_type = "Article"
         elif "PREFACE" in header:
             header = "Preface"
             page_type="FullPage"
@@ -972,11 +972,11 @@ def get_articles_eb(header_left, header_right, text, leftmost_terms):
             articles_page[header] = [text]
 
         else:
-            type="Exception_Articles"
+            type="Exception_Article"
             articles_page= get_articles_page(text, text_list, terms_view, num_words)
         return type, header, articles_page, len(articles_page)
 
-    elif (type == "Articles") or (type == "Mix"):
+    elif (type == "Article") or (type == "Mix"):
         if header == "" and len(text_list)>=1:
             if ("." in text_list[0]) and (terms_view[0]):
                 header=text_list[0].split(".")[0]
