@@ -657,6 +657,9 @@ def get_header_eb(header_left, header_right):
     elif (len(header_left) <= 4) and(len(header_right) <=4):
         header= header_left+ " " + header_right
         page_type="Article"
+    elif ("PREFACE" in header_left) or ("PREFACE" in header_right):
+        header = "Preface"
+        page_type="FullPage"
     elif("ENCYCLOPAEDIA" in header_left) and (len(header_right)<=4):
         header = header_right
         page_type="Article"
