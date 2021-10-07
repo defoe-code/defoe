@@ -649,8 +649,8 @@ def romanNumeral(inputString):
     return not set(word).difference('MDCLXVI()')
 
 def get_header_eb(header_left, header_right):
-    header = ''
     page_type = ''
+    header = header_left + header_right
     if (header_left == '') and (header_right == ""):
         header="Empty"
         page_type="Empty"
@@ -660,18 +660,37 @@ def get_header_eb(header_left, header_right):
     elif ("PREFACE" in header_left) or ("PREFACE" in header_right):
         header = "Preface"
         page_type="FullPage"
+    elif "PREFACE" in header:
+        header = "Preface"
+        page_type="FullPage"
     elif("ENCYCLOPAEDIA" in header_left) and (len(header_right)<=4):
         header = header_right
         page_type="Article"
+    elif ("Plate" in header) or ("Plafr" in header) or ("Elate" in header) or ("Tlafe" in header):
+        header = "Plate"
+        page_type = "FullPage"
+    elif "ARTSandSCI" in header:
+        header = "FrontPage"
+        page_type="FullPage"
+    elif "ERRATA" in header:
+        header = "Errata"
+        page_type="FullPage"
+    elif ("LISTofAUTHORS" in header) or ("ListofAUTHORS" in header) or ("listofAuthors" in header) or ("ListOfAuthors" in header) or ("listofauthors" in header):
+        header = "AuthorList"
+        page_type="FullPage"
+
     elif ('(' in header_left) and (')' in header_right):
         header= header_left+ " " + header_right
         page_type="Article"
+
     elif hasNumbers(header_left) and (len(header_right)<=4) and not hasDot(header_left) and not hasDot(header_right):
         header=header_left+" " +header_right  
         page_type="Article"
+
     elif hasNumbers(header_right) and (len(header_left)<=4) and not hasDot(header_left) and not hasDot(header_right):
         header=header_left+" " +header_right
         page_type="Article"
+
     elif (('('in header_left) and (')' in header_left)) or (('C' in header_left) and (')' in header_left)):
         header=header_left
         page_type="Mix"
@@ -693,26 +712,11 @@ def get_header_eb(header_left, header_right):
         page_type="Topic"
     else:
         header = header_left + header_right
-        if ("Plate" in header) or ("Plafr" in header) or ("Elate" in header) or ("Tlafe" in header):
-            header = "Plate"
-            page_type = "FullPage"
-        elif "EncyclopaediaBritannica" in header:
+        if "EncyclopaediaBritannica" in header:
             header = "EncyclopaediaBritannica"
             page_type = "Article"
-        elif "PREFACE" in header:
-            header = "Preface"
-            page_type="FullPage"
         elif ("ENCYCLOPEDIA" in header) or ("THE" in header):
             header = "FrontPage" 
-            page_type="FullPage"
-        elif "ARTSandSCI" in header:
-            header = "FrontPage" 
-            page_type="FullPage"
-        elif "ERRATA" in header:
-            header = "Errata" 
-            page_type="FullPage"
-        elif ("LISTofAUTHORS" in header) or ("ListofAUTHORS" in header) or ("listofAuthors" in header) or ("ListOfAuthors" in header) or ("listofauthors" in header):
-            header = "AuthorList"
             page_type="FullPage"
         elif specialCharacters(header) > 5:
             page_type="FullPage"
