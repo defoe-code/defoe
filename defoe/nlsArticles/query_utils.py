@@ -427,8 +427,6 @@ def filter_terms_page(page, defoe_path, os_type):
 
             page_clean_term_dict[clean_term]=(clean_def, cont_term, last_term, related_data)
             cont_term += 1
-            page_clean_term_dict[clean_term]=(clean_def, cont_term, last_term, related_data)
-            cont_term += 1
   
 
     if len(page_clean_term_dict)>5 and (type_page == "Topic"):
