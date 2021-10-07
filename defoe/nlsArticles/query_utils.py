@@ -417,11 +417,16 @@ def filter_terms_page(page, defoe_path, os_type):
                 if elem.isupper() or "." in elem or "," in elem:
                     elem=elem.split(".")[0]
                     term=elem.split(",")[0]
-                    if len(term)>2:
+
+                    if len(term)>2 and term[0].isupper() :
                         m = re.search('^([0-9]+)|([IVXLCM]+)\\.?$', term)
                         if m is None:
-                            related_data.append(term.upper())
- 
+                            term_up = term.upper()
+                            if term_up !="FIG" and term_up !="NUMBER" and term_up!="EXAMPLE" and term_up!="PLATE" and term_up!="FIGURE":
+                                related_data.append(term_up)
+
+            page_clean_term_dict[clean_term]=(clean_def, cont_term, last_term, related_data)
+            cont_term += 1
             page_clean_term_dict[clean_term]=(clean_def, cont_term, last_term, related_data)
             cont_term += 1
   
