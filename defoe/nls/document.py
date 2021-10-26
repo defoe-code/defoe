@@ -33,7 +33,21 @@ class Document(object):
         self.metadata = self.archive.open_document(self.code)
         self.metadata_tree = etree.parse(self.metadata)
         self.title = self.single_query('//mods:title/text()')
+        self.subtitle = self.single_query('//mods:subTitle/text()')
+        self.name = self.single_query('//mods:namePart/text()')
+        self.name_date = self.single_query('//mods:namePart[@type=\'date\']/text()')
+        self.name_termsOfAddress = self.single_query('//mods:namePart[@type=\'termsOfAddress\']/text()')
+        self.topic= self.single_query('//mods:topic/text()')
+
+        self.language= self.single_query('//mods:languageTerm/text()')
+        self.shelfLocator= self.single_query('//mods:shelfLocator/text()')
+        self.MMSID = self.single_query('//mods:recordIdentifier/text()')
+        self.physicalDesc = self.single_query('//mods:extent/text()')
+        self.referencedBy = self.multiple_query('//mods:relatedItem[@type=\'isReferencedBy\']')
+        self.geographic= self.single_query('//mods:geographic/text()')
+        self.temporal= self.single_query('//mods:temporalc/text()')
         self.edition = self.single_query('//mods:partName/text()')
+        self.genre = self.single_query('//mods:genre/text()')
         self.page_codes = sorted(self.archive.document_codes[self.code], key=Document.sorter)
         #sorted(self.archive.document_codes[self.code], key=Document.sorter)
         self.num_pages = len(self.page_codes)
@@ -41,6 +55,8 @@ class Document(object):
             Document.parse_year(self.single_query('//mods:dateIssued/text()'))
         self.publisher = self.single_query('//mods:publisher/text()')
         self.place = self.single_query('//mods:placeTerm[@type=\'text\']/text()')
+        self.country = self.single_query('//mods:country/text()')
+        self.city = self.single_query('//mods:city/text()')
         # place may often have a year in.
         self.years += Document.parse_year(self.place)
         self.years = sorted(self.years)
@@ -132,6 +148,40 @@ class Document(object):
         if not result:
             return None
         return str(result[0])
+
+    def multiple_query(self, query):
+        """
+        Run XPath query and return first result.
+
+        :param query: XPath query
+        :type query: str or unicode
+        :return: query result or None if none
+        :rtype: str or unicode
+        """
+        result = self.query(query)
+        if not result:
+            return None
+
+        #query_title='//mods:relatedItem[@type=\'isReferencedBy\']//mods:titleInfo//mods:title/text()'
+        query_title='.//mods:titleInfo//mods:title/text()'
+        query_part='.//mods:part//mods:detail/mods:number/text()'
+        r=[]
+        for i in result:
+             title=i.xpath(query_title, namespaces=self.namespaces)
+             part=i.xpath(query_part, namespaces = self.namespaces)
+             if len(title)< 1:
+                 t=""
+             else:
+                 t = title[0]
+             if len(part) < 1:
+                p=""
+             else:
+                p = part[0]
+             r.append(t+" "+p)
+
+
+        m_query='----'.join(r)
+        return m_query
 
     def page(self, code):
         """
