@@ -11,7 +11,13 @@ from spacy.tokens import Doc
 from spacy.vocab import Vocab
 NON_AZ_REGEXP = re.compile('[^a-z]')
 from nltk.corpus import words
+import string 
+from difflib import SequenceMatcher
 
+def similar(a, b):
+    a=a.lower()
+    b=b.lower()
+    return SequenceMatcher(None, a, b).ratio()
 
 
 def get_pages_matches_no_prep(title, edition, archive, filename, text, keysentences):
@@ -286,18 +292,27 @@ def filter_terms_page(page, defoe_path, os_type):
     :return: clean page words as a string
     :rtype: string or unicode
     """
+    table = str.maketrans('', '', string.ascii_lowercase)
     page_words=page.words
     num_page = page.page_id
     header_left_words=page.header_left_words
     header_left=clean_text_as_string(header_left_words, 1, defoe_path, os_type)
+    header_left=header_left.translate(table)
     header_right_words=page.header_right_words
     header_right=clean_text_as_string(header_right_words, 1, defoe_path, os_type)
+    header_right=header_right.translate(table)
     #in case the right header is part of the text E.G. (LELAND,John,aneminentEnglishantiquarian,was)
     if len(header_right)>12:
          header_right=''
 
-    type_page, header = get_header_eb(header_left, header_right)
+    #print("NUM_PAGE %s, H_R %s, H_L %s" %(num_page, header_right, header_left))       
+    #new: removing the lowercases from headers:
+
+
+
+    type_page, header = get_header_eb(header_left, header_right, num_page)
     page_hpos_vpos_font=page.hpos_vpos_font_words
+
     page_term_dict={}
     page_clean_term_dict={}
 
@@ -318,6 +333,7 @@ def filter_terms_page(page, defoe_path, os_type):
 
             if flag == 2:
                 header=page_hpos_vpos_font[ln][0][3].split(".")[0]
+                #print("CHANGIN %s at page %s" %(header, num_page))
                 type_page="Topic"
                 page_term_dict[header]=page_words
      
@@ -359,6 +375,8 @@ def filter_terms_page(page, defoe_path, os_type):
                                     new_term= term.split(",")[0]
                                 elif "." in term:
                                    new_term= term.split(".")[0]
+                                elif ";" in term:
+                                   new_term= term.split(";")[0]
                                 else:
                                     new_term = term
                                 if new_term in page_term_dict:
@@ -651,12 +669,30 @@ def romanNumeral(inputString):
         word = inputString
     return not set(word).difference('MDCLXVI()')
 
-def get_header_eb(header_left, header_right):
+def get_header_eb(header_left, header_right, num_page=None):
     page_type = ''
+
     header = header_left + header_right
     if (header_left == '') and (header_right == ""):
         header="Empty"
         page_type="Empty"
+
+    elif header_left == header_right and "." not in header:
+        header = header
+        page_type="Article"
+    
+    elif header_left == header_right and ("(" in header or "[" in header or ")" in header or "]" in header):
+        header = header
+        page_type="Article"
+
+    elif similar(header_left, header_right)>= 0.80 and  "." not in header:
+        header = header
+        page_type="Article"
+    
+    elif similar(header_left, header_right)>= 0.75 and ("(" in header or "[" in header or ")" in header or "]" in header):
+        header = header
+        page_type="Article"
+
     elif (len(header_left) <= 4) and(len(header_right) <=4):
         header= header_left+ " " + header_right
         page_type="Article"
@@ -669,20 +705,24 @@ def get_header_eb(header_left, header_right):
     elif("ENCYCLOPAEDIA" in header_left) and (len(header_right)<=4):
         header = header_right
         page_type="Article"
-    elif ("Plate" in header) or ("Plafr" in header) or ("Elate" in header) or ("Tlafe" in header):
+    elif ("PLATE" in header) or ("PLAFR" in header) or ("ELATE" in header) or ("TLAFE" in header):
         header = "Plate"
         page_type = "FullPage"
-    elif "ARTSandSCI" in header:
+    elif "ARTSANDSCI" in header:
         header = "FrontPage"
         page_type="FullPage"
     elif "ERRATA" in header:
         header = "Errata"
         page_type="FullPage"
-    elif ("LISTofAUTHORS" in header) or ("ListofAUTHORS" in header) or ("listofAuthors" in header) or ("ListOfAuthors" in header) or ("listofauthors" in header):
+    elif "LISTOFAUTHORS" in header or " LISTOFAUTHORSC" in header or "LISTOFAUTHORSC" in header or "LISTAUTHORS" in header: 
         header = "AuthorList"
         page_type="FullPage"
 
     elif ('(' in header_left) and (')' in header_right):
+        header= header_left+ " " + header_right
+        page_type="Article"
+
+    elif 'C' == header_left or 'C' == header_right:
         header= header_left+ " " + header_right
         page_type="Article"
 
@@ -715,7 +755,7 @@ def get_header_eb(header_left, header_right):
         page_type="Topic"
     else:
         header = header_left + header_right
-        if "EncyclopaediaBritannica" in header:
+        if "ENCYCLOPAEDIABRITANNICA" in header:
             header = "EncyclopaediaBritannica"
             page_type = "Article"
         elif ("ENCYCLOPEDIA" in header) or ("THE" in header):
