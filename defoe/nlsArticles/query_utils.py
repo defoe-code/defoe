@@ -14,6 +14,17 @@ from nltk.corpus import words
 import string 
 from difflib import SequenceMatcher
 
+def split_header(header_part, character_left, character_right):
+    tmp_left=header_part.split(character_left)
+    header_left=tmp_left[0]
+    try:
+        header_right= tmp_left[1].split(character_right)[1]
+    except:
+        header_right = tmp_left[1]
+    return header_left, header_right
+
+
+
 def similar(a, b):
     a=a.lower()
     b=b.lower()
@@ -284,7 +295,8 @@ def clean_headers_page_as_string(page):
     #print("Header_left_string_final %s - header_right_string_final %s" %(header_left_string_final, header_right_string_final))
     return header_left_string_final, header_right_string_final, page_string_final
 
-def filter_terms_page(page, defoe_path, os_type):
+def filter_terms_page_1stEd(page, defoe_path, os_type):
+
     """
     Discovering the TERMS in the leftmost side of each colum.
     :param page: Page
@@ -305,18 +317,65 @@ def filter_terms_page(page, defoe_path, os_type):
     if len(header_right)>12:
          header_right=''
 
+
+
+    if "[" in header_right and "]" in header_right:
+        header_left, header_right = split_header(header_right,"[", "]")
+    elif "[" in header_right and ")" in header_right:
+        header_left, header_right = split_header(header_right,"[", ")")
+    elif "(" in header_right and "]" in header_right:
+        header_left, header_right = split_header(header_right,"(", "]")
+    elif "(" in header_right and ")" in header_right:
+        header_left, header_right =  split_header(header_right,"(", ")")
+    #elif "[" in header_right and "1" in header_right:
+    #    header_left, header_right = split_header(header_right,"[", "1")
+    #elif "1" in header_right and "]" in header_right:
+    #    header_left, header_right = split_header(header_right,"1", "]")
+    elif "[" in header_right and hasNumbers(header_right):
+        for char in header_right:
+            if char.isdigit():
+                last_n=char
+        header_left, header_right = split_header(header_right,"[", last_n)
+    elif "]" in header_right and hasNumbers(header_right):
+        for char in header_right:
+            if char.isdigit():
+                first_n=char
+                break
+        header_left, header_right = split_header(header_right,first_n, "]")
+
+    elif "[" in header_left and "]" in header_left:
+        header_left, header_right = split_header(header_left,"[", "]")
+    elif "[" in header_left and ")" in header_left:
+        header_left, header_right = split_header(header_left,"[", ")")
+    elif "(" in header_left and "]" in header_left:
+        header_left, header_right = split_header(header_left,"(", "]")
+    elif "(" in header_left and ")" in header_left:
+        header_left, header_right = split_header(header_left,"(", ")")
+    #elif "[" in header_left and "1" in header_left:
+    #    header_left, header_right = split_header(header_left,"[", "1")
+    #elif "1" in header_left and "]" in header_left:
+    #    header_left, header_right = split_header(header_left,"1", "]")
+    elif "[" in header_left and hasNumbers(header_left):
+        for char in header_left:
+            if char.isdigit():
+                last_n=char
+        header_left, header_right = split_header(header_left,"[", last_n)
+    elif "]" in header_left and hasNumbers(header_left):
+        for char in header_left:
+            if char.isdigit():
+                first_n=char
+                break
+        header_left, header_right = split_header(header_left,first_n, "]")
+
     #print("NUM_PAGE %s, H_R %s, H_L %s" %(num_page, header_right, header_left))       
-    #new: removing the lowercases from headers:
-
-
 
     type_page, header = get_header_eb(header_left, header_right, num_page)
+    #print("NUM_PAGE %s, HEADER %s, TYPE %s" %(num_page, header, type_page))       
     page_hpos_vpos_font=page.hpos_vpos_font_words
 
     page_term_dict={}
     page_clean_term_dict={}
 
-   
     if len(page_hpos_vpos_font) > 1:
         if type_page == "FullPage" or type_page == "Topic":
             page_term_dict[header]=page_words
@@ -398,6 +457,246 @@ def filter_terms_page(page, defoe_path, os_type):
                         else:
                             for j in range(0,len(page_hpos_vpos_font[i])):
                                 definition.append(page_hpos_vpos_font[i][j][3])
+
+                    first_line = 0
+    
+                if len(definition)>=1:
+                    if len(page_terms)>=1:    
+                        previous_term=page_terms[-1]
+                    else:
+                        previous_term="previous_page"
+                    #page_term_dict[previous_term]=(definition, num_page) 
+                    page_term_dict[previous_term]=definition
+                   
+                if not page_term_dict:
+                    page_term_dict[header]=page_words
+  
+    if page_term_dict:
+        cont_term = 0
+        num_terms = len(page_term_dict)
+        for term in page_term_dict:
+            clean_term=clean_text_as_string(term,2, defoe_path, os_type)
+            clean_def=clean_text_as_string(page_term_dict[term],0, defoe_path, os_type)
+            if cont_term + 1 == num_terms:
+                last_term = 1
+            else:
+                last_term = 0
+            if "See " in clean_def:
+                related_terms= clean_def.split("See ")[1]
+            elif "SEE " in clean_def:
+                related_terms= clean_def.split("SEE ")[1]
+            else:
+                related_terms=""
+          
+            related_data=[]
+            related_terms=related_terms.split(" ")
+            for elem in related_terms:
+                if elem.isupper() or "." in elem or "," in elem:
+                    elem=elem.split(".")[0]
+                    term=elem.split(",")[0]
+
+                    if len(term)>2 and term[0].isupper() :
+                        m = re.search('^([0-9]+)|([IVXLCM]+)\\.?$', term)
+                        if m is None:
+                            term_up = term.upper()
+                            if term_up !="FIG" and term_up !="NUMBER" and term_up!="EXAMPLE" and term_up!="PLATE" and term_up!="FIGURE":
+                                related_data.append(term_up)
+
+            page_clean_term_dict[clean_term]=(clean_def, cont_term, last_term, related_data)
+            cont_term += 1
+  
+
+    if len(page_clean_term_dict)>5 and (type_page == "Topic"):
+        type_page="Mix"
+
+    return type_page, header, page_clean_term_dict, len(page_clean_term_dict)   
+
+
+def filter_terms_page(page, defoe_path, os_type):
+    """
+    Discovering the TERMS in the leftmost side of each colum.
+    :param page: Page
+    :type page: defoe.nls.Page
+    :return: clean page words as a string
+    :rtype: string or unicode
+    """
+    table = str.maketrans('', '', string.ascii_lowercase)
+    page_words=page.words
+    num_page = page.page_id
+    header_left_words=page.header_left_words
+    header_left=clean_text_as_string(header_left_words, 1, defoe_path, os_type)
+    header_left=header_left.translate(table)
+    header_right_words=page.header_right_words
+    header_right=clean_text_as_string(header_right_words, 1, defoe_path, os_type)
+    header_right=header_right.translate(table)
+    #in case the right header is part of the text E.G. (LELAND,John,aneminentEnglishantiquarian,was)
+    if len(header_right)>12:
+         header_right=''
+
+
+
+    if "[" in header_right and "]" in header_right:
+        header_left, header_right = split_header(header_right,"[", "]")
+    elif "[" in header_right and ")" in header_right:
+        header_left, header_right = split_header(header_right,"[", ")")
+    elif "(" in header_right and "]" in header_right:
+        header_left, header_right = split_header(header_right,"(", "]")
+    elif "(" in header_right and ")" in header_right:
+        header_left, header_right =  split_header(header_right,"(", ")")
+    #elif "[" in header_right and "1" in header_right:
+    #    header_left, header_right = split_header(header_right,"[", "1")
+    #elif "1" in header_right and "]" in header_right:
+    #    header_left, header_right = split_header(header_right,"1", "]")
+    elif "[" in header_right and hasNumbers(header_right):
+        for char in header_right:
+            if char.isdigit():
+                last_n=char
+        header_left, header_right = split_header(header_right,"[", last_n)
+    elif "]" in header_right and hasNumbers(header_right):
+        for char in header_right:
+            if char.isdigit():
+                first_n=char
+                break
+        header_left, header_right = split_header(header_right,first_n, "]")
+
+    elif "[" in header_left and "]" in header_left:
+        header_left, header_right = split_header(header_left,"[", "]")
+    elif "[" in header_left and ")" in header_left:
+        header_left, header_right = split_header(header_left,"[", ")")
+    elif "(" in header_left and "]" in header_left:
+        header_left, header_right = split_header(header_left,"(", "]")
+    elif "(" in header_left and ")" in header_left:
+        header_left, header_right = split_header(header_left,"(", ")")
+    #elif "[" in header_left and "1" in header_left:
+    #    header_left, header_right = split_header(header_left,"[", "1")
+    #elif "1" in header_left and "]" in header_left:
+    #    header_left, header_right = split_header(header_left,"1", "]")
+    elif "[" in header_left and hasNumbers(header_left):
+        for char in header_left:
+            if char.isdigit():
+                last_n=char
+        header_left, header_right = split_header(header_left,"[", last_n)
+    elif "]" in header_left and hasNumbers(header_left):
+        for char in header_left:
+            if char.isdigit():
+                first_n=char
+                break
+        header_left, header_right = split_header(header_left,first_n, "]")
+
+
+    type_page, header = get_header_eb(header_left, header_right, num_page)
+    page_hpos_vpos_font=page.hpos_vpos_font_words
+
+    page_term_dict={}
+    page_clean_term_dict={}
+
+   
+    if len(page_hpos_vpos_font) > 1:
+        if type_page == "FullPage" or type_page == "Topic":
+            page_term_dict[header]=page_words
+        else:
+            ln = 0
+            flag = 0
+            while ln < len(page_hpos_vpos_font) and flag == 0:
+                if len(page_hpos_vpos_font[ln]) >= 4 or ((len(page_hpos_vpos_font[ln]) == 3) and ("See" in page_hpos_vpos_font[ln][1][3])):
+                    flag = 1
+                elif len(page_hpos_vpos_font[ln]) == 1 and page_hpos_vpos_font[ln][0][3].isupper() and "." in page_hpos_vpos_font[ln][0][3] and len(page_hpos_vpos_font[ln][0][3])>2:
+                    flag = 2  
+                else:
+                    ln+=1
+
+            if flag == 2:
+                header=page_hpos_vpos_font[ln][0][3].split(".")[0]
+                type_page="Topic"
+                page_term_dict[header]=page_words
+     
+            elif flag == 1:
+                page_terms=[]
+                num_terms = 0
+                definition = []
+                first_line = 1
+    
+                for i in range(ln, len(page_hpos_vpos_font)):
+                    flag_A=0
+
+                    list_to_ignore_left=[]
+                    list_to_ignore_right=[]
+                    list_to_ignore=[]
+
+                    for j in range(0,len(page_hpos_vpos_font[i])):
+                        if int(page_hpos_vpos_font[i][j][0])<=200:
+                            list_to_ignore_left.append(j)
+                            
+                        elif int(page_hpos_vpos_font[i][j][0])>=2390:
+                            list_to_ignore_right.append(j)
+                    list_to_ignore = list_to_ignore_left + list_to_ignore_right
+
+                    if list_to_ignore_left:
+                        first_word=list_to_ignore_left[-1]+1
+                        if first_word>=len(page_hpos_vpos_font[i]):
+                            first_word=list_to_ignore_left[-1]
+                    else:
+                        first_word=0
+
+                    if len(page_hpos_vpos_font[i]) >= 4 or ((len(page_hpos_vpos_font[i]) == 3) and ("See" in page_hpos_vpos_font[i][1][3])):
+
+                        if (len(page_hpos_vpos_font[i]) <= 5) and (first_line == 0) and not ("See" in page_hpos_vpos_font[i][1][3]):
+                                for j in range(0,len(page_hpos_vpos_font[i])):
+                                    if j not in list_to_ignore:
+                                        definition.append(page_hpos_vpos_font[i][j][3])
+
+
+                        #elif (page_hpos_vpos_font[i][first_word][3].isupper()) or (page_hpos_vpos_font[i][first_word][2]=="font7" and page_hpos_vpos_font[i][first_word+1][3].isupper()) or (first_line == 1):
+                        elif (page_hpos_vpos_font[i][first_word][3].isupper()) or (first_line == 1) or page_hpos_vpos_font[i][first_word][2]=="font7":
+                            if (first_line == 1) and not (page_hpos_vpos_font[i][first_word][3].isupper()) and not (page_hpos_vpos_font[i][first_word][2]=="font7"):
+                                term="previous_page"
+
+                            elif len(page_hpos_vpos_font[i][first_word][3]) <=2:
+                                
+                                if ("." in page_hpos_vpos_font[i][first_word][3]) or ("," in page_hpos_vpos_font[i][first_word][3] ) or ("'" in page_hpos_vpos_font[i][first_word][3]) or (";" in page_hpos_vpos_font[i][first_word][3] or (":" in page_hpos_vpos_font[i][first_word][3])) or ("-" in page_hpos_vpos_font[i][first_word][3]) or (romanNumeral(page_hpos_vpos_font[i][first_word][3])) or len(page_hpos_vpos_font[i][first_word][3])==1:
+                                    if first_line == 1:
+                                        term="first_article"
+                                    else:
+                                        flag_A=1
+                                else:
+                                    term=page_hpos_vpos_font[i][first_word][3]
+                                    flag_A=0
+                            else:
+                                term=page_hpos_vpos_font[i][first_word][3]
+                                if romanNumeral(term) or ("VOL." in term):
+                                    flag_A = 1
+
+                            if flag_A == 0:
+                                if "," in term:
+                                    new_term= term.split(",")[0]
+                                elif "." in term:
+                                   new_term= term.split(".")[0]
+                                elif ";" in term:
+                                   new_term= term.split(";")[0]
+                                else:
+                                    new_term = term
+                                if new_term in page_term_dict:
+                                    new_term= new_term+"_def"
+                                if num_terms!=0:
+                                    previous_term=page_terms[-1]
+                                    page_term_dict[previous_term]=definition
+                                definition=[]
+                                page_terms.append(new_term)
+                                #page_term_dict[new_term]=("", num_page)
+                                page_term_dict[new_term]=""
+                                num_terms+= 1
+                                for j in range(1,len(page_hpos_vpos_font[i])):
+                                    if j not in list_to_ignore:
+                                        definition.append(page_hpos_vpos_font[i][j][3])
+                            else:
+                                for j in range(0,len(page_hpos_vpos_font[i])):
+                                    if j not in list_to_ignore:
+                                        definition.append(page_hpos_vpos_font[i][j][3])
+                            
+                        else:
+                            for j in range(0,len(page_hpos_vpos_font[i])):
+                                if j not in list_to_ignore:
+                                    definition.append(page_hpos_vpos_font[i][j][3])
 
                     first_line = 0
     
@@ -543,7 +842,6 @@ def georesolve_page(doc):
         if flag == 1:
             geo_xml=georesolve_cmd(in_xml)
             dResolved_loc= coord_xml(geo_xml)
-            print(dResolved_loc)
             return dResolved_loc
         else:
            return {}
@@ -692,13 +990,50 @@ def get_header_eb(header_left, header_right, num_page=None):
     elif similar(header_left, header_right)>= 0.75 and ("(" in header or "[" in header or ")" in header or "]" in header):
         header = header
         page_type="Article"
+    
+    elif "[" in header_left and "]" in header_right:
+        header = header
+        page_type="Article"
+
+    elif "[" in header_left and "[" in header_right:
+        header = header
+        page_type="Article"
+    
+    elif "]" in header_left and "]" in header_right:
+        header = header
+        page_type="Article"
 
     elif (len(header_left) <= 4) and(len(header_right) <=4):
         header= header_left+ " " + header_right
         page_type="Article"
+
+    elif ("[" in header_right or "(" in header_right) and len(header_right)<=6:
+        header= header_left+ " " + header_right
+        page_type="Article"
+    
+    elif ("]" in header_right or ")" in header_right) and len(header_right)<=6:
+        header= header_left+ " " + header_right
+    
+    elif ("[" in header_left or "(" in header_left) and len(header_left)<=6:
+        header= header_left+ " " + header_right
+        page_type="Article"
+    
+    elif ("]" in header_left or ")" in header_left) and len(header_left)<=6:
+        header= header_left+ " " + header_right
+        page_type="Article"
+
     elif ("PREFACE" in header_left) or ("PREFACE" in header_right):
         header = "Preface"
         page_type="FullPage"
+
+    elif ("PREFACE" in header_left) or ("PREFACE" in header_right):
+        header = "Preface"
+        page_type="FullPage"
+
+    elif "CORRIGENDA" in header:
+        header = "Corrigenda"
+        page_type="FullPage"
+
     elif "PREFACE" in header:
         header = "Preface"
         page_type="FullPage"
@@ -721,6 +1056,10 @@ def get_header_eb(header_left, header_right, num_page=None):
     elif ('(' in header_left) and (')' in header_right):
         header= header_left+ " " + header_right
         page_type="Article"
+    
+    elif ('[' in header_left) and (']' in header_right):
+        header= header_left+ " " + header_right
+        page_type="Article"
 
     elif 'C' == header_left or 'C' == header_right:
         header= header_left+ " " + header_right
@@ -737,6 +1076,11 @@ def get_header_eb(header_left, header_right, num_page=None):
     elif (('('in header_left) and (')' in header_left)) or (('C' in header_left) and (')' in header_left)):
         header=header_left
         page_type="Mix"
+
+    elif (('['in header_left) and (']' in header_left)) or (('C' in header_left) and (']' in header_left)):
+        header=header_left
+        page_type="Mix"
+
     elif hasDot(header_left) or hasDot(header_right):
         header_tmp= header_left + header_right
         header=header_tmp.split(".")[0]
