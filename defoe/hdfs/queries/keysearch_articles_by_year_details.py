@@ -57,14 +57,14 @@ def do_query(df, config_file=None, logger=None, context=None):
     :rtype: dict
     """
     with open(config_file, "r") as f:
-        config = yaml.load(f)
+        config = yaml.safe_load(f)
     preprocess_type = query_utils.extract_preprocess_word_type(config)
     data_file = query_utils.extract_data_file(config,
                                               os.path.dirname(config_file))
     # Filter out the pages that are null, which model is nls, and select only 2 columns: year and the page as string (either raw or preprocessed).
+    #newdf=df.select(df.year, df.title, df.edition, df.archive_filename, df.source_text_file, df.text_unit_id, df.type_page, df.header, df.term, df.definition)
     fdf = df.withColumn("definition", blank_as_null("definition"))
-    #(year, title, edition, archive_filename, page_filename, page_number, type of page, header, term, article_text)
-    newdf=fdf.filter(fdf.definition.isNotNull()).filter(fdf["model"]=="nlsArticles").select(fdf.year, fdf.title, fdf.edition, fdf.archive_filename, fdf.source_text_filename, fdf.text_unit_id, fdf.type_page, fdf.header, fdf.term, fdf.definition)
+    newdf=fdf.filter(fdf.definition.isNotNull()).filter(fdf["model"]=="nlsArticles").select(fdf.year, fdf.title, fdf.edition, fdf.archive_filename, fdf.source_text_file, fdf.text_unit_id, fdf.type_page, fdf.header, fdf.term, fdf.definition)
     articles=newdf.rdd.map(tuple)
     
 
