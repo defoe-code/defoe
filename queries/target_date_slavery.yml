@@ -1,0 +1,8 @@
+preprocess: lemmatize
+data: slavery_trade.txt 
+num_target: 2
+lexicon_start: 0
+start_year: 1771
+end_year: 1773
+defoe_path: /Users/rosafilgueira/HW-Work/NLS-Fellowship/work/defoe
+os_type: os
