@@ -1,0 +1,6 @@
+preprocess: lemmatize
+data: slavery_trade.txt 
+num_target: 2
+lexicon_start: 0
+defoe_path: home/rosa_filgueira_vicente/defoe/
+os_type: os
