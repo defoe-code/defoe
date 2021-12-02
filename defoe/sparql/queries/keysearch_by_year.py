@@ -14,7 +14,7 @@ import yaml, os
 
 def do_query(df, config_file=None, logger=None, context=None):
     """
-    Gets concordance using a window of words, for keywords and groups by date.
+    IMPORTANT: SAME AS "keysearch_by_year_term_count.py" in NLS!!
 
     Data in sparql have the following colums:
     
@@ -30,17 +30,10 @@ def do_query(df, config_file=None, logger=None, context=None):
         {
           <YEAR>:
           [
-            [- title: 
-             - edition:
-             - archive_filename:
-             - page number:
-             - header:
-             - term:
-             - article:
-             - article-definition: ], 
-             [], 
-            ...
-         
+            [ -<SENTENCE|WORD>, NUM_SENTENCES|NUM_WORDS 
+             - <SENTENCE|WORD>, NUM_SENTENCES|NUM_WORDS 
+             - <SENTENCE|WORD>, NUM_SENTENCES|NUM_WORDS 
+            ], 
           <YEAR>:
           ...
         }
