@@ -61,7 +61,6 @@ def do_query(df, config_file=None, logger=None, context=None):
                                               os.path.dirname(config_file))
     # Filter out the pages that are null, which model is nls, and select only 2 columns: year and the page as string (either raw or preprocessed).
     fdf = df.withColumn("definition", blank_as_null("definition"))
-
     #(year-0, uri-1, title-2, edition-3, archive_filename-4, volume-5, letters-6, part-7, page_number-8, header-9, term-10, definition-11)
     newdf=fdf.filter(fdf.definition.isNotNull()).select(fdf.year, fdf.uri, fdf.title, fdf.edition, fdf.archive_filename, fdf.volume, fdf.letters, fdf.part, fdf.page, fdf.header, fdf.term, fdf.definition)
     articles=newdf.rdd.map(tuple)
