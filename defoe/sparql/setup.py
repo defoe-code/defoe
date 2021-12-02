@@ -11,7 +11,7 @@ def filename_to_object(filename, context):
     query="""
     PREFIX eb: <https://w3id.org/eb#>
     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-    SELECT ?uri ?year ?title ?enum ?vnum ?metsXML ?page ?header ?term ?definition
+    SELECT ?uri ?year ?title ?enum ?vnum ?letters ?part ?metsXML ?page ?header ?term ?definition
         WHERE {{
     	?uri a eb:Article .
     	?uri eb:name ?term .
@@ -19,6 +19,7 @@ def filename_to_object(filename, context):
         ?v eb:hasPart ?uri.
         ?v eb:number ?vnum.
         ?v eb:metsXML ?metsXML.
+        ?v eb:letters ?letters .
         ?e eb:hasPart ?v.
         ?e eb:publicationYear ?year.
         ?e eb:number ?enum.
@@ -26,6 +27,7 @@ def filename_to_object(filename, context):
         ?uri eb:startsAtPage ?sp.
         ?sp eb:header ?header .
         ?sp eb:number ?page .
+        OPTIONAL {?v eb:part ?part; }
    
         }
 
@@ -36,6 +38,7 @@ def filename_to_object(filename, context):
         ?v eb:hasPart ?uri.
         ?v eb:number ?vnum.
         ?v eb:metsXML ?metsXML.
+        ?v eb:letters ?letters .
         ?e eb:hasPart ?v.
         ?e eb:publicationYear ?year.
         ?e eb:number ?enum.
@@ -43,6 +46,7 @@ def filename_to_object(filename, context):
         ?uri eb:startsAtPage ?sp.
         ?sp eb:header ?header .
         ?sp eb:number ?page .
+        OPTIONAL {?v eb:part ?part; }
         
         }
     } 
@@ -53,7 +57,11 @@ def filename_to_object(filename, context):
 
     sparql_data=[]
     for r in results["results"]["bindings"]:
-        sparql_data.append({"uri": r["uri"]["value"], "year": r["year"]["value"], "title":r["title"]["value"], "edition":r["enum"]["value"], "volume":r["vnum"]["value"], "archive_filename":r["metsXML"]["value"], "page":r["page"]["value"], "header":r["header"]["value"], "term":r["term"]["value"], "definition":r["definition"]["value"]})
+        if "part" in r:
+            v_part=r["part"]["value"]
+        else:
+            v_part="None"
+        sparql_data.append({"uri": r["uri"]["value"], "year": r["year"]["value"], "title":r["title"]["value"], "edition":r["enum"]["value"], "volume":r["vnum"]["value"], "letters":r["letters"]["value"], "part":v_part, "archive_filename":r["metsXML"]["value"], "page":r["page"]["value"], "header":r["header"]["value"], "term":r["term"]["value"], "definition":r["definition"]["value"]})
     
 
     sqlContext = SQLContext(context)
