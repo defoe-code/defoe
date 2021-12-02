@@ -11,7 +11,7 @@ def filename_to_object(filename, context):
     query="""
     PREFIX eb: <https://w3id.org/eb#>
     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-    SELECT ?uri ?year ?title ?enum ?vnum ?letters ?part ?metsXML ?page ?header ?term ?definition
+    SELECT ?uri ?year ?title ?enum ?vnum ?v ?letters ?part ?metsXML ?page ?header ?term ?definition
         WHERE {{
     	?uri a eb:Article .
     	?uri eb:name ?term .
@@ -61,7 +61,7 @@ def filename_to_object(filename, context):
             v_part=r["part"]["value"]
         else:
             v_part="None"
-        sparql_data.append({"uri": r["uri"]["value"], "year": r["year"]["value"], "title":r["title"]["value"], "edition":r["enum"]["value"], "volume":r["vnum"]["value"], "letters":r["letters"]["value"], "part":v_part, "archive_filename":r["metsXML"]["value"], "page":r["page"]["value"], "header":r["header"]["value"], "term":r["term"]["value"], "definition":r["definition"]["value"]})
+        sparql_data.append({"uri": r["uri"]["value"], "year": r["year"]["value"], "title":r["title"]["value"], "edition":r["enum"]["value"], "vuri":r["v"]["value"], "volume":r["vnum"]["value"], "letters":r["letters"]["value"], "part":v_part, "archive_filename":r["metsXML"]["value"], "page":r["page"]["value"], "header":r["header"]["value"], "term":r["term"]["value"], "definition":r["definition"]["value"]})
     
 
     sqlContext = SQLContext(context)
