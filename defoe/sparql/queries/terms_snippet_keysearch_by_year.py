@@ -13,6 +13,7 @@ from pyspark.sql import SQLContext
 from pyspark.sql.functions import col, when
 from defoe.nls.query_utils import preprocess_clean_page
 import yaml, os
+from functools import partial, reduce
 
 def do_query(df, config_file=None, logger=None, context=None):
     """
@@ -154,8 +155,7 @@ def do_query(df, config_file=None, logger=None, context=None):
                 lambda year_page: any( target_s in year_page[11] for target_s in clean_target_sentences))
         else:
             target_articles = preprocess_articles
-            for target_s in clean_target_sentences:
-                target_articles = target_articles.filter( lambda year_page: target_s in year_page[11])
+            target_articles = reduce(lambda r, target_s: r.filter(lambda year_page: target_s in year_page[11]), clean_target_sentences, target_articles)
     else:
         target_articles = preprocess_articles
     
@@ -207,28 +207,11 @@ def do_query(df, config_file=None, logger=None, context=None):
                  for word_idx in sentence_data[12]])
 
     
-    result_1 = matching_data \
+    result = concordance_words \
         .groupByKey() \
         .map(lambda date_context:
              (date_context[0], list(date_context[1]))) \
         .collect()
-
-    #(uri-0, sentence-1)
-    matching_sentences = matching_articles.flatMap(
-        lambda year_sentence: [(year_sentence[1] , sentence) for sentence in year_sentence[12]])
-
-    # [(uri, (keysentence)), ...]
-
-
-    result_2 = matching_sentences.groupByKey() \
-        .map(lambda year_match:
-             (year_match[0], list(year_match[1]))) \
-        .collect()
- 
-    result={}
-    result["terms_details"]=result_1
-    result["terms_uris"]=result_2
-
     return result
 
 

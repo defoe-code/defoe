@@ -10,6 +10,7 @@ from pyspark.sql import SQLContext
 from pyspark.sql.functions import col, when
 from defoe.nls.query_utils import preprocess_clean_page
 import yaml, os
+from functools import partial, reduce
 
 def do_query(df, config_file=None, logger=None, context=None):
     """
@@ -127,8 +128,7 @@ def do_query(df, config_file=None, logger=None, context=None):
                 lambda year_page: any( target_s in year_page[1] for target_s in clean_target_sentences))
         else:
             target_articles = preprocess_articles
-            for target_s in clean_target_sentences:
-                target_articles = target_articles.filter(lambda year_page: target_s in year_page[1])
+            target_articles = reduce(lambda r, target_s: r.filter(lambda year_page: target_s in year_page[1]), clean_target_sentences, target_articles)
         
     else:
         target_articles = preprocess_articles

@@ -1,18 +1,4 @@
 """
-    #(year-0, sentence-1)
-    matching_sentences = matching_articles.flatMap(
-        lambda year_sentence: [(year_sentence[2] , sentence) for sentence in year_sentence[1]])
-
-    # [(uri, (keysentence)), ...]
-
-
-    result = matching_sentences.groupByKey() \
-        .map(lambda year_match:
-             (year_match[0], list(year_match[1]))) \
-        .collect()
-    return result
-
-
 Select the EB articles using a keysentences or keywords list and groups by date.
 Use this query ONLY for searching in the EB articles stored in the knowledge graph previously. 
 """
@@ -24,6 +10,7 @@ from pyspark.sql import SQLContext
 from pyspark.sql.functions import col, when
 from defoe.nls.query_utils import preprocess_clean_page
 import yaml, os
+from functools import partial, reduce
 
 def do_query(df, config_file=None, logger=None, context=None):
     """
@@ -159,8 +146,7 @@ def do_query(df, config_file=None, logger=None, context=None):
                 lambda year_page: any( target_s in year_page[11] for target_s in clean_target_sentences))
         else:
             target_articles = preprocess_articles
-            for target_s in clean_target_sentences:
-                target_articles = target_articles.filter( lambda year_page: target_s in year_page[11])
+            target_articles = reduce(lambda r, target_s: r.filter(lambda year_page: target_s in year_page[11]), clean_target_sentences, target_articles)
     else:
         target_articles = preprocess_articles
     
