@@ -16,8 +16,8 @@ import yaml, os
 
 def do_query(df, config_file=None, logger=None, context=None):
     """
-    Gets concordance using a window of words (here it is configured to 40), for keywords and groups by date.
-    Store the snippet (40 words before and after each term). 
+    Gets concordance using a window of words (here it is configured to 10), for keywords and groups by date.
+    Store the snippet (10 words before and after each term). 
 
     Data in sparql have the following colums:
     
@@ -67,12 +67,30 @@ def do_query(df, config_file=None, logger=None, context=None):
     preprocess_type = query_utils.extract_preprocess_word_type(config)
     data_file = query_utils.extract_data_file(config,
                                               os.path.dirname(config_file))
-    start_year = int(config["start_year"])
-    end_year = int(config["end_year"])
+    if "start_year" in config:
+        start_year = int(config["start_year"])
+    else:
+        start_year = None
+
+    if "start_year" in config:
+        end_year = int(config["end_year"])
+    else:
+        end_year = None
     
-    target_sentences=config["target_sentences"]
-    target_filter=config["target_filter"]
-    window = int(config["window"])
+    if "target_sentences" in config:
+        target_sentences=config["target_sentences"]
+    else:
+        target_sentences = None
+
+    if "target_filter" in config:
+        target_filter=config["target_filter"]
+    else:
+        target_filter = "or"
+
+    if "window" in config:
+        window = int(config["window"])
+    else:
+        window = 10
     fdf = df.withColumn("definition", blank_as_null("definition"))
     
    #(year-0, uri-1, title-2, edition-3, archive_filename-4, volume-5, letters-6, part-7, page_number-8, header-9, term-10, definition-11)
@@ -131,8 +149,9 @@ def do_query(df, config_file=None, logger=None, context=None):
             target_articles = preprocess_articles.filter(
                 lambda year_page: any( target_s in year_page[11] for target_s in clean_target_sentences))
         else:
-            target_articles = preprocess_articles.filter(
-                lambda year_page: ( target_s in year_page[11] for target_s in clean_target_sentences))
+            target_articles = preprocess_articles
+            for target_s in clean_target_sentences:
+                target_articles = target_articles.filter( lambda year_page: target_s in year_page[11])
     else:
         target_articles = preprocess_articles
     

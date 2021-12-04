@@ -63,11 +63,25 @@ def do_query(df, config_file=None, logger=None, context=None):
     preprocess_type = query_utils.extract_preprocess_word_type(config)
     data_file = query_utils.extract_data_file(config,
                                               os.path.dirname(config_file))
-    start_year = int(config["start_year"])
-    end_year = int(config["end_year"])
+    if "start_year" in config:
+        start_year = int(config["start_year"])
+    else:
+        start_year = None
+
+    if "start_year" in config:
+        end_year = int(config["end_year"])
+    else:
+        end_year = None
     
-    target_sentences=config["target_sentences"]
-    target_filter=config["target_filter"]
+    if "target_sentences" in config:
+        target_sentences=config["target_sentences"]
+    else:
+        target_sentences = None
+
+    if "target_filter" in config:
+        target_filter=config["target_filter"]
+    else:
+        target_filter = "or"
     
     fdf = df.withColumn("definition", blank_as_null("definition"))
     
@@ -126,8 +140,9 @@ def do_query(df, config_file=None, logger=None, context=None):
             target_articles = preprocess_articles.filter(
                 lambda year_page: any( target_s in year_page[11] for target_s in clean_target_sentences))
         else:
-            target_articles = preprocess_articles.filter(
-                lambda year_page: ( target_s in year_page[11] for target_s in clean_target_sentences))
+            target_articles = preprocess_articles
+            for target_s in clean_target_sentences:
+                target_articles = target_articles.filter( lambda year_page: target_s in year_page[11])
     else:
         target_articles = preprocess_articles
      
