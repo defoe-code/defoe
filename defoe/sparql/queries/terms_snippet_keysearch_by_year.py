@@ -207,11 +207,28 @@ def do_query(df, config_file=None, logger=None, context=None):
                  for word_idx in sentence_data[12]])
 
     
-    result = concordance_words \
+    result_1 = concordance_words \
         .groupByKey() \
         .map(lambda date_context:
              (date_context[0], list(date_context[1]))) \
         .collect()
+
+    matching_sentences = maching_idx.flatMap(
+        lambda sentence_data: [
+            ((sentence_data[1], word_idx[0]),1) for word_idx in sentence_data[12]])
+
+    result_2 = matching_sentences.reduceByKey(add)\
+        .map(lambda year_match:
+             (year_match[0][0], year_match[0][1])) \
+        .groupByKey() \
+        .map(lambda year_match:
+             (year_match[0], list(year_match[1]))) \
+        .collect()
+
+    result={}
+    result["terms_details"]=result_1
+    result["terms_uris"]=result_2
+
     return result
 
 
