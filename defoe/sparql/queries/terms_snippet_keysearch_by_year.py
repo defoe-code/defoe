@@ -178,7 +178,6 @@ def do_query(df, config_file=None, logger=None, context=None):
             "snippet": get_concordance_string(sentence_data[11], word_idx[0], word_idx[1], window)})\
                  for word_idx in sentence_data[12]])
 
-    print(concordance_words.collect())
     
     result = concordance_words.groupByKey() \
         .map(lambda year_match:
