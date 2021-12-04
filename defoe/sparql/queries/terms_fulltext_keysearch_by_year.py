@@ -224,7 +224,7 @@ def do_query(df, config_file=None, logger=None, context=None):
         .collect()
  
     result={}
-    result["full_text"]=result_1
+    result["terms_details"]=result_1
     result["terms_uris"]=result_2
 
     return result
