@@ -1,6 +1,6 @@
 preprocess: lemmatize
 data: slavery_trade.txt 
-target_sentences: [Slave, Slavery]
+target_sentences: None
 start_year: 1771
 end_year: 1771
 defoe_path: /Users/rosafilgueira/HW-Work/NLS-Fellowship/work/defoe
