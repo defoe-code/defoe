@@ -61,8 +61,13 @@ def do_query(df, config_file=None, logger=None, context=None):
     with open(config_file, "r") as f:
         config = yaml.safe_load(f)
     preprocess_type = query_utils.extract_preprocess_word_type(config)
-    data_file = query_utils.extract_data_file(config,
+
+    if "data_file" in config:
+        data_file = query_utils.extract_data_file(config,
                                               os.path.dirname(config_file))
+    else:
+        data_file = None
+
     if "start_year" in config:
         start_year = int(config["start_year"])
     else:
@@ -100,28 +105,27 @@ def do_query(df, config_file=None, logger=None, context=None):
 
 
     articles=newdf.rdd.map(tuple)
-    
-
-    keysentences = []
-    with open(data_file, 'r') as f:
-        for keysentence in list(f):
-            k_split = keysentence.split()
-            sentence_word = [query_utils.preprocess_word(
-                word, preprocess_type) for word in k_split]
-            sentence_norm = ''
-            for word in sentence_word:
-                if sentence_norm == '':
-                    sentence_norm = word
-                else:
-                    sentence_norm += " " + word
-            keysentences.append(sentence_norm)
-
-  
     #(year-0, uri-1, title-2, edition-3, archive_filename-4, volume-5, letters-6, part-7, page_number-8, header-9, term-10, preprocess_article-11, article_text-12)
-
     preprocess_articles = articles.flatMap(
         lambda t_articles: [(t_articles[0], t_articles[1], t_articles[2], t_articles[3], t_articles[4], t_articles[5],
                                     t_articles[6], t_articles[7], t_articles[8], t_articles[9], t_articles[10], preprocess_clean_page(t_articles[10]+" "+ t_articles[11], preprocess_type), t_articles[11])]) 
+    
+    if data_file:
+        keysentences = []
+        with open(data_file, 'r') as f:
+            for keysentence in list(f):
+                k_split = keysentence.split()
+                sentence_word = [query_utils.preprocess_word(
+                    word, preprocess_type) for word in k_split]
+                sentence_norm = ''
+                for word in sentence_word:
+                    if sentence_norm == '':
+                        sentence_norm = word
+                    else:
+                        sentence_norm += " " + word
+                keysentences.append(sentence_norm)
+
+  
 
     if target_sentences:
         clean_target_sentences = []
@@ -145,11 +149,14 @@ def do_query(df, config_file=None, logger=None, context=None):
                 target_articles = target_articles.filter( lambda year_page: target_s in year_page[11])
     else:
         target_articles = preprocess_articles
-     
-    filter_articles = target_articles.filter(
-        lambda year_page: any( keysentence in year_page[11] for keysentence in keysentences))
+    
+    if data_file:
+        filter_articles = target_articles.filter(
+            lambda year_page: any( keysentence in year_page[11] for keysentence in keysentences))
 
-
+    else:
+        filter_articles = target_articles
+        keysentences = clean_target_sentences
 
     #(year-0, uri-1, title-2, edition-3, archive_filename-4, volume-5, letters-6, part-7, page_number-8, header-9, term-10, article_text-11, list_sentences-12)
     matching_articles = filter_articles.map(
