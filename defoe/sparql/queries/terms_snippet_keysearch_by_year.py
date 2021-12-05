@@ -67,7 +67,7 @@ def do_query(df, config_file=None, logger=None, context=None):
         config = yaml.safe_load(f)
     preprocess_type = query_utils.extract_preprocess_word_type(config)
 
-    if "data_file" in config:
+    if "data" in config:
         data_file = query_utils.extract_data_file(config,
                                               os.path.dirname(config_file))
     else:
