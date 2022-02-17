@@ -56,12 +56,11 @@ def do_query(df, config_file=None, logger=None, context=None):
     end_year = int(config["end_year"])
     num_target=int(config["num_target"])
     lexicon_start= int(config["lexicon_start"])
-    print("---------%s--------" %start_year)
     
     # Filter out the pages that are null, which model is nls, and select only 2 columns: year and the page as string (either raw or preprocessed).
     fdf = df.withColumn("definition", blank_as_null("definition"))
     #(year-0, definition-1)
-    newdf=fdf.filter(fdf.definition.isNotNull()).filter(fdf.year >= start_year).filter(fdf.year < end_year).select(fdf.year, fdf.definition)
+    newdf=fdf.filter(fdf.definition.isNotNull()).filter(fdf.year >= start_year).filter(fdf.year <= end_year).select(fdf.year, fdf.definition)
     articles=newdf.rdd.map(tuple)
     
 
