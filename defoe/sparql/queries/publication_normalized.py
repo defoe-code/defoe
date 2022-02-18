@@ -43,6 +43,7 @@ def do_query(df, config_file=None, logger=None, context=None):
     ## [(year, (num_documents, num_words)), ...]
     # =>
     ## [(year, [num_documents, num_words]), ...]
+
     result = counts \
         .reduceByKey(lambda x, y:
                      tuple(i + j for i, j in zip(x, y))) \
