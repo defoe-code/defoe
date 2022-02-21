@@ -85,6 +85,7 @@ def do_query(issues, config_file=None, logger=None, context=None):
         lambda year_article_file_ocr: article_contains_word(
             year_article_file_ocr[1], target_word, preprocess_type))
     # [(year, article, filename, [(word, idx), (word, idx) ...], ocr), ...]
+
     matching_idx = target_articles.map(
         lambda year_article_file_ocr: (
             (year_article_file_ocr[0],

@@ -185,6 +185,7 @@ def do_query(issues, config_file=None, logger=None, context=None):
              year_article_file_ocr[3])
         )
     )
+
     # [(year, [(filename, word, [concordance, ...], ocr), ...])]
     concordance_words = matching_idx.flatMap(
         lambda year_article_file_matches_ocr: [
@@ -200,6 +201,8 @@ def do_query(issues, config_file=None, logger=None, context=None):
 
     # [(year, [(filename, word, corcondance, ocr),
     #          (filename, word, concordance, ocr), ...]), ...]
+
+
     result = concordance_words.groupByKey() \
         .map(lambda year_match:
              (year_match[0], list(year_match[1]))) \
