@@ -145,6 +145,7 @@ def do_query(issues, config_file=None, logger=None, context=None):
     else:
         clean_articles = issues.flatMap(
             lambda issue: [(issue.date.year, clean_article_as_string(
+                article, defoe_path, os_type)) for article in issue.articles])
 
     
     # [(year, preprocess_article_string), ...]
