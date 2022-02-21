@@ -131,20 +131,20 @@ def do_query(issues, config_file=None, logger=None, context=None):
     keysentences = keysentences[lexicon_start:]
     if start_year and end_year:
         clean_articles = issues.flatMap(
-            lambda issue: [(issue.date.year, clean_article_as_string(
+            lambda issue: [((issue.date.year, issue, article, clean_article_as_string(
                 article, defoe_path, os_type)) for article in issue.articles if int(issue.date.year)>= start_year and int(issue.date.year)<= end_year])
 
     elif start_year:
         clean_articles = issues.flatMap(
-            lambda issue: [(issue.date.year, clean_article_as_string(
+            lambda issue: [(issue.date.year, issue, article, clean_article_as_string(
                 article, defoe_path, os_type)) for article in issue.articles if int(issue.date.year)>= start_year])
     elif end_year:
         clean_articles = issues.flatMap(
-            lambda issue: [(issue.date.year, clean_article_as_string(
+            lambda issue: [(issue.date.year, issue, article, clean_article_as_string(
                 article, defoe_path, os_type)) for article in issue.articles if int(issue.date.year)<= end_year])
     else:
         clean_articles = issues.flatMap(
-            lambda issue: [(issue.date.year, clean_article_as_string(
+            lambda issue: [(issue.date.year, issue, article, clean_article_as_string(
                 article, defoe_path, os_type)) for article in issue.articles])
 
     
