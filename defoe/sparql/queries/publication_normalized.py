@@ -1,5 +1,5 @@
 """
-Counts total number of terms, words per year.
+Counts total number of volumes, terms, words per year.
 Use this query ONLY for normalizing the EB articles stored in the Knowledge Graph previously.
 """
 
