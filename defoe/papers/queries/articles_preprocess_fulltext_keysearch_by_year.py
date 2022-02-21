@@ -1,7 +1,11 @@
 """
 Get concordance (also called details) of articles in which we have keywords or keysentences.
 Group results by year.
-This query is the recommended to use when there are not target words. 
+
+This query replaces to:
+- target_keysearch_by_year_preprocessed_details.py
+
+
 """
 
 from operator import add
