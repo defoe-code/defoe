@@ -1,5 +1,8 @@
 """
 Gets the snippet of each term (from a list of keywords or keysentences) along with the metadata.
+Group results by year.
+We might have start/end date, target words, and target filter ("or"/"and") to filter articles
+
 We recommend to use this query when we want to select a window of words (snippet lenght) around each term, instead of selecting
 all the words of the page in which the term was found
 

@@ -1,7 +1,12 @@
 """
-Get concordance (also called details) of articles in which we have keywords or keysentences.
+Get the details and cleanning full text of articles in which we have keywords or keysentences.
 Group results by year.
-This query is the recommended to use when there are not target words. 
+We might have start/end date, target words, and target filter ("or"/"and") to filter articles
+
+This query replace to the following ones:
+  - keysearch_by_year_details.py
+  - target_keysearch_by_year_filter_date_details.py
+  - target_keysearch_by_year_details.py
 """
 
 from operator import add
