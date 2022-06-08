@@ -45,7 +45,7 @@ def do_query(archives, config_file=None, logger=None, context=None):
     results = documents.map(
         lambda document:
         (document[0],
-            {"edition": document[1],
+            {"collection": document[1],
           "title": document[2],
           "subtitle": document[3],
           "editor" :document[4],
