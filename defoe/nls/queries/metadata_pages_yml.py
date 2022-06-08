@@ -48,7 +48,7 @@ def do_query(archives, config_file=None, logger=None, context=None):
                                year_document[11], year_document[12], year_document[13], year_document[14], \
                                year_document[15], year_document[16], year_document[17], year_document[18], \
                                year_document[19], year_document[20], year_document[21], year_document[22], \
-                               get_page_as_string(page, preprocess_none), len(page.words)) for page in year_document[23]])
+                               get_page_as_string(page, preprocess_none), len(page.words), page.code, page.page_id) for page in year_document[23]])
     
     
     results = documents_pages.map(
@@ -77,7 +77,9 @@ def do_query(archives, config_file=None, logger=None, context=None):
           "physical_description": document[21],
           "referenced_by": document[22],
           "text": document[23], 
-          "num_words":document[24]})).collect()
+          "num_words":document[24],
+          "source_text_file": document[25],
+          "text_unit_id": document[26]})).collect()
  
     return results
     
