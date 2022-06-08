@@ -63,7 +63,7 @@ def get_articles_list_matches(text, keysentence):
 def get_articles_text_matches(text, keysentence):
     
     """
-    o	Article count: The query counts as a “hint” every time that finds an article with a particular term from our lexicon in the previously selected articles (by the target words or/and time period).  So, if a term is repeated several times in an article, it will be counted just as ONE. In this way, we are basically calculating the “frequency of articles” over time. 
+     TERM count: The query counts as a “hint” every time that finds a hit with a particular term from our lexicon in the previously selected articles (by the target words or/and time period).  So, if a term is repeated several times in an article, it will be counted SEVERAL TIMES
 
     Check which key-sentences from occurs within a string
     and return the list of matches.

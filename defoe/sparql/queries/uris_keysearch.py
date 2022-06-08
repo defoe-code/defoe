@@ -1,5 +1,5 @@
 """
-Select the EB articles using a keysentences or keywords list and groups by date.
+it extracts uris of terms in which appear keywords or keysentences and groups the results by years
 Use this query ONLY for searching in the EB articles stored in the Knowledge Graph previously.
 """
 
@@ -14,8 +14,6 @@ from functools import partial, reduce
 
 def do_query(df, config_file=None, logger=None, context=None):
     """
-    IMPORTANT: SAME AS "keysearch_by_year_term_count.py" in NLS!!
-
     Data in sparql have the following colums:
     
     config_file must be the path to a lexicon file with a list of the keywords 

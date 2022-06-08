@@ -5,7 +5,7 @@ Use this query ONLY for searching in the EB articles stored in the Knowledge Gra
 
 from operator import add
 from defoe import query_utils
-from defoe.sparql.query_utils import get_articles_list_matches, blank_as_null
+from defoe.sparql.query_utils import get_articles_list_matches, blank_as_null, get_articles_text_matches
 from pyspark.sql import SQLContext
 from pyspark.sql.functions import col, when
 from defoe.nls.query_utils import preprocess_clean_page
@@ -75,6 +75,12 @@ def do_query(df, config_file=None, logger=None, context=None):
         target_filter=config["target_filter"]
     else:
         target_filter = "or"
+
+    if "hit_count" in config:
+        hit_count = config["hit_count"]
+
+    else:
+        hit_count = "term"
     
     fdf = df.withColumn("definition", blank_as_null("definition"))
 
@@ -142,9 +148,15 @@ def do_query(df, config_file=None, logger=None, context=None):
 
 
     #(year-0, list_sentences-1)
-    matching_articles = filter_articles.map(
-        lambda year_article: (year_article[0], 
-                                 get_articles_list_matches(year_article[1], keysentences)))
+
+    if hit_count == "term" :
+        matching_articles = filter_articles.map(
+            lambda year_article: (year_article[0], 
+                                     get_articles_list_matches(year_article[1], keysentences)))
+    else:
+        matching_articles = filter_articles.map(
+            lambda year_article: (year_article[0], 
+                                     get_articles_text_matches(year_article[1], keysentences)))
     
     #(year-0, sentence-1)
     matching_sentences = matching_articles.flatMap(
