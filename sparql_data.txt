@@ -1,1 +1,1 @@
-http://localhost:3030/edition1st/sparql
+http://localhost:3030/total_eb/sparql
