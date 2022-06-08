@@ -50,6 +50,16 @@ def do_query(archives, config_file=None, logger=None, context=None):
                                year_document[19], year_document[20], year_document[21], year_document[22], \
                                get_page_as_string(page, preprocess_none), len(page.words), page.code, page.page_id) for page in year_document[23]])
     
+    #documents_pages_v2 = documents_pages.flatMap(
+    #    lambda year_document: [(year_document[0], year_document[1], year_document[2],\
+    #                           year_document[3], year_document[4], year_document[5], year_document[6], \
+    #                           year_document[7], year_document[8], year_document[9], year_document[10], \
+    #                           year_document[11], year_document[12], year_document[13], year_document[14], \
+    #                           year_document[15], year_document[16], year_document[17], year_document[18], \
+    #                           year_document[19], year_document[20], year_document[21], year_document[22], \
+    #                           year_document[23], year_document[24], year_document[25], year_document[26])])
+    
+    
     
     results_pages = documents_pages.map(
         lambda document:
@@ -80,12 +90,12 @@ def do_query(archives, config_file=None, logger=None, context=None):
           "text": document[23], 
           "num_words":document[24],
           "source_text_file": document[25],
-          "text_unit_id": document[26]})).collect()
+          "text_unit_id": document[26]}))
  
     result = results_pages \
         .groupByKey() \
-        .map(lambda date_context:
-             (date_context[0], list(date_context[1]))) \
+        .map(lambda title_context:
+             (title_context[0], list(title_context[1]))) \
         .collect()
     return result
     
