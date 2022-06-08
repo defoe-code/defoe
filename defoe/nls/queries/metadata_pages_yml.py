@@ -51,7 +51,7 @@ def do_query(archives, config_file=None, logger=None, context=None):
                                get_page_as_string(page, preprocess_none), len(page.words), page.code, page.page_id) for page in year_document[23]])
     
     
-    results = documents_pages.map(
+    results_pages = documents_pages.map(
         lambda document:
         (document[0],
             {"collection": document[1],
@@ -81,5 +81,11 @@ def do_query(archives, config_file=None, logger=None, context=None):
           "source_text_file": document[25],
           "text_unit_id": document[26]})).collect()
  
-    return results
+    result = results_pages \
+        .groupByKey() \
+        .map(lambda date_context:
+             (date_context[0], list(date_context[1]))) \
+        .collect()
+    return result
+    
     
