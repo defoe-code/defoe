@@ -81,23 +81,48 @@ def do_query(df, config_file=None, logger=None, context=None):
 
     else:
         hit_count = "term"
-    
-    fdf = df.withColumn("definition", blank_as_null("definition"))
 
-    if start_year and end_year:
-        newdf=fdf.filter(fdf.definition.isNotNull()).filter(fdf.year >= start_year).filter(fdf.year <= end_year).select(fdf.year, fdf.definition, fdf.term)
-    elif start_year:
-        newdf=fdf.filter(fdf.definition.isNotNull()).filter(fdf.year >= start_year).select(fdf.year, fdf.term, fdf.definition)
-    elif end_year:
-        newdf=fdf.filter(fdf.definition.isNotNull()).filter(fdf.year <= end_year).select(fdf.year, fdf.term, fdf.definition)
+    if "kg_type" in config:
+        kg_type = config["kg_type"]
     else:
-        newdf=fdf.filter(fdf.definition.isNotNull()).select(fdf.year, fdf.term, fdf.definition)
+        kg_type = "total_eb"
+
+    ###### Supporting New NLS KG #######
+    if kg_type == "total_eb" :
+    
+        fdf = df.withColumn("definition", blank_as_null("definition"))
+
+        if start_year and end_year:
+            newdf=fdf.filter(fdf.definition.isNotNull()).filter(fdf.year >= start_year).filter(fdf.year <= end_year).select(fdf.year, fdf.term, fdf.definition)
+        elif start_year:
+            newdf=fdf.filter(fdf.definition.isNotNull()).filter(fdf.year >= start_year).select(fdf.year, fdf.term, fdf.definition)
+        elif end_year:
+            newdf=fdf.filter(fdf.definition.isNotNull()).filter(fdf.year <= end_year).select(fdf.year, fdf.term, fdf.definition)
+        else:
+            newdf=fdf.filter(fdf.definition.isNotNull()).select(fdf.year, fdf.term, fdf.definition)
+
+    else:
+        fdf = df.withColumn("text", blank_as_null("text"))
+
+        if start_year and end_year:
+            newdf=fdf.filter(fdf.text.isNotNull()).filter(fdf.year >= start_year).filter(fdf.year <= end_year).select(fdf.year, fdf.text)
+        elif start_year:
+            newdf=fdf.filter(fdf.text.isNotNull()).filter(fdf.year >= start_year).select(fdf.year, fdf.text)
+        elif end_year:
+            newdf=fdf.filter(fdf.text.isNotNull()).filter(fdf.year <= end_year).select(fdf.year, fdf.text)
+        else:
+            newdf=fdf.filter(fdf.text.isNotNull()).select(fdf.year, fdf.text)
+
     articles=newdf.rdd.map(tuple)
     
 
     #(year-0, preprocess_article-1)
-    preprocess_articles = articles.flatMap(
-        lambda t_articles: [(t_articles[0], preprocess_clean_page(t_articles[1]+ " " + t_articles[2], preprocess_type))]) 
+    if kg_type == "total_eb" :
+        preprocess_articles = articles.flatMap(
+            lambda t_articles: [(t_articles[0], preprocess_clean_page(t_articles[1]+ " " + t_articles[2], preprocess_type))]) 
+    else:
+        preprocess_articles = articles.flatMap(
+            lambda t_articles: [(t_articles[0], preprocess_clean_page(t_articles[1], preprocess_type))]) 
 
     if data_file:
         keysentences = []
@@ -149,7 +174,7 @@ def do_query(df, config_file=None, logger=None, context=None):
 
     #(year-0, list_sentences-1)
 
-    if hit_count == "term" :
+    if hit_count == "term" or hit_count == "page":
         matching_articles = filter_articles.map(
             lambda year_article: (year_article[0], 
                                      get_articles_list_matches(year_article[1], keysentences)))
