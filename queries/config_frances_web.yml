@@ -1,0 +1,9 @@
+data: /Users/rosafilgueira/HW-Work/NLS-Fellowship/work/frances/web-app/query_app/upload_folder/slavery_trade.txt
+defoe_path: /Users/rosafilgueira/HW-Work/NLS-Fellowship/work/defoe
+end_year: '1773'
+lexicon_start: '0'
+num_target: '2'
+os_type: os
+preprocess: lemmatize
+start_year: '1771'
+kg_type: 'nls'
