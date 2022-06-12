@@ -28,6 +28,20 @@ def do_query(archives, config_file=None, logger=None, context=None):
     :return: "0"
     :rtype: string
     """
+
+    with open(config_file, "r") as f:
+        config = yaml.load(f)
+    if "os_type" in config:
+        if config["os_type"] == "linux":
+            os_type = "sys-i386-64"
+        else:
+            os_type= "sys-i386-snow-leopard"
+    else:
+            os_type = "sys-i386-64"
+    if "defoe_path" in config :
+        defoe_path = config["defoe_path"]
+    else:
+        defoe_path = "./"
     
     preprocess_none = query_utils.parse_preprocess_word_type("none")
     # [(tittle, edition, year, place, archive filename, page filename, 
@@ -48,15 +62,14 @@ def do_query(archives, config_file=None, logger=None, context=None):
                                year_document[11], year_document[12], year_document[13], year_document[14], \
                                year_document[15], year_document[16], year_document[17], year_document[18], \
                                year_document[19], year_document[20], year_document[21], year_document[22], \
-                               get_page_as_string(page, preprocess_none), len(page.words), page.code, page.page_id) for page in year_document[23]])
+                               get_page_as_string(page, preprocess_none), clean_page_as_string(page, defoe_path, os_type), \
+                               len(page.words), page.code, page.page_id) for page in year_document[23]])
     
-    
-    
-    
+   
     results_pages = documents_pages.map(
         lambda document:
         (document[0],
-          {"collection": document[1],
+          {"text": document[1],
           "title": document[2],
           "subtitle": document[3],
           "editor" :document[4],
@@ -81,10 +94,11 @@ def do_query(archives, config_file=None, logger=None, context=None):
           "permanentURL": "https://digital.nls.uk/"+ document[0].split("/")[-1],
           "physical_description": document[21],
           "referenced_by": document[22],
-          "text": document[23], 
-          "num_words":document[24],
-          "source_text_file": document[25],
-          "text_unit_id": document[26]}))
+          ## using the clean_text instead  the raw text. Position 24 instead Position 23. 
+          "text": document[24], 
+          "num_words":document[25],
+          "source_text_file": document[26],
+          "text_unit_id": document[27]}))
  
     result = results_pages \
         .groupByKey() \
