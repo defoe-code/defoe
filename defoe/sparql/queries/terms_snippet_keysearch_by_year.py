@@ -30,7 +30,7 @@ def do_query(df, config_file=None, logger=None, context=None):
     Also the config_file can indicate the preprocess treatment, along with the defoe
     path, and the type of operating system. 
 
-      Returns result of form:
+      For EB-ontology (e.g. total_eb.ttl) derived Knowledge Graphs, it returns result of form:
         {
           <YEAR>:
           [
@@ -45,14 +45,37 @@ def do_query(df, config_file=None, logger=None, context=None):
              - keysearch-term:
              - term:
              - uri
-             - term-definition: ], 
+             - snippet: ], 
              [], 
             ...
          
           <YEAR>:
           ...
         }
-  
+
+      For NLS-ontology (e.g. chapbooks_scotland.ttl) derived Knowledge Graphs, it returns result of form:
+       {
+          <YEAR>:
+          [
+            [- title:
+             - serie:
+             - archive_filename:
+             - volume
+             - volumeTitle 
+             - part
+             - page number:
+             - volumeId:
+             - keysearch-term:
+             - term:
+             - numWords
+             - snippet: ],
+             [],
+            ...
+
+          <YEAR>:
+          ...
+        }
+
     :type issues: pyspark.rdd.PipelinedRDD
     :param config_file: query configuration file
     :type config_file: str or unicode
@@ -97,27 +120,61 @@ def do_query(df, config_file=None, logger=None, context=None):
         window = int(config["window"])
     else:
         window = 10
-    fdf = df.withColumn("definition", blank_as_null("definition"))
+
+    if "kg_type" in config:
+        kg_type = config["kg_type"]
+    else:
+        kg_type = "total_eb"
+
+    ###### Supporting New NLS KG #######
+    if kg_type == "total_eb" :
+        fdf = df.withColumn("definition", blank_as_null("definition"))
     
-   #(year-0, uri-1, title-2, edition-3, archive_filename-4, volume-5, letters-6, part-7, page_number-8, header-9, term-10, definition-11)
-    if start_year and end_year:
-        newdf=fdf.filter(fdf.definition.isNotNull()).filter(fdf.year >= start_year).filter(fdf.year <= end_year).select(fdf.year, fdf.uri, fdf.title, fdf.edition, fdf.archive_filename, fdf.volume, fdf.letters, fdf.part, fdf.page, fdf.header, fdf.term, fdf.definition)
+        #(year-0, uri-1, title-2, edition-3, archive_filename-4, volume-5, letters-6, part-7, page_number-8, header-9, term-10, definition-11)
+        if start_year and end_year:
+            newdf=fdf.filter(fdf.definition.isNotNull()).filter(fdf.year >= start_year).filter(fdf.year <= end_year).select(fdf.year, fdf.uri, fdf.title, fdf.edition, fdf.archive_filename, fdf.volume, fdf.letters, fdf.part, fdf.page, fdf.header, fdf.term, fdf.definition)
 
-    elif start_year:
-        newdf=fdf.filter(fdf.definition.isNotNull()).filter(fdf.year >= start_year).select(fdf.year, fdf.uri, fdf.title, fdf.edition, fdf.archive_filename, fdf.volume, fdf.letters, fdf.part, fdf.page, fdf.header, fdf.term, fdf.definition)
+        elif start_year:
+            newdf=fdf.filter(fdf.definition.isNotNull()).filter(fdf.year >= start_year).select(fdf.year, fdf.uri, fdf.title, fdf.edition, fdf.archive_filename, fdf.volume, fdf.letters, fdf.part, fdf.page, fdf.header, fdf.term, fdf.definition)
 
-    elif end_year:
-        newdf=fdf.filter(fdf.definition.isNotNull()).filter(fdf.year <= end_year).select(fdf.year, fdf.uri, fdf.title, fdf.edition, fdf.archive_filename, fdf.volume, fdf.letters, fdf.part, fdf.page, fdf.header, fdf.term, fdf.definition)
+        elif end_year:
+            newdf=fdf.filter(fdf.definition.isNotNull()).filter(fdf.year <= end_year).select(fdf.year, fdf.uri, fdf.title, fdf.edition, fdf.archive_filename, fdf.volume, fdf.letters, fdf.part, fdf.page, fdf.header, fdf.term, fdf.definition)
+
+        else:
+            newdf=fdf.filter(fdf.definition.isNotNull()).select(fdf.year, fdf.uri, fdf.title, fdf.edition, fdf.archive_filename, fdf.volume, fdf.letters, fdf.part, fdf.page, fdf.header, fdf.term, fdf.definition)
+
 
     else:
-        newdf=fdf.filter(fdf.definition.isNotNull()).select(fdf.year, fdf.uri, fdf.title, fdf.edition, fdf.archive_filename, fdf.volume, fdf.letters, fdf.part, fdf.page, fdf.header, fdf.term, fdf.definition)
+        fdf = df.withColumn("text", blank_as_null("text"))
+    
+       #(year-0, uri-1, title-2, serie-3, archive_filename-4, volume-5, volumeTitle-6, part-7, page_number-8, volumeId-9, numWords-10, text-11)
+        if start_year and end_year:
+            newdf=fdf.filter(fdf.text.isNotNull()).filter(fdf.year >= start_year).filter(fdf.year <= end_year).select(fdf.year, fdf.uri, fdf.title, fdf.serie, fdf.archive_filename, fdf.volume, fdf.vtitle, fdf.part, fdf.page, fdf.volumeId, fdf.numWords, fdf.text)
+
+        elif start_year:
+            newdf=fdf.filter(fdf.text.isNotNull()).filter(fdf.year >= start_year).select(fdf.year, fdf.uri, fdf.title, fdf.serie, fdf.archive_filename, fdf.volume, fdf.vtitle, fdf.part, fdf.page, fdf.volumeId, fdf.numWords.fdf.text)
+
+
+        elif end_year:
+            newdf=fdf.filter(fdf.text.isNotNull()).filter(fdf.year <= end_year).select(fdf.year, fdf.uri, fdf.title, fdf.serie, fdf.archive_filename, fdf.volume, fdf.vtitle, fdf.part, fdf.page, fdf.volumeId, fdf.numWords, fdf.text)
+
+
+        else:
+            newdf=fdf.filter(fdf.text.isNotNull()).select(fdf.year, fdf.uri, fdf.title, fdf.serie, fdf.archive_filename, fdf.volume, fdf.vtitle, fdf.part, fdf.page, fdf.volumeId, fdf.numWords, fdf.text)
+
 
     articles=newdf.rdd.map(tuple)
-    #(year-0, uri-1, title-2, edition-3, archive_filename-4, volume-5, letters-6, part-7, page_number-8, header-9, term-10, preprocess_article-11)
+    if kg_type == "total_eb" :
+        #(year-0, uri-1, title-2, edition-3, archive_filename-4, volume-5, letters-6, part-7, page_number-8, header-9, term-10, preprocess_article-11)
     
-    preprocess_articles = articles.flatMap(
-        lambda t_articles: [(t_articles[0], t_articles[1], t_articles[2], t_articles[3], t_articles[4], t_articles[5],
-                                    t_articles[6], t_articles[7], t_articles[8], t_articles[9], t_articles[10], preprocess_clean_page(t_articles[10]+" "+t_articles[11], preprocess_type))]) 
+        preprocess_articles = articles.flatMap(
+            lambda t_articles: [(t_articles[0], t_articles[1], t_articles[2], t_articles[3], t_articles[4], t_articles[5],
+                                        t_articles[6], t_articles[7], t_articles[8], t_articles[9], t_articles[10], preprocess_clean_page(t_articles[10]+" "+t_articles[11], preprocess_type))]) 
+    else:
+       #(year-0, uri-1, title-2, serie-3, archive_filename-4, volume-5, volumeTitle-6, part-7, page_number-8, volumeId-9, numWords-10, preprocess_article-11)
+        preprocess_articles = articles.flatMap(
+            lambda t_articles: [(t_articles[0], t_articles[1], t_articles[2], t_articles[3], t_articles[4], t_articles[5],
+                                        t_articles[6], t_articles[7], t_articles[8], t_articles[9], t_articles[10], preprocess_clean_page(t_articles[11], preprocess_type))]) 
 
 
     if data_file:
@@ -152,7 +209,7 @@ def do_query(df, config_file=None, logger=None, context=None):
             clean_target_sentences.append(sentence_norm)
         if target_filter == "or":
             target_articles = preprocess_articles.filter(
-                lambda year_page: any( target_s in year_page[11] for target_s in clean_target_sentences))
+                 lambda year_page: any( target_s in year_page[11] for target_s in clean_target_sentences))
         else:
             target_articles = preprocess_articles
             target_articles = reduce(lambda r, target_s: r.filter(lambda year_page: target_s in year_page[11]), clean_target_sentences, target_articles)
@@ -161,13 +218,11 @@ def do_query(df, config_file=None, logger=None, context=None):
     
     if data_file:
         filter_articles = target_articles.filter(
-            lambda year_page: any( keysentence in year_page[11] for keysentence in keysentences))
+             lambda year_page: any( keysentence in year_page[11] for keysentence in keysentences))
 
     else:
         filter_articles = target_articles
         keysentences = clean_target_sentences
-
-    # [(year-0, uri-1, title-2, edition-3, archive_filename-4, volume-5, letters-6, part-7, page_number-8, header-9, term-10, preprocess_article-11, [(word, idx), (word, idx) ...]-12), ...]
 
     maching_idx = filter_articles.map(
         lambda year_page: (
@@ -189,23 +244,44 @@ def do_query(df, config_file=None, logger=None, context=None):
     )
 
 
-    concordance_words = maching_idx.flatMap(
-        lambda sentence_data: [
-            (sentence_data[0],
-            {"title": sentence_data[2],
-            "edition": sentence_data[3],
-            "archive_filename": sentence_data[4],
-            "volume": sentence_data[5],
-            "letters": sentence_data[6],
-            "part": sentence_data[7], 
-            "page number": sentence_data[8],
-            "header": sentence_data[9],
-            "keysearch-term": word_idx[0],
-            "term": sentence_data[10],
-            "uri": sentence_data[1],
-            "snippet": get_concordance_string(sentence_data[11], word_idx[0], word_idx[1], window)})\
+    if kg_type == "total_eb" :
+        # [(year-0, uri-1, title-2, edition-3, archive_filename-4, volume-5, letters-6, part-7, page_number-8, header-9, term-10, preprocess_article-11 )]
+
+        concordance_words = maching_idx.flatMap(
+            lambda sentence_data: [
+                (sentence_data[0],
+                {"title": sentence_data[2],
+                "edition": sentence_data[3],
+                "archive_filename": sentence_data[4],
+                "volume": sentence_data[5],
+                "letters": sentence_data[6],
+                "part": sentence_data[7], 
+                "page number": sentence_data[8],
+                "header": sentence_data[9],
+                "keysearch-term": word_idx[0],
+                "term": sentence_data[10],
+                "uri": sentence_data[1],
+                "snippet": get_concordance_string(sentence_data[11], word_idx[0], word_idx[1], window)})\
                  for word_idx in sentence_data[12]])
 
+    else:
+         #(year-0, uri-1, title-2, serie-3, archive_filename-4, volume-5, volumeTitle-6, part-7, page_number-8, volumeId-9, numWords-10, preprocess_article-11)
+         concordance_words = maching_idx.flatMap(
+            lambda sentence_data: [
+                (sentence_data[0],
+                {"title": sentence_data[2],
+                "serie": sentence_data[3],
+                "archive_filename": sentence_data[4],
+                "volume": sentence_data[5],
+                "volumeTitle": sentence_data[6],
+                "part": sentence_data[7],
+                "page number": sentence_data[8],
+                "volumeId": sentence_data[9],
+                "keysearch-term": word_idx[0],
+                "numWords": sentence_data[10],
+                "uri": sentence_data[1],
+                "snippet": get_concordance_string(sentence_data[11], word_idx[0], word_idx[1], window)})\
+                 for word_idx in sentence_data[12]])
     
     result_1 = concordance_words \
         .groupByKey() \
