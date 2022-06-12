@@ -18,7 +18,7 @@ def do_query(df, config_file=None, logger=None, context=None):
     Iterate through archives and count total number of documents,
     pages and words per year.
 
-    For EB-ontology derived Knowlege Graphs, it returns result of form:
+    For EB-ontology derived Knowledge Graphs, it returns result of form:
 
         {
           <YEAR>: [<NUM_VOLS>, <NUM_PAGES>, <NUM_TERMS>, <NUM_WORDS>],
@@ -36,7 +36,7 @@ def do_query(df, config_file=None, logger=None, context=None):
      	- 9187
      	- 1923682
 
-    For NLS-ontology dervied Knowelge Graphs, it returns result of form:
+    For NLS-ontology derived Knowledge Graphs, it returns result of form:
         {
           <YEAR>: [<NUM_VOLS>, <NUM_PAGES>,<NUM_WORDS>],
           ...
