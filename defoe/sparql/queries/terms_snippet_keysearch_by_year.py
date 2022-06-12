@@ -37,14 +37,14 @@ def do_query(df, config_file=None, logger=None, context=None):
             [- title: 
              - edition:
              - archive_filename:
-             - volume
-             - letters
-             - part
+             - volume:
+             - letters:
+             - part:
              - page number:
              - header:
              - keysearch-term:
              - term:
-             - uri
+             - uri:
              - snippet: ], 
              [], 
             ...
@@ -60,14 +60,14 @@ def do_query(df, config_file=None, logger=None, context=None):
             [- title:
              - serie:
              - archive_filename:
-             - volume
+             - volume:
              - volumeTitle 
-             - part
+             - part:
              - page number:
              - volumeId:
              - keysearch-term:
              - term:
-             - numWords
+             - numWords:
              - snippet: ],
              [],
             ...
