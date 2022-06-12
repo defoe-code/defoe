@@ -73,7 +73,7 @@ def filename_to_object(filename, context):
         query="""
         PREFIX nls: <https://w3id.org/nls#> 
         PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-        SELECT ?uri ?year ?title ?snum ?vnum ?v ?part ?metsXML ?page ?text ?numberOfWords ?numberOfPages
+        SELECT ?uri ?year ?title ?snum ?vnum ?v ?part ?metsXML ?page ?text ?numberOfWords ?numberOfPages ?vtitle ?volumeId
             WHERE {
             ?uri a nls:Page .
             ?uri nls:text ?text .
@@ -83,6 +83,8 @@ def filename_to_object(filename, context):
             ?v nls:number ?vnum.
             ?v nls:numberOfPages ?numberOfPages .
             ?v nls:metsXML ?metsXML.
+            ?v nls:title ?vtitle.
+            ?v nls:volumeId ?volumeId.
             ?s nls:hasPart ?v.
             ?s nls:publicationYear ?year.
             ?s nls:number ?snum.
@@ -100,7 +102,8 @@ def filename_to_object(filename, context):
                 v_part=r["part"]["value"]
             else:
                 v_part="None"
-            sparql_data.append({"uri": r["uri"]["value"], "year": r["year"]["value"], "title":r["title"]["value"], "serie":r["snum"]["value"], "vuri":r["v"]["value"], "volume":r["vnum"]["value"], "numPages":r["numberOfPages"]["value"], "part":v_part, "archive_filename":r["metsXML"]["value"], "page":r["page"]["value"], "text":r["text"]["value"], "numWords":r["numberOfWords"]["value"]})
+            sparql_data.append({"uri": r["uri"]["value"], "year": r["year"]["value"], "title":r["title"]["value"], "serie":r["snum"]["value"], "vuri":r["v"]["value"], "volume":r["vnum"]["value"], "numPages":r["numberOfPages"]["value"], "part":v_part, "archive_filename":r["metsXML"]["value"], "page":r["page"]["value"], "text":r["text"]["value"], "numWords":r["numberOfWords"]["value"], "vtitle":r["vtitle"]["value"], "volumeId":r["volumeId"]["value"]})
+
     
     sqlContext = SQLContext(context)
     df = sqlContext.createDataFrame(sparql_data)
