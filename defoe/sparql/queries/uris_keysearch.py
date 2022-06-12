@@ -24,15 +24,22 @@ def do_query(df, config_file=None, logger=None, context=None):
 
       Returns result of form:
         {
-          <YEAR>:
+          <URI>:
           [
-            [ -<SENTENCE|WORD>, NUM_SENTENCES|NUM_WORDS 
-             - <SENTENCE|WORD>, NUM_SENTENCES|NUM_WORDS 
-             - <SENTENCE|WORD>, NUM_SENTENCES|NUM_WORDS 
+             -<SENTENCES|WORD>
+             -<SENTENCES|WORD>
+	     
             ], 
-          <YEAR>:
+          <URI>:
           ...
         }
+
+     Example:
+       https://w3id.org/nls/i/Page/9930684903804340_104185841_5:
+          - lady
+       https://w3id.org/nls/i/Page/9930812033804340_104185289_14:
+	  - queen
+
   
     :type issues: pyspark.rdd.PipelinedRDD
     :param config_file: query configuration file
@@ -73,23 +80,48 @@ def do_query(df, config_file=None, logger=None, context=None):
         target_filter=config["target_filter"]
     else:
         target_filter = "or"
-    
-    fdf = df.withColumn("definition", blank_as_null("definition"))
 
-    if start_year and end_year:
-        newdf=fdf.filter(fdf.definition.isNotNull()).filter(fdf.year >= start_year).filter(fdf.year <= end_year).select(fdf.year, fdf.definition, fdf.term, fdf.uri)
-    elif start_year:
-        newdf=fdf.filter(fdf.definition.isNotNull()).filter(fdf.year >= start_year).select(fdf.year, fdf.term, fdf.definition, fdf.uri)
-    elif end_year:
-        newdf=fdf.filter(fdf.definition.isNotNull()).filter(fdf.year <= end_year).select(fdf.year, fdf.term, fdf.definition, fdf.uri)
+    if "kg_type" in config:
+        kg_type = config["kg_type"]
     else:
-        newdf=fdf.filter(fdf.definition.isNotNull()).select(fdf.year, fdf.term, fdf.definition, fdf.uri)
+        kg_type = "total_eb"
+
+    ###### Supporting New NLS KG #######
+
+    if kg_type == "total_eb": 
+        fdf = df.withColumn("definition", blank_as_null("definition"))
+
+        if start_year and end_year:
+            newdf=fdf.filter(fdf.definition.isNotNull()).filter(fdf.year >= start_year).filter(fdf.year <= end_year).select(fdf.year, fdf.term, fdf.definition, fdf.term, fdf.uri)
+        elif start_year:
+            newdf=fdf.filter(fdf.definition.isNotNull()).filter(fdf.year >= start_year).select(fdf.year, fdf.term, fdf.definition, fdf.uri)
+        elif end_year:
+            newdf=fdf.filter(fdf.definition.isNotNull()).filter(fdf.year <= end_year).select(fdf.year, fdf.term, fdf.definition, fdf.uri)
+        else:
+           newdf=fdf.filter(fdf.definition.isNotNull()).select(fdf.year, fdf.term, fdf.definition, fdf.uri)
+    else:
+        fdf = df.withColumn("text", blank_as_null("text"))
+
+        if start_year and end_year:
+            newdf=fdf.filter(fdf.text.isNotNull()).filter(fdf.year >= start_year).filter(fdf.year <= end_year).select(fdf.year, fdf.text, fdf.uri)
+        elif start_year:
+            newdf=fdf.filter(fdf.text.isNotNull()).filter(fdf.year >= start_year).select(fdf.year, fdf.text, fdf_uri)
+        elif end_year:
+            newdf=fdf.filter(fdf.text.isNotNull()).filter(fdf.year <= end_year).select(fdf.year, fdf.text, fdf.uri)
+        else:
+           newdf=fdf.filter(fdf.definition.isNotNull()).select(fdf.year, fdf.text, fdf.uri)
+
     articles=newdf.rdd.map(tuple)
     
 
+    if kg_type == "total_eb" :
     #(year-0, preprocess_article-1, uri)
-    preprocess_articles = articles.flatMap(
-        lambda t_articles: [(t_articles[0], preprocess_clean_page(t_articles[1]+ " " + t_articles[2], preprocess_type), t_articles[3])]) 
+        preprocess_articles = articles.flatMap(
+           lambda t_articles: [(t_articles[0], preprocess_clean_page(t_articles[1]+ " " + t_articles[2], preprocess_type), t_articles[3])]) 
+
+    else:
+        preprocess_articles = articles.flatMap(
+           lambda t_articles: [(t_articles[0], preprocess_clean_page(t_articles[1], preprocess_type), t_articles[2])]) 
 
     if data_file:
         keysentences = []
