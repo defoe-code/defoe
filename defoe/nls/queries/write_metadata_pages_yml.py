@@ -1,5 +1,5 @@
 """ 
-Pages as string to HDFS CSv files (using dataframes), and some metadata associated with each document.
+Pages and Metadata associated with each document as YAML files.
 """
 
 from defoe import query_utils
