@@ -69,7 +69,7 @@ def do_query(archives, config_file=None, logger=None, context=None):
     results_pages = documents_pages.map(
         lambda document:
         (document[0],
-          {"text": document[1],
+          {"edition": document[1],
           "title": document[2],
           "subtitle": document[3],
           "editor" :document[4],
