@@ -70,7 +70,7 @@ def do_query(df, config_file=None, logger=None, context=None):
         kg_type = "total_eb"
     if kg_type == "total_eb" :
         fdf = df.withColumn("definition", blank_as_null("definition"))
-        newdf=fdf.filter(fdf.definition.isNotNull()).select(fdf.year, fdf.volume, fdf.numPages, fdf.numWords)
+        newdf=fdf.filter(fdf.definition.isNotNull()).select(fdf.year, fdf.vuri, fdf.volume, fdf.numPages, fdf.numWords)
     else:
         fdf = df.withColumn("text", blank_as_null("text"))
         newdf=fdf.filter(fdf.text.isNotNull()).select(fdf.year, fdf.vuri, fdf.volume, fdf.numPages, fdf.numWords)
