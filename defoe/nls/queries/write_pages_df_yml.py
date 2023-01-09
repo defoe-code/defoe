@@ -86,8 +86,9 @@ def do_query(archives, config_file=None, logger=None, context=None):
           "num_text_unit": row_page[8],
           "type_archive": row_page[9],
           "model": row_page[10],
-          "text": row_page[11],
-          #"source_text_clean": row_page[12], 
+          #"text": row_page[11],
+          ## I am using now the clean text as text
+          "text": row_page[11], 
           "num_words": row_page[16]}))
  
     result = matching_pages \
