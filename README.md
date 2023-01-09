@@ -64,9 +64,17 @@ This dataset is available, under licence, from [Papers Past](http://paperspast.n
 - [ChapBooks](https://data.nls.uk/data/digitised-collections/chapbooks-printed-in-scotland/)
 - [Scottish Gazetteers](https://data.nls.uk/data/digitised-collections/gazetteers-of-scotland/)
 
+
+Furthermore, we have created a KG for 4 collections. In order to use any of these 4 KG we have to modify the sparql_data.txt:
+* http://localhost:3030/total_eb/sparql
+* http://localhost:3030/chapbooks_scotland/sparql
+* http://localhost:3030/ladies_debating/sparql
+* http://localhost:3030/gazetters_scotlad/sparql
+
 **Note, that ALL collections offered by NLS use the same XML and METS format. Therefore, we can use the defoe NLS model to query any of those collections.**
 
 See [copyrights restrictions](https://www.nls.uk/copyright)
+
 
 
 
@@ -115,7 +123,18 @@ Available queries:
 * [HDFS queries](./docs/hdfs/index.md) (running queries against HDFS files - for interoperability across models)
 * [ES queries](./docs/es/index.md) (running queries against ES - for interoperability across models)
 * [PostgreSQL queries](/docs/psql/index.md) (running queries against PostgreSQL database - for interoperability across models)
-* [NLSArticles query](./docs/nlsArticles/index.md) (just for extracting automatically articles from the Encyclopaedia Britannica dataset)
+* [NLSArticles queries](./docs/nlsArticles/index.md) (just for extracting automatically articles from the Encyclopaedia Britannica dataset)
+* [SRARQL queries](./docs/sparql/index.md)(just for working with RDF Knowledge Graphs)
+
+
+Note: 
+If we have an RDF KG of a collection we have to modify the sparql_data.txt file. Details of KG available are [here](./docs/sparql/index.md):
+
+* http://localhost:3030/total_eb/sparql
+* http://localhost:3030/chapbooks_scotland/sparql
+* http://localhost:3030/ladies_debating/sparql
+* http://localhost:3030/gazetters_scotlad/sparql
+
 
 
 Developers:

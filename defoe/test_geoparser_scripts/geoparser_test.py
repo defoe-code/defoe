@@ -3,10 +3,10 @@ import subprocess
 import re
 
 #change this according to your path
-defoe_path ="/home/rosa_filgueira_vicente/defoe/"
-os_type = "sys-i386-64"
+defoe_path ="/Users/rf208/Research/NLS-Fellowship/work/defoe/"
+#os_type = "sys-i386-64"
 # Use the following value for os variable in case you are running this in a MAC
-#os_type= "sys-i386-snow-leopard"
+os_type= "sys-i386-snow-leopard"
 gazetteer = "geonames"
 bounding_box = ""
 

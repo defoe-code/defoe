@@ -70,7 +70,7 @@ def main():
     """
     root_module = "defoe"
     setup_module = "setup"
-    models = ["books", "papers", "fmp", "nzpp", "generic_xml", "nls", "nlsArticles", "hdfs", "psql", "es"]
+    models = ["books", "papers", "fmp", "nzpp", "generic_xml", "nls", "nlsArticles", "hdfs", "psql", "es", "sparql"]
 
     parser = ArgumentParser(description="Run Spark text analysis job")
     parser.add_argument("data_file",
@@ -122,7 +122,7 @@ def main():
                                     "." +
                                     setup_module)
     query = importlib.import_module(query_name)
-
+   
     filename_to_object = setup.filename_to_object
     do_query = query.do_query
 
@@ -138,7 +138,7 @@ def main():
     # Check the data_file size, just in case it is empty, which means that we just need to execute the query
     # because the data has been already preprocessed and saved into HDFS | db. 
 
-    if (model_name!= "hdfs") and (model_name!= "psql") and (model_name!= "es"):
+    if (model_name!= "hdfs") and (model_name!= "psql") and (model_name!= "es") and (model_name!= "sparql"):
         # [filename,...]
         rdd_filenames = files_to_rdd(context, num_cores, data_file=data_file)
         # [(object, None)|(filename, error_message), ...]

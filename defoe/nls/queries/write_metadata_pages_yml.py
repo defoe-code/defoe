@@ -1,6 +1,5 @@
 """ 
-Pages as string to a YML file, and some metadata associated with each document.
-The text is cleaned using the long-S and hyphen fixes.
+Pages and Metadata associated with each document as YAML files.
 """
 
 from defoe import query_utils
@@ -11,7 +10,7 @@ import yaml, os
 
 def do_query(archives, config_file=None, logger=None, context=None):
     """
-    Ingest NLS pages, applies all 4 preprocess treatments (none, normalize, lemmatize, stem) to each page, and save them to a YML file, with some metadata associated with each page.
+    Ingest NLS pages, applies all 4 preprocess treatments (none, normalize, lemmatize, stem) to each page, and save them to HDFS CSV files, with some metadata associated with each page.
     Metadata collected: tittle, edition, year, place, archive filename, page filename, page id, num pages, 
     type of archive, model, source_text_raw, source_text_norm, source_text_lemmatize, source_text_stem, num_page_words
 
@@ -45,56 +44,67 @@ def do_query(archives, config_file=None, logger=None, context=None):
         defoe_path = "./"
     
     preprocess_none = query_utils.parse_preprocess_word_type("none")
-    preprocess_normalize = query_utils.parse_preprocess_word_type("normalize")
-    preprocess_lemmatize = query_utils.parse_preprocess_word_type("lemmatize")
-    preprocess_stem = query_utils.parse_preprocess_word_type("stem")
-    text_unit = "page"
     # [(tittle, edition, year, place, archive filename, page filename, 
-    #   page id, num pages, type of archive, type of disribution, model)]
+    #   num pages)]
     documents = archives.flatMap(
-        lambda archive: [(document.title, document.edition, document.year, \
-                          document.place, document.archive.filename, document.num_pages, \
-                           document.document_type, document.model, document) for document in list(archive)])
-    # [(tittle, edition, year, place, archive filename, page filename, text_unit, text_unit_id, 
-    #   num_text_unit, type of archive, type of disribution, model, raw_page, clean_page, num_words)]
-    pages_clean = documents.flatMap(
-        lambda year_document: [(year_document[0], year_document[1], year_document[2],\
-                               year_document[3], year_document[4], page.code, text_unit, page.page_id, \
-                               year_document[5], year_document[6], year_document[7], get_page_as_string(page, preprocess_none), \
-                               clean_page_as_string(page, defoe_path, os_type), len(page.words)) for page in year_document[8]])
-    # [(tittle, edition, year, place, archive filename, page filename, text_unit, text_unit_id, 
-    #   num_text_unit, type of archive, type of disribution, model, raw_page, clean_page, clean_norm_page, clean_lemma_page, clean_stemm_page, num_words)]
-    pages = pages_clean.flatMap(
-        lambda clean_page: [(clean_page[0], clean_page[1], clean_page[2],\
-                               clean_page[3], clean_page[4], clean_page[5], clean_page[6], clean_page[7], \
-                               clean_page[8], clean_page[9], clean_page[10], clean_page[11],\
-                               clean_page[12], preprocess_clean_page(clean_page[12], preprocess_normalize),\
-                               preprocess_clean_page(clean_page[12], preprocess_lemmatize), preprocess_clean_page(clean_page[12], preprocess_stem), clean_page[13])])
-
-    nlsRow=Row("title",  "edition", "year", "place", "archive_filename",  "source_text_filename", "text_unit", "text_unit_id", "num_text_unit", "type_archive", "model", "source_text_raw", "source_text_clean", "source_text_norm", "source_text_lemmatize", "source_text_stem", "num_words")
+        lambda archive: [(document.archive.filename, document.edition, document.title, document.subtitle, \
+                          document.name, document.name_date, document.name_termsOfAddress, \
+                          document.genre, document.topic, document.geographic, document.temporal, \
+                          document.publisher, document.place, document.country, document.city, \
+                          document.year, document.date, document.num_pages, document.language, \
+                          document.shelfLocator, document.MMSID, document.physicalDesc, document.referencedBy, \
+                          document) for document in list(archive)])
    
-    matching_pages = pages.map(
-        lambda row_page:
-        (row_page[2],
-         {"title": row_page[0],
-          "serie": row_page[1],
-          "place": row_page[3],
-          "archive_filename": row_page[4],
-          "source_text_file": row_page[5],
-          "text_unit": row_page[6],
-          "text_unit_id": row_page[7],
-          "num_text_unit": row_page[8],
-          "type_archive": row_page[9],
-          "model": row_page[10],
-          #"text": row_page[11],
-          ## I am using now the clean text as text
-          "text": row_page[11], 
-          "num_words": row_page[16]}))
+    documents_pages = documents.flatMap(
+        lambda year_document: [(year_document[0], year_document[1], year_document[2],\
+                               year_document[3], year_document[4], year_document[5], year_document[6], \
+                               year_document[7], year_document[8], year_document[9], year_document[10], \
+                               year_document[11], year_document[12], year_document[13], year_document[14], \
+                               year_document[15], year_document[16], year_document[17], year_document[18], \
+                               year_document[19], year_document[20], year_document[21], year_document[22], \
+                               get_page_as_string(page, preprocess_none), clean_page_as_string(page, defoe_path, os_type), \
+                               len(page.words), page.code, page.page_id) for page in year_document[23]])
+    
+   
+    results_pages = documents_pages.map(
+        lambda document:
+        (document[0],
+          {"edition": document[1],
+          "title": document[2],
+          "subtitle": document[3],
+          "editor" :document[4],
+          "editor_date": document[5],
+          "name_termsOfAddress": document[6],
+          "genre": document[7],
+          "topic": document[8],
+          "geographic": document[9],
+          "temporal": document[10],
+          "publisher": document[11],
+          "place": document[12],
+          "country": document[13],
+          "city": document[14],
+          "year": document[15],
+          "dateIssued": document[16],
+          "num_pages": document[17], 
+          "language": document[18],
+          "shelfLocator": document[19],
+          "MMSID": document[20],
+          "volumeId": document[0].split("/")[-1], 
+          "metsXML": document[0].split("/")[-1] + "-mets.xml",
+          "permanentURL": "https://digital.nls.uk/"+ document[0].split("/")[-1],
+          "physical_description": document[21],
+          "referenced_by": document[22],
+          ## using the clean_text instead  the raw text. Position 24 instead Position 23. 
+          "text": document[24], 
+          "num_words":document[25],
+          "source_text_file": document[26],
+          "text_unit_id": document[27]}))
  
-    result = matching_pages \
+    result = results_pages \
         .groupByKey() \
-        .map(lambda date_context:
-             (date_context[0], list(date_context[1]))) \
+        .map(lambda title_context:
+             (title_context[0], list(title_context[1]))) \
         .collect()
     return result
+    
     
