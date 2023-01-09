@@ -124,11 +124,12 @@ Available queries:
 * [ES queries](./docs/es/index.md) (running queries against ES - for interoperability across models)
 * [PostgreSQL queries](/docs/psql/index.md) (running queries against PostgreSQL database - for interoperability across models)
 * [NLSArticles queries](./docs/nlsArticles/index.md) (just for extracting automatically articles from the Encyclopaedia Britannica dataset)
-* [SRARQL queries][./docs/sparl/index.md](just for working with RDF Knowledge Graphs)
+* [SRARQL queries](./docs/sparql/index.md)(just for working with RDF Knowledge Graphs)
 
-NOTE
 
-If we have an RDF KG of a collection we have to modify the sparql_data.txt file:
+Note: 
+If we have an RDF KG of a collection we have to modify the sparql_data.txt file. Details of KG available are [here](./docs/sparql/index.md):
+
 * http://localhost:3030/total_eb/sparql
 * http://localhost:3030/chapbooks_scotland/sparql
 * http://localhost:3030/ladies_debating/sparql
