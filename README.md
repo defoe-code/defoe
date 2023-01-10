@@ -65,17 +65,12 @@ This dataset is available, under licence, from [Papers Past](http://paperspast.n
 - [Scottish Gazetteers](https://data.nls.uk/data/digitised-collections/gazetteers-of-scotland/)
 
 
-Furthermore, we have created a KG for 4 collections. In order to use any of these 4 KG we have to modify the sparql_data.txt:
-* http://localhost:3030/total_eb/sparql
-* http://localhost:3030/chapbooks_scotland/sparql
-* http://localhost:3030/ladies_debating/sparql
-* http://localhost:3030/gazetters_scotlad/sparql
+Furthermore, we have created 4 Knowledge Graphs to represent the previous NLS digital collections. Details of those KGs available are [here](./docs/sparql/index.md).
+
 
 **Note, that ALL collections offered by NLS use the same XML and METS format. Therefore, we can use the defoe NLS model to query any of those collections.**
 
 See [copyrights restrictions](https://www.nls.uk/copyright)
-
-
 
 
 ---
