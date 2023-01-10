@@ -65,7 +65,7 @@ This dataset is available, under licence, from [Papers Past](http://paperspast.n
 - [Scottish Gazetteers](https://data.nls.uk/data/digitised-collections/gazetteers-of-scotland/)
 
 
-Furthermore, we have created 4 Knowledge Graphs to represent the previous NLS digital collections. Details of those KGs available are [here](./docs/sparql/index.md):
+Furthermore, we have created 4 Knowledge Graphs to represent the previous NLS digital collections. Details of those KGs available are [here](./docs/sparql/index.md).
 
 
 **Note, that ALL collections offered by NLS use the same XML and METS format. Therefore, we can use the defoe NLS model to query any of those collections.**
